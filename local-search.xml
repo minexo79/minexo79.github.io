@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<search>
+  
+  
+  
+  <entry>
+    <title>MSP430 之 無線三用電表 開發筆記1</title>
+    <link href="/2021/10/31/msp430-multimeter-1/"/>
+    <url>/2021/10/31/msp430-multimeter-1/</url>
+    
+    <content type="html"><![CDATA[<h2 id="使用元件"><a href="#使用元件" class="headerlink" title="使用元件"></a>使用元件</h2><ul><li>MSP430G2ET Launchpad</li><li>HC12 433MHz 無線模組</li></ul><h2 id="已完成目標"><a href="#已完成目標" class="headerlink" title="已完成目標"></a>已完成目標</h2><h3 id="量測電壓"><a href="#量測電壓" class="headerlink" title="量測電壓"></a>量測電壓</h3><ul><li>使用MSP430的ADC10單元，並開啟Repeat Signal Channel Mode（多次量取單通道模式）量測，減少CPU的負擔。</li><li>目前量程為0~16.5V，單位可精準到mV等級，誤差嘛…不用說了。</li></ul><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-comment">// ADC Unit Initialize</span><br>ADC10CTL0 = ADC10SHT_3 | MSC | ADC10ON;     <span class="hljs-comment">// Sample And Hold Time = 64 x ADC10CLKs</span><br>                                            <span class="hljs-comment">// Multi Sampling and Conversion</span><br>ADC10CTL1 = CONSEQ_2;                       <span class="hljs-comment">// Repeat Single Channel</span><br>ADC10DTC1 = ADC_SAMPLE_TIMES;               <span class="hljs-comment">// ADC Sample Time</span><br><br>ADC10SA = &amp;ADC_Value[<span class="hljs-number">0</span>];                    <span class="hljs-comment">// Start Address = ADC_Value[0]</span><br><br><span class="hljs-comment">// Convert Analog To Digital</span><br>ADC10CTL0 |= ENC | ADC10SC;             <span class="hljs-comment">// Sampling and Conversion Start</span><br><span class="hljs-keyword">while</span>(!(ADC10CTL0 &amp; ADC10IFG));<br>ADC10CTL0 &amp;= ~(ENC | ADC10SC);          <span class="hljs-comment">// Sampling and Conversion Stop</span><br></code></pre></td></tr></table></figure><h3 id="前端顯示"><a href="#前端顯示" class="headerlink" title="前端顯示"></a>前端顯示</h3><ul><li>使用NodeRED解碼，並顯示數值。<br><img src="/img/post/1101031_1937_d.png" alt="1101031_1937_d"></li><li>雖然背後顯示的Node都拉得差不多了。但目前只有電壓，及電壓的歷史紀錄有作用而已，<del>剩下的都是狗屎</del>。<br><img src="/img/post/1101031_1937_c.png" alt="1101031_1937_c"></li></ul><h2 id="開發照片"><a href="#開發照片" class="headerlink" title="開發照片"></a>開發照片</h2><p><img src="/img/post/1101031_1937_b.jpg" alt="1101031_1937_b"></p><h2 id="參考資料"><a href="#參考資料" class="headerlink" title="參考資料"></a>參考資料</h2><ul><li><a href="https://www.ti.com/lit/ug/slau144j/slau144j.pdf">MSP430x2xx Family User’s Guide</a> </li></ul>]]></content>
+    
+    
+    
+    <tags>
+      
+      <tag>msp430</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  
+</search>
