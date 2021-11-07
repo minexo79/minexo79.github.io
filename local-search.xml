@@ -4,6 +4,25 @@
   
   
   <entry>
+    <title>LabView植物大戰殭屍 開發紀錄</title>
+    <link href="/2021/11/07/labview-midterm/"/>
+    <url>/2021/11/07/labview-midterm/</url>
+    
+    <content type="html"><![CDATA[<p>用LabView做了一個植物大戰殭屍，當作是這門課期中報告。<br><img src="/img/post/1101107_1330_a.png" alt="1101107_1330_a"></p><h2 id="玩法"><a href="#玩法" class="headerlink" title="玩法"></a>玩法</h2><p>不要讓殭屍碰到堡壘(滑桿最左邊)，否則堡壘的生命值會扣點，當生命值等於0，遊戲結束。<br><img src="/img/post/1101107_1330_e.png" alt="1101107_1330_e"></p><p>按下放置植物的按紐，植物會射出一個子彈，當子彈碰到殭屍，分數會多得1分。但相對的，殭屍的速度會變快。</p><h2 id="主程式"><a href="#主程式" class="headerlink" title="主程式"></a>主程式</h2><p><img src="/img/post/1101107_1330_b.png" alt="1101107_1330_b"></p><p>大量用到一堆While Loop還有Delay，特別是在殭屍的移動上面，會隨著等級的增加而讓殭屍的移動速度越快。</p><p><img src="/img/post/1101107_1330_c.png" alt="1101107_1330_c"></p><p>雖然是固定將滑桿數值增加0.5，但Delay是透過亂數產生，因此可以產生移動速度不一致的成果。</p><blockquote><p>OS：忘了Event 怎麼用了…</p></blockquote><h2 id="副程式"><a href="#副程式" class="headerlink" title="副程式"></a>副程式</h2><h3 id="Level-Up"><a href="#Level-Up" class="headerlink" title="Level Up"></a>Level Up</h3><p><img src="/img/post/1101107_1330_d.png" alt="1101107_1330_d"></p><p>在這裡會將殭屍做「升級」的動作：將殭屍的Delay變數減1。為了方便擴充所以用Array處理。</p><h2 id="參考資料"><a href="#參考資料" class="headerlink" title="參考資料"></a>參考資料</h2><ul><li><a href="https://www.i-gamer.net/site/3242.html">植物大戰殭屍 - 遊戲天堂</a></li></ul>]]></content>
+    
+    
+    
+    <tags>
+      
+      <tag>LabView</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>MSP430 之 無線三用電表 開發筆記1</title>
     <link href="/2021/10/31/msp430-multimeter-1/"/>
     <url>/2021/10/31/msp430-multimeter-1/</url>
