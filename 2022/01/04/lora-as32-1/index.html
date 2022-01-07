@@ -33,7 +33,7 @@
 <meta property="og:image" content="http://example.com/img/post/24706.jpg">
 <meta property="og:image" content="http://example.com/img/post/24719.jpg">
 <meta property="article:published_time" content="2022-01-04T14:22:45.000Z">
-<meta property="article:modified_time" content="2022-01-07T01:09:03.423Z">
+<meta property="article:modified_time" content="2022-01-07T01:20:01.657Z">
 <meta property="article:author" content="Tsai XO">
 <meta property="article:tag" content="LoRa">
 <meta name="twitter:card" content="summary_large_image">
@@ -281,9 +281,11 @@
 <li>支持3.6V~5.5V的供給電壓，電壓過小會影響到實際輸出功率。</li>
 <li>理論值(100mW)最遠傳輸距離為5000公尺。</li>
 <li>有四種工作模式，可利用MD0跟MD1兩隻GPIO控制。</li>
-<li>我購買的是915MHz(歐美頻段規格)，可發送頻段範圍為900~931MHz。<ul>
-<li>頻率切換方式為：<code>(每一個頻道號碼 * 1MHz) + 900MHz</code>。</li>
+<li>我購買的是915MHz(北美頻段規格)，可發送頻段範圍為900~931MHz。<ul>
+<li>頻率切換方式為：<code>(每一個頻道號碼 * 1MHz) + 900MHz</code>。<ul>
 <li>頻道號碼為15，則頻率為：<code>(1 * 15) + 900 = 915MHz</code>。</li>
+</ul>
+</li>
 </ul>
 </li>
 <li>發送功率為<code>11~20dbm</code>，有四段強度可調(0~3)。<ul>
