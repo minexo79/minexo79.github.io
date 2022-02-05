@@ -13,16 +13,17 @@
   <meta http-equiv="x-ua-compatible" content="ie=edge">
   
   <meta name="theme-color" content="#2f4154">
-  <meta name="description" content="">
   <meta name="author" content="Tsai XO">
   <meta name="keywords" content="">
-  <meta property="og:type" content="website">
+  
+    <meta property="og:type" content="website">
 <meta property="og:title" content="黑貓的邪惡企業">
 <meta property="og:url" content="http://example.com/index.html">
 <meta property="og:site_name" content="黑貓的邪惡企業">
 <meta property="og:locale" content="zh_TW">
 <meta property="article:author" content="Tsai XO">
 <meta name="twitter:card" content="summary_large_image">
+  
   
   <title>黑貓的邪惡企業</title>
 
@@ -46,11 +47,11 @@
 
   <script id="fluid-configs">
     var Fluid = window.Fluid || {};
-    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.12","typing":{"enable":true,"typeSpeed":50,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname"}},"search_path":"/local-search.xml"};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.14","typing":{"enable":true,"typeSpeed":50,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
   </script>
   <script  src="/js/utils.js" ></script>
   <script  src="/js/color-schema.js" ></script>
-<meta name="generator" content="Hexo 5.4.0"></head>
+<meta name="generator" content="Hexo 6.0.0"></head>
 
 
 <body>
@@ -214,6 +215,46 @@
     <article class="col-12 col-md-12 mx-auto index-info">
       <h1 class="index-header">
         
+        <a href="/2022/02/04/lora-as32-2/" target="_self">
+          奇奇怪怪的無線說話之術：對岸的LoRa傳輸模組(二)
+        </a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2022/02/04/lora-as32-2/" target="_self">
+          
+          前言這段時間把AS32 LoRa模組相關的資料大致上看過一遍，需要注意的地方大概如下：  這一顆LoRa模組在傳輸的操作上需要配合ACK腳位，特別是在「發送端的第一筆資料」和「在接收前的ACK腳位」。在程式撰寫上可以透過IO腳位的外部中斷來配合操作。    在模組內工作模式的切換，要透過IO的腳位設定，才可以切換該模組的工作模式。     模式切換 MD0腳位 MD1腳位    一般工作模式 腳位
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2022-02-04 14:33" pubdate>
+              2022-02-04
+            </time>
+          </div>
+        
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/LoRa/">LoRa</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
         <a href="/2022/01/04/lora-as32-1/" target="_self">
           奇奇怪怪的無線說話之術：對岸的LoRa傳輸模組(一)
         </a>
@@ -222,12 +263,7 @@
       <p class="index-excerpt">
         <a href="/2022/01/04/lora-as32-1/" target="_self">
           
-          
-            
-          
-          前言由於實驗室的LoRa UART模組操作的時候，因為模組內自身韌體的操作方式，造成傳輸時間需要一秒以上，對於省電的應用不是很友善。因此我開始到對岸的網路中，找到了幾家看似不錯的模組，而最近終將一款模組透過各種方法(?搞到我的手上了。
-澤耀科技 AS32-D20
-我買的規格是北美頻段(915MHz)，發送功率為100mW，根據官方的數據，最遠可以傳至直線距離5公里遠。依照官方給的說明，該模組的北美
+          (111&#x2F;2&#x2F;4 更新)最後使用這顆LoRa模組需要注意一點：這顆模組並未有拿到NCC(國家通訊傳播委員會)的認證，因此在「台灣境內」僅能用於個人實驗，不可拿去實際場域運作！  前言實驗室既有的LoRa模組在操作的時候，因模組內自身韌體的操作方式，造成傳輸時間需要一秒以上，對於省電的應用不是很友善。因此我開始到對岸的網路中，找到了幾家看似不錯的模組，而最近終將一款模組透過各種
         </a>
       </p>
 
@@ -267,16 +303,7 @@
       <p class="index-excerpt">
         <a href="/2021/12/19/sim7020e/" target="_self">
           
-          
-            
-          
-          前情提要因為現實研究的關係，需要用到NBIoT的網路服務。原本有考慮中華電信的預付卡，但台灣的NBIoT電信服務皆須企業才可以提出申請，只有遠傳電信可以提供給個人使用。感謝伴伴學DC的laoming與elton陪我在今天的下午一起研究。
-SIM7020E 簡介
-節錄自 icshop 與 SIMCOM官網
-
-
-頻段支援B1/B3/B5/B8/B20/B28，適用於台灣三大電信
-支援HTTP(S)/M
+          前情提要因為現實研究的關係，需要用到NBIoT的網路服務。原本有考慮中華電信的預付卡，但台灣的NBIoT電信服務皆須企業才可以提出申請，只有遠傳電信可以提供給個人使用。感謝伴伴學DC的laoming與elton陪我在今天的下午一起研究。 SIM7020E 簡介 節錄自 icshop 與 SIMCOM官網   頻段支援B1&#x2F;B3&#x2F;B5&#x2F;B8&#x2F;B20&#x2F;
         </a>
       </p>
 
@@ -316,21 +343,7 @@ SIM7020E 簡介
       <p class="index-excerpt">
         <a href="/2021/12/05/msp430-multimeter-2/" target="_self">
           
-          
-            
-          
-          使用元件
-MSP430G2ET Launchpad
-HC12 433MHz 無線模組
-
-已完成目標量測電阻
-為了量測到電阻，這裡運用到兩個知識點：
-
-V=IR（對，就是V=IR）
-分壓電路
-
-假設待測電阻是R2，運用分壓電路的公式如下（來源參考自這裡）：
-123456789101112- A: Vt = I x (R1 + R2)（這是大家都知道的- B: V2 = I x R2（R2的電壓- 把
+          使用元件 MSP430G2ET Launchpad HC12 433MHz 無線模組  已完成目標量測電阻 為了量測到電阻，這裡運用到兩個知識點：  V&#x3D;IR（對，就是V&#x3D;IR） 分壓電路  假設待測電阻是R2，運用分壓電路的公式如下（來源參考自這裡）： 123456789101112- A: Vt &#x3D; I x (R1 + R2)（這是大家都知道的- B: V2 &#x3D; I x R
         </a>
       </p>
 
@@ -370,16 +383,7 @@ V=IR（對，就是V=IR）
       <p class="index-excerpt">
         <a href="/2021/11/07/labview-midterm/" target="_self">
           
-          
-            
-          
-          用LabView做了一個植物大戰殭屍，當作是這門課期中報告。
-玩法不要讓殭屍碰到堡壘(滑桿最左邊)，否則堡壘的生命值會扣點，當生命值等於0，遊戲結束。
-按下放置植物的按紐，植物會射出一個子彈，當子彈碰到殭屍，分數會多得1分。但相對的，殭屍的速度會變快。
-主程式
-大量用到一堆While Loop還有Delay，特別是在殭屍的移動上面，會隨著等級的增加而讓殭屍的移動速度越快。
-
-雖然是固定將滑桿數值增
+          用LabView做了一個植物大戰殭屍，當作是這門課期中報告。 玩法不要讓殭屍碰到堡壘(滑桿最左邊)，否則堡壘的生命值會扣點，當生命值等於0，遊戲結束。 按下放置植物的按紐，植物會射出一個子彈，當子彈碰到殭屍，分數會多得1分。但相對的，殭屍的速度會變快。 主程式 大量用到一堆While Loop還有Delay，特別是在殭屍的移動上面，會隨著等級的增加而讓殭屍的移動速度越快。  雖然是固定將滑桿數值增
         </a>
       </p>
 
@@ -419,18 +423,7 @@ V=IR（對，就是V=IR）
       <p class="index-excerpt">
         <a href="/2021/10/31/msp430-multimeter-1/" target="_self">
           
-          
-            
-          
-          使用元件
-MSP430G2ET Launchpad
-HC12 433MHz 無線模組
-
-已完成目標量測電壓
-使用MSP430的ADC10單元，並開啟Repeat Signal Channel Mode（多次量取單通道模式）量測，減少CPU的負擔。
-目前量程為0~16.5V，單位可精準到mV等級，誤差嘛…不用說了。
-
-123456789101112// ADC Unit InitializeADC1
+          使用元件 MSP430G2ET Launchpad HC12 433MHz 無線模組  已完成目標量測電壓 使用MSP430的ADC10單元，並開啟Repeat Signal Channel Mode（多次量取單通道模式）量測，減少CPU的負擔。 目前量程為0~16.5V，單位可精準到mV等級，誤差嘛…不用說了。  123456789101112&#x2F;&#x2F; ADC Unit InitializeADC1
         </a>
       </p>
 
@@ -559,7 +552,7 @@ HC12 433MHz 無線模組
       var typing = Fluid.plugins.typing;
       var title = document.getElementById('subtitle').title;
       
-      typing(title)
+        typing(title);
       
     })(window, document);
   </script>

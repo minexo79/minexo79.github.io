@@ -13,10 +13,10 @@
   <meta http-equiv="x-ua-compatible" content="ie=edge">
   
   <meta name="theme-color" content="#2f4154">
-  <meta name="description" content="">
   <meta name="author" content="Tsai XO">
   <meta name="keywords" content="">
-  <meta name="description" content="使用元件 MSP430G2ET Launchpad HC12 433MHz 無線模組  已完成目標量測電壓 使用MSP430的ADC10單元，並開啟Repeat Signal Channel Mode（多次量取單通道模式）量測，減少CPU的負擔。 目前量程為0~16.5V，單位可精準到mV等級，誤差嘛…不用說了。  123456789101112&#x2F;&#x2F; ADC Unit InitializeADC1">
+  
+    <meta name="description" content="使用元件 MSP430G2ET Launchpad HC12 433MHz 無線模組  已完成目標量測電壓 使用MSP430的ADC10單元，並開啟Repeat Signal Channel Mode（多次量取單通道模式）量測，減少CPU的負擔。 目前量程為0~16.5V，單位可精準到mV等級，誤差嘛…不用說了。  123456789101112&#x2F;&#x2F; ADC Unit InitializeADC1">
 <meta property="og:type" content="article">
 <meta property="og:title" content="MSP430 之 無線三用電表 開發筆記1">
 <meta property="og:url" content="http://example.com/2021/10/31/msp430-multimeter-1/index.html">
@@ -32,6 +32,7 @@
 <meta property="article:tag" content="msp430">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="http://example.com/img/post/1101031_1937_d.png">
+  
   
   <title>MSP430 之 無線三用電表 開發筆記1 - 黑貓的邪惡企業</title>
 
@@ -70,11 +71,11 @@
 
   <script id="fluid-configs">
     var Fluid = window.Fluid || {};
-    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.12","typing":{"enable":true,"typeSpeed":50,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname"}},"search_path":"/local-search.xml"};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.14","typing":{"enable":true,"typeSpeed":50,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
   </script>
   <script  src="/js/utils.js" ></script>
   <script  src="/js/color-schema.js" ></script>
-<meta name="generator" content="Hexo 5.4.0"></head>
+<meta name="generator" content="Hexo 6.0.0"></head>
 
 
 <body>
@@ -233,7 +234,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      2 分钟
+      3 分钟
     </span>
   
 
@@ -273,7 +274,7 @@
 <li>使用MSP430的ADC10單元，並開啟Repeat Signal Channel Mode（多次量取單通道模式）量測，減少CPU的負擔。</li>
 <li>目前量程為0~16.5V，單位可精準到mV等級，誤差嘛…不用說了。</li>
 </ul>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-comment">// ADC Unit Initialize</span><br>ADC10CTL0 = ADC10SHT_3 | MSC | ADC10ON;     <span class="hljs-comment">// Sample And Hold Time = 64 x ADC10CLKs</span><br>                                            <span class="hljs-comment">// Multi Sampling and Conversion</span><br>ADC10CTL1 = CONSEQ_2;                       <span class="hljs-comment">// Repeat Single Channel</span><br>ADC10DTC1 = ADC_SAMPLE_TIMES;               <span class="hljs-comment">// ADC Sample Time</span><br><br>ADC10SA = &amp;ADC_Value[<span class="hljs-number">0</span>];                    <span class="hljs-comment">// Start Address = ADC_Value[0]</span><br><br><span class="hljs-comment">// Convert Analog To Digital</span><br>ADC10CTL0 |= ENC | ADC10SC;             <span class="hljs-comment">// Sampling and Conversion Start</span><br><span class="hljs-keyword">while</span>(!(ADC10CTL0 &amp; ADC10IFG));<br>ADC10CTL0 &amp;= ~(ENC | ADC10SC);          <span class="hljs-comment">// Sampling and Conversion Stop</span><br></code></pre></td></tr></table></figure>
+<figure class="highlight c"><table><tr><td class="gutter"><div class="code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></div></td><td class="code"><pre><code class="hljs c"><span class="hljs-comment">// ADC Unit Initialize</span><br>ADC10CTL0 = ADC10SHT_3 | MSC | ADC10ON;     <span class="hljs-comment">// Sample And Hold Time = 64 x ADC10CLKs</span><br>                                            <span class="hljs-comment">// Multi Sampling and Conversion</span><br>ADC10CTL1 = CONSEQ_2;                       <span class="hljs-comment">// Repeat Single Channel</span><br>ADC10DTC1 = ADC_SAMPLE_TIMES;               <span class="hljs-comment">// ADC Sample Time</span><br><br>ADC10SA = &amp;ADC_Value[<span class="hljs-number">0</span>];                    <span class="hljs-comment">// Start Address = ADC_Value[0]</span><br><br><span class="hljs-comment">// Convert Analog To Digital</span><br>ADC10CTL0 |= ENC | ADC10SC;             <span class="hljs-comment">// Sampling and Conversion Start</span><br><span class="hljs-keyword">while</span>(!(ADC10CTL0 &amp; ADC10IFG));<br>ADC10CTL0 &amp;= ~(ENC | ADC10SC);          <span class="hljs-comment">// Sampling and Conversion Stop</span><br></code></pre></td></tr></table></figure>
 
 <h3 id="前端顯示"><a href="#前端顯示" class="headerlink" title="前端顯示"></a>前端顯示</h3><ul>
 <li>使用NodeRED解碼，並顯示數值。<br><img src="/img/post/1101031_1937_d.png" srcset="/img/loading.gif" lazyload alt="1101031_1937_d"></li>
@@ -282,7 +283,7 @@
 <h2 id="開發照片"><a href="#開發照片" class="headerlink" title="開發照片"></a>開發照片</h2><p><img src="/img/post/1101031_1937_b.jpg" srcset="/img/loading.gif" lazyload alt="1101031_1937_b"></p>
 <h2 id="參考資料"><a href="#參考資料" class="headerlink" title="參考資料"></a>參考資料</h2><ul>
 <li><a target="_blank" rel="noopener" href="https://www.ti.com/lit/ds/symlink/msp430g2553.pdf">MSP430G2x53, MSP430G2x13 Mixed Signal Microcontroller datasheet</a>]</li>
-<li><a target="_blank" rel="noopener" href="https://www.ti.com/lit/ug/slau144j/slau144j.pdf">MSP430x2xx Family User’s Guide</a> </li>
+<li><a target="_blank" rel="noopener" href="https://www.ti.com/lit/ug/slau144j/slau144j.pdf">MSP430x2xx Family User’s Guide</a></li>
 </ul>
 
             </div>
@@ -453,7 +454,7 @@
       var typing = Fluid.plugins.typing;
       var title = document.getElementById('subtitle').title;
       
-      typing(title)
+        typing(title);
       
     })(window, document);
   </script>
