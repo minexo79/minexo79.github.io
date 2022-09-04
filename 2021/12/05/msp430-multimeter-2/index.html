@@ -12,22 +12,22 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
   <meta http-equiv="x-ua-compatible" content="ie=edge">
   
-  <meta name="theme-color" content="#30473b">
+  <meta name="theme-color" content="#7b0b0b">
   <meta name="author" content="Tsai XO">
   <meta name="keywords" content="">
   
-    <meta name="description" content="使用元件 MSP430G2ET Launchpad HC12 433MHz 無線模組  已完成目標量測電阻 為了量測到電阻，這裡運用到兩個知識點：  V&#x3D;IR（對，就是V&#x3D;IR） 分壓電路  假設待測電阻是R2，運用分壓電路的公式如下（來源參考自這裡）： 123456789101112- A: Vt &#x3D; I x (R1 + R2)（這是大家都知道的- B: V2 &#x3D; I x R">
+    <meta name="description" content="MSP430 之 無線三用電表 開發筆記2">
 <meta property="og:type" content="article">
 <meta property="og:title" content="MSP430 之 無線三用電表 開發筆記2">
 <meta property="og:url" content="https://blog.minexo79.club/2021/12/05/msp430-multimeter-2/index.html">
 <meta property="og:site_name" content="黑貓的邪惡企業">
-<meta property="og:description" content="使用元件 MSP430G2ET Launchpad HC12 433MHz 無線模組  已完成目標量測電阻 為了量測到電阻，這裡運用到兩個知識點：  V&#x3D;IR（對，就是V&#x3D;IR） 分壓電路  假設待測電阻是R2，運用分壓電路的公式如下（來源參考自這裡）： 123456789101112- A: Vt &#x3D; I x (R1 + R2)（這是大家都知道的- B: V2 &#x3D; I x R">
+<meta property="og:description" content="MSP430 之 無線三用電表 開發筆記2">
 <meta property="og:locale" content="zh_TW">
 <meta property="og:image" content="https://blog.minexo79.club/img/post/1101205_2133_a.png">
 <meta property="og:image" content="https://www.digikey.tw/-/media/Images/Marketing/Resources/Calculator/voltage-divider-diagram.png?la=zh-TW&ts=b09e2b18-5427-4352-aaf2-6be5deefe4f5">
 <meta property="og:image" content="https://blog.minexo79.club/img/post/1101205_2133_b.png">
 <meta property="article:published_time" content="2021-12-05T08:58:01.000Z">
-<meta property="article:modified_time" content="2022-03-21T00:44:59.599Z">
+<meta property="article:modified_time" content="2022-09-04T13:17:02.627Z">
 <meta property="article:author" content="Tsai XO">
 <meta property="article:tag" content="msp430">
 <meta name="twitter:card" content="summary_large_image">
@@ -116,7 +116,7 @@ p.spoiler {
   color: black;
   background-color: black;
   text-shadow: none;
-}</style><meta name="generator" content="Hexo 6.1.0"></head>
+}</style><meta name="generator" content="Hexo 6.2.0"></head>
 
 
 <body>
@@ -248,7 +248,7 @@ p.spoiler {
   
 
 <div id="banner" class="banner" parallax=true
-     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+     style="background: url('/img/default.jpg') no-repeat center center; background-size: cover;">
   <div class="full-bg-img">
     <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
       <div class="banner-text text-center fade-in-up">
@@ -290,7 +290,7 @@ p.spoiler {
         
         
           <!-- compatible with older versions-->
-          3 分钟
+          3 分鐘
         
       </span>
     
