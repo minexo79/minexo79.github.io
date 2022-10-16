@@ -4,6 +4,31 @@
   
   
   <entry>
+    <title>分享最近的兩個活動</title>
+    <link href="/2022/10/16/month-update-1016/"/>
+    <url>/2022/10/16/month-update-1016/</url>
+    
+    <content type="html"><![CDATA[<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>這幾個月因為開學，然後中標，導致專題壓力增加，之前的CatFramework也先暫停維護，所以很難想到要寫甚麼www<br>但倒是可以分享一下最近幫忙直播的兩個活動，其中一個是我之前介紹過的東西。</p><h2 id="透過-Google-打造自研晶片"><a href="#透過-Google-打造自研晶片" class="headerlink" title="透過 Google 打造自研晶片"></a>透過 Google 打造自研晶片</h2><ul><li><a href="https://developers.google.com/silicon">專案網址</a></li></ul><p>這是Google最近剛出的一個計劃，與 SkyWater Technology 晶圓廠和 Efabless 合作，提供完全開放原始碼的製程設計套件 (PDK) 和相關工具，讓任何開發人員都能設計出可製造的晶片。<br>每兩個月，你都能將自己的開放原始碼設計提交至 Open MPW Shuttle 計畫。如果設計入選，製造成品就不必付費。<br>而我在的社群邀請到南臺科技大學電子工程系的<a href="https://web.cheers.com.tw/issue/2019/teacher/article03.php">李博明老師</a>，來分享關於如何製造自己的晶片，以及用自身的角度來看這個計劃是否適合新手入門：</p><center><iframe width="70%" height="400" src="https://www.youtube.com/embed/gajQvzjd68o" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe><iframe width="70%" height="400" src="https://www.youtube.com/embed/gajQvzjd68o" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></center><p>因為這場在協助直播的時候發生些技術性問題，因此沒有很專注聽重點。也導致直播畫面有中斷的現象。<br>之後社群其他成員也邀請到Efabless的CTO來分享與介紹這個計畫，影片如下：</p><center><iframe width="70%" height="400" src="https://www.youtube.com/embed/YMxwkwZJYhg" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></center><h2 id="CFU：打造自己的AI加速器"><a href="#CFU：打造自己的AI加速器" class="headerlink" title="CFU：打造自己的AI加速器"></a>CFU：打造自己的AI加速器</h2><ul><li><a href="https://cfu-playground.readthedocs.io/en/latest/">專案網址</a></li></ul><p>關於CFU的簡單介紹可以看這一篇：<a href="../../../../2022/07/17/halfyear-update/#FPGA-amp-AI">半年更新</a><br>因為上次的自造晶片，讓我想到之前講師來校園分享的這個專案，因此我邀請了Akio老師來到伴伴學分享這個框架，以及框架可以做的應用。</p><center><iframe width="70%" height="400" src="https://www.youtube.com/embed/-9y38VUp8kU" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></center><p>簡單統整一下當天的重點：</p><ul><li>底層是使用LiteX與Amaranth(前身為nMigen)，因此能用Python去實現你想要的單元到FPGA內部。</li><li>想要增加上面沒有的板子，可以複製現有的設定檔做修改，大部分的IC&#x2F;FPGA LiteX皆有支援。</li><li>CFU的運作原理是藉由 VexRiscV CPU Core 內部的 CFU單元去做運算，因此省略原有計算的等待延遲。</li><li>當前只能使用Shell控制，還需要人補齊其他方式交互操作。</li></ul><h2 id="資料來源"><a href="#資料來源" class="headerlink" title="資料來源"></a>資料來源</h2><ul><li><a href="https://developers.google.com/silicon">Build Custom Silicon with Google - Google</a></li><li><a href="https://github.com/google/CFU-Playground">CFU-Playground Github</a></li><li><a href="https://web.cheers.com.tw/issue/2019/teacher/article03.php">南臺科大瘋狂maker教師李博明：教年輕人就要比他們更像年輕人 - 快樂工作人</a></li></ul>]]></content>
+    
+    
+    <categories>
+      
+      <category>個人</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>活動</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>111年8月更新</title>
     <link href="/2022/09/03/month-update-0903/"/>
     <url>/2022/09/03/month-update-0903/</url>
