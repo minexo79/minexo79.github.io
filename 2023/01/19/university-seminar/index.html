@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+    <meta charset="utf-8">
+
+    
+
+    <!-- 渲染优化 -->
+    <meta name="renderer" content="webkit">
+    <meta name="force-rendering" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+    <meta name="HandheldFriendly" content="True" >
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+    <!--icon-->
+
+    
+    
+        <link rel="icon" type="image/png" sizes="16x16" href="/source%5Cimg%5Cfavicon.png">
+    
+    
+    
+    
+
+
+    <!-- meta -->
+
+
+<title>來講講我的大學專題 | 黑貓的邪惡企業</title>
+
+
+    <meta name="keywords" content="NB IoT, Labview">
+
+
+
+
+    <!-- OpenGraph -->
+ 
+    <meta name="description" content="應用物聯網技術於水質監測與預警系統開發">
+<meta property="og:type" content="article">
+<meta property="og:title" content="來講講我的大學專題">
+<meta property="og:url" content="https://blog.minexo79.club/2023/01/19/university-seminar/index.html">
+<meta property="og:site_name" content="黑貓的邪惡企業">
+<meta property="og:description" content="應用物聯網技術於水質監測與預警系統開發">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://blog.minexo79.club/img/post/university-seminar/thumbnail.png">
+<meta property="article:published_time" content="2023-01-18T16:30:00.000Z">
+<meta property="article:modified_time" content="2023-01-18T17:14:43.412Z">
+<meta property="article:author" content="Tsai XO">
+<meta property="article:tag" content="NB IoT">
+<meta property="article:tag" content="Labview">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://blog.minexo79.club/img/post/university-seminar/thumbnail.png">
+
+
+    
+<link rel="stylesheet" href="/css/style/main.css">
+ 
+
+    
+    
+        <link rel="stylesheet" id="hl-default-theme" href="/css/highlight/default.css" media="none" >
+        
+            <link rel="stylesheet" id="hl-dark-theme" href="/css/highlight/dark.css" media="none">
+        
+    
+
+    
+    
+
+    
+    
+<link rel="stylesheet" href="/css/style/dark.css">
+
+    
+<script src="/js/darkmode.js"></script>
+
+
+
+     
+
+    <!-- custom head -->
+
+<style type="text/css">
+.spoiler {
+  display: inline-flex;
+}
+p.spoiler {
+  display: flex;
+}
+.spoiler a {
+  pointer-events: none;
+}
+.spoiler-blur, .spoiler-blur > * {
+  transition: text-shadow .5s ease;
+}
+.spoiler .spoiler-blur, .spoiler .spoiler-blur > * {
+  color: rgba(0, 0, 0, 0);
+  background-color: rgba(0, 0, 0, 0);
+  text-shadow: 0 0 10px grey;
+  cursor: pointer;
+}
+.spoiler .spoiler-blur:hover, .spoiler .spoiler-blur:hover > * {
+  text-shadow: 0 0 5px grey;
+}
+.spoiler-box, .spoiler-box > * {
+  transition: color .5s ease,
+  background-color .5s ease;
+}
+.spoiler .spoiler-box, .spoiler .spoiler-box > * {
+  color: black;
+  background-color: black;
+  text-shadow: none;
+}</style><meta name="generator" content="Hexo 6.3.0"></head>
+
+    <body>
+        <div id="app" tabindex="-1">
+            <header class="header">
+    <div class="header__left">
+        <a href="/" class="button">
+            <span class="logo__text">黑貓的邪惡企業</span>
+        </a>
+    </div>
+    <div class="header__right">
+        
+            <div class="navbar__menus">
+                
+                    <a href="/" class="navbar-menu button">首頁</a>
+                
+                    <a href="/archives/" class="navbar-menu button">文章</a>
+                
+                    <a href="/categories/" class="navbar-menu button">類別</a>
+                
+                    <a href="/tags/" class="navbar-menu button">標籤</a>
+                
+                    <a href="/links" class="navbar-menu button">其他站點</a>
+                
+            </div>
+        
+        
+        
+    <a href="/search/" id="btn-search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="24" height="24" fill="currentColor" stroke="currentColor" stroke-width="32"><path d="M192 448c0-141.152 114.848-256 256-256s256 114.848 256 256-114.848 256-256 256-256-114.848-256-256z m710.624 409.376l-206.88-206.88A318.784 318.784 0 0 0 768 448c0-176.736-143.264-320-320-320S128 271.264 128 448s143.264 320 320 320a318.784 318.784 0 0 0 202.496-72.256l206.88 206.88 45.248-45.248z"></path></svg>
+    </a>
+
+
+        
+        
+    <a href="javaScript:void(0);" id="btn-toggle-dark">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+    </a>
+
+
+        
+            <a class="dropdown-icon button" id="btn-dropdown" tabindex="0"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" width='24' height='24' fill="none" stroke="currentColor" stroke-width="0.7" stroke-linecap="round" stroke-linejoin="round"><path fill="currentColor" d="M3.314,4.8h13.372c0.41,0,0.743-0.333,0.743-0.743c0-0.41-0.333-0.743-0.743-0.743H3.314c-0.41,0-0.743,0.333-0.743,0.743C2.571,4.467,2.904,4.8,3.314,4.8z M16.686,15.2H3.314c-0.41,0-0.743,0.333-0.743,0.743s0.333,0.743,0.743,0.743h13.372c0.41,0,0.743-0.333,0.743-0.743S17.096,15.2,16.686,15.2z M16.686,9.257H3.314c-0.41,0-0.743,0.333-0.743,0.743s0.333,0.743,0.743,0.743h13.372c0.41,0,0.743-0.333,0.743-0.743S17.096,9.257,16.686,9.257z"></path></svg></a>
+            <div class="dropdown-menus" id="dropdown-menus">
+                
+                    <a href="/" class="dropdown-menu button">首頁</a>
+                
+                    <a href="/archives/" class="dropdown-menu button">文章</a>
+                
+                    <a href="/categories/" class="dropdown-menu button">類別</a>
+                
+                    <a href="/tags/" class="dropdown-menu button">標籤</a>
+                
+                    <a href="/links" class="dropdown-menu button">其他站點</a>
+                
+            </div>
+        
+    </div>
+</header>
+
+
+            <main class="main">
+    
+
+<div class="post-title">
+    <h1 class="post-title__text">
+        來講講我的大學專題
+    </h1>
+    <div class="post-title__meta">
+        <a href="/archives/2023/01/" class="post-meta__date button">2023-01-19</a>
+        
+    <span class="separate-dot"></span><a href="/categories/%E7%A1%AC%E9%AB%94/" class="button">硬體</a>
+
+ 
+        
+    
+    
+
+
+ 
+
+ 
+    </div>
+</div>
+
+
+    <aside class="post-side">
+        <div class="post-side__toc">
+            <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%91%98%E8%A6%81"><span class="toc-number">1.</span> <span class="toc-text">摘要</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%A0%94%E7%A9%B6%E8%83%8C%E6%99%AF"><span class="toc-number">2.</span> <span class="toc-text">研究背景</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%A0%94%E7%A9%B6%E5%8B%95%E6%A9%9F"><span class="toc-number">3.</span> <span class="toc-text">研究動機</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B0%88%E9%A1%8C%E7%9B%AE%E7%9A%84"><span class="toc-number">4.</span> <span class="toc-text">專題目的</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B0%88%E9%A1%8C%E6%9E%B6%E6%A7%8B"><span class="toc-number">5.</span> <span class="toc-text">專題架構</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%88%90%E6%9E%9C%E7%85%A7%E7%89%87"><span class="toc-number">6.</span> <span class="toc-text">成果照片</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AF%A6%E9%A9%97%E9%81%8E%E7%A8%8B%E8%88%87%E6%8E%A2%E8%A8%8E"><span class="toc-number">7.</span> <span class="toc-text">實驗過程與探討</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%A0%AD%E9%87%8D%E8%85%B3%E8%BC%95%EF%BC%8C%E5%B0%8E%E8%87%B4%E7%BF%BB%E8%A6%86"><span class="toc-number">7.1.</span> <span class="toc-text">頭重腳輕，導致翻覆</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%9B%A3%E6%B8%AC%E6%95%B8%E6%93%9A%E5%87%BA%E9%8C%AF"><span class="toc-number">7.2.</span> <span class="toc-text">監測數據出錯</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%B3%87%E6%96%99%E5%82%B3%E8%BC%B8"><span class="toc-number">7.3.</span> <span class="toc-text">資料傳輸</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%85%B6%E4%BB%96%E7%A5%9E%E5%A5%87%E7%9A%84%E5%8A%9F%E8%83%BD"><span class="toc-number">7.4.</span> <span class="toc-text">其他神奇的功能</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%B5%90%E8%AB%96"><span class="toc-number">8.</span> <span class="toc-text">結論</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9C%AA%E4%BE%86%E5%B1%95%E6%9C%9B"><span class="toc-number">9.</span> <span class="toc-text">未來展望</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%89%B9%E5%88%A5%E8%87%B4%E8%AC%9D"><span class="toc-number">10.</span> <span class="toc-text">特別致謝</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%83%E8%80%83%E8%B3%87%E6%96%99"><span class="toc-number">11.</span> <span class="toc-text">參考資料</span></a></li></ol>
+        </div>
+    </aside>
+    <a class="btn-toc button" id="btn-toc" tabindex="0">
+        <svg viewBox="0 0 1024 1024" width="32" height="32" xmlns="http://www.w3.org/2000/svg">
+            <path d="M128 256h64V192H128zM320 256h576V192H320zM128 544h64v-64H128zM320 544h576v-64H320zM128 832h64v-64H128zM320 832h576v-64H320z" fill="currentColor"></path>
+        </svg>
+    </a>
+    <div class="toc-menus" id="toc-menus">
+        <div class="toc-title">Article Directory</div>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%91%98%E8%A6%81"><span class="toc-number">1.</span> <span class="toc-text">摘要</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%A0%94%E7%A9%B6%E8%83%8C%E6%99%AF"><span class="toc-number">2.</span> <span class="toc-text">研究背景</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%A0%94%E7%A9%B6%E5%8B%95%E6%A9%9F"><span class="toc-number">3.</span> <span class="toc-text">研究動機</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B0%88%E9%A1%8C%E7%9B%AE%E7%9A%84"><span class="toc-number">4.</span> <span class="toc-text">專題目的</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B0%88%E9%A1%8C%E6%9E%B6%E6%A7%8B"><span class="toc-number">5.</span> <span class="toc-text">專題架構</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%88%90%E6%9E%9C%E7%85%A7%E7%89%87"><span class="toc-number">6.</span> <span class="toc-text">成果照片</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AF%A6%E9%A9%97%E9%81%8E%E7%A8%8B%E8%88%87%E6%8E%A2%E8%A8%8E"><span class="toc-number">7.</span> <span class="toc-text">實驗過程與探討</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%A0%AD%E9%87%8D%E8%85%B3%E8%BC%95%EF%BC%8C%E5%B0%8E%E8%87%B4%E7%BF%BB%E8%A6%86"><span class="toc-number">7.1.</span> <span class="toc-text">頭重腳輕，導致翻覆</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%9B%A3%E6%B8%AC%E6%95%B8%E6%93%9A%E5%87%BA%E9%8C%AF"><span class="toc-number">7.2.</span> <span class="toc-text">監測數據出錯</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%B3%87%E6%96%99%E5%82%B3%E8%BC%B8"><span class="toc-number">7.3.</span> <span class="toc-text">資料傳輸</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%85%B6%E4%BB%96%E7%A5%9E%E5%A5%87%E7%9A%84%E5%8A%9F%E8%83%BD"><span class="toc-number">7.4.</span> <span class="toc-text">其他神奇的功能</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%B5%90%E8%AB%96"><span class="toc-number">8.</span> <span class="toc-text">結論</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9C%AA%E4%BE%86%E5%B1%95%E6%9C%9B"><span class="toc-number">9.</span> <span class="toc-text">未來展望</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%89%B9%E5%88%A5%E8%87%B4%E8%AC%9D"><span class="toc-number">10.</span> <span class="toc-text">特別致謝</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%83%E8%80%83%E8%B3%87%E6%96%99"><span class="toc-number">11.</span> <span class="toc-text">參考資料</span></a></li></ol>
+    </div>
+
+
+<article class="post post__with-toc content-card">
+    <div class="post__header">
+     
+     
+    
+        <div class="post-thumbnail" style="background-image: url('/img/post/university-seminar/thumbnail.png');"></div>
+    
+</div>
+    <div class="post__content">
+        <blockquote>
+<p>以下內容節錄自專題成果報告書，<del>絕對不是因為我懶所以才這樣做的</del>。</p>
+<p>專題名稱：<strong>應用物聯網技術於水質監測與預警系統開發</strong><br>組員：我 &amp; 其他五位很照的同學們</p>
+</blockquote>
+<h2 id="摘要"><a href="#摘要" class="headerlink" title="摘要"></a>摘要</h2><p>文蛤是臺灣西海岸高經濟漁產之一，年產值高達上億元。彰化縣芳苑鄉漢寶村就占彰化縣文蛤養殖面積的1&#x2F;4，素有文蛤之鄉的美名。近年來因氣候變遷加上環境污染，導致育成率不佳、死亡率逐年攀升，養殖戶損失嚴重。團隊自2021年開始，與彰化養殖協會合作，就水污染問題，嘗試監測當地水質著手，運用專長，解決問題。<br>我們嘗試製作一套可量測酸鹼值，導電度與水溫的水質監測器（簡稱水盒子）、並整合與後端伺服器與LINE Notify的監測與預警系統， 應用省電與NB IoT的低功耗廣域物聯網傳輸技術，並且開發校正APP，將感測數值整合至水盒子，除了方便安裝與維護外，也將水盒子的軟、硬體模組化，做為未來商業開發的基礎。<br>水盒子多次在漢寶養殖現場進行實測，分別安裝在臨海堤防、大排、養殖池外排水圳等位置，檢視訊號傳輸、感測器功能和預警系統功能、後台數值接收和運算以及數值分析，從發現錯誤中學習並修正、改善軟硬體功能，包括水盒子滲水、浮力架設計、NB IoT通訊品質與感測器方面的問題。<br>透過專題，團隊從做中學，除了深化資工專業的學習與應用外，還有養殖業師帶領我們的跨域學習，對產業智慧科技化打下基礎。未來除了改善、優化水盒子的軟、硬體外，也會根據當地養殖戶的需求，製作適合當地的水質監測與預警系統，從而讓系統更能穩定運作且達到長久監測的目標。</p>
+<h2 id="研究背景"><a href="#研究背景" class="headerlink" title="研究背景"></a>研究背景</h2><p>本團隊的研究地點於彰化縣芳苑鄉漢寶村，文蛤養殖面積約406公頃，曾經年產值更高達上億元，而被稱為文蛤之鄉之一，是本計畫主要的實驗地點。文蛤是與我們生活密不可缺的國民美食，也是一個很重要的產業鏈。<br><img src="/../img/post/university-seminar/1.png" alt="圖1 彰化漢寶濕地位置、圖片來源：Google Map"><br><img src="/../img/post/university-seminar/2.jpg" alt="圖2 文蛤養殖池"></p>
+<h2 id="研究動機"><a href="#研究動機" class="headerlink" title="研究動機"></a>研究動機</h2><p>近年來由於未經正常程序排水導致水質遭受污染、季節交替溫差太大、季節性的災害（例如颱風過境）出現豪大雨的現象以及沿岸風機時常出現漏油等狀況，導致文蛤致死率攀升，嚴重影響文蛤收成，導致養殖戶的經濟承受極大的損失。<br><img src="/../img/post/university-seminar/3.png" alt="圖3 彰化縣文蛤歷年產量與產值折線圖、資料來源：漁業署"></p>
+<p>文蛤養殖仰賴海水與淡水混和成半淡鹹水，成長期為13個月至15個月，所需鹽度也隨年齡遞減。水質污染引起水質中的物理，化學或生物狀態改變，而大部分均為人為因素（如：工業廢水、廢棄物投海、船隻污染、風機漏油…等。）造成不同程度的水體破壞，因而間接影響到產業發展，尤其是養殖漁業。特別是在今年10月20號，因為周遭的風機出現漏油，讓彰化沿岸一帶的文蛤、魚、蝦有暴斃的跡象。</p>
+<center>
+    <img src="../../../../img/post/university-seminar/4.jpg" />
+</center>
+
+<p>臺灣河川短淺，雨季集中，降雨期水流常挾雜大量泥沙沖刷而下，往往造成河川下游氾濫。而枯水期長，污染物易堆積河床，雨季來臨時，隨著溪河匯集至下游，水污染情況因此與日俱增。這十年來經常發生文蛤驟然死亡且有逐漸嚴重的趨勢，導致養殖戶的損失也逐年攀升。</p>
+<p>人類食用受污染之文蛤，易對健康造成傷害，市場價格因而大幅下降，幾乎不敷成本。氣候因素也影響魚塭養殖，出現大量暴斃現象，育成率僅有5成左右；以2017年為例，因不明的原因造成文蛤大量死亡，大大影響當年的收成。這兩年的疫情也重創銷售量，造成許多文蛤養殖戶都快撐不下去。若是溫度或是pH過高，會導致水質中的毒物對於文蛤更具威脅性，造成文蛤大量死亡。</p>
+<p>本團隊的夥伴於大二上學期到彰化芳苑從事服務學習活動，透過參與在地產業的體驗與導覽解說，得知文蛤養殖近年來遭遇的問題，引起我們想要了解問題並運用專長尋找解決方案。經過數次會議的討論，決定要先從監測水質著手，並打造一整套的監測與預警系統。</p>
+<h2 id="專題目的"><a href="#專題目的" class="headerlink" title="專題目的"></a>專題目的</h2><p>本團隊在去年嘗試利用系上所學之技能，並與張簡琳玲老師合作，實際製作包含前端至後端共一整套之監測與預警系統，後續在經過實際場域安裝與後續維護後，發現本團隊所製作的系統只考慮到監測魚塭內及大排水系統的水質問題，無法監測整體附近海域水質的問題。<br><img src="/../img/post/university-seminar/5.jpg" alt="圖3 彰化縣文蛤歷年產量與產值折線圖、資料來源：漁業署"></p>
+<p>且關於監測出來的數值，我們無法整理出一套算法來計算出正確的數值。在資料的傳輸過程、資料的完整度與系統的完善還有很多需加強的部分。同時在感測器保護方面，由於考量不是周全，導致後續回收以及維護方面耗費許多力氣。<br><img src="/../img/post/university-seminar/6.png" alt="圖3 彰化縣文蛤歷年產量與產值折線圖、資料來源：漁業署"></p>
+<p>對於本團隊在當初所設立的目標：如何在偏遠的地方、還能正常且穩定的傳輸監測數據，還有很多問題要改進。於是在本次專題，決定改進整體架構，並嘗試在多點部署監測裝置，來完善並驗證本次監測與預警系統的可行性。</p>
+<p>經過討論，決定在本次專題所研究的目標與規劃如下：</p>
+<ul>
+<li><strong>省電</strong>：讓裝置可在野外長久運作。</li>
+<li><strong>防水</strong>：裝置放在大排，可經得起潮汐變化。</li>
+<li><strong>傳輸</strong>：即使放在野外，也能持久且穩定的傳輸監測數據。</li>
+<li><strong>耐用</strong>：如何讓裝置不易損壞？</li>
+<li><strong>及時反應</strong>：能在短時間內發現異常並傳輸預警訊息。</li>
+<li><strong>操作簡單</strong>：能讓當地養殖戶方便校正，減少派遣人力的資源。</li>
+</ul>
+<h2 id="專題架構"><a href="#專題架構" class="headerlink" title="專題架構"></a>專題架構</h2><p><img src="/../img/post/university-seminar/7.jpg"></p>
+<h2 id="成果照片"><a href="#成果照片" class="headerlink" title="成果照片"></a>成果照片</h2><p><img src="/../img/post/university-seminar/final/1.jpg"><br><img src="/../img/post/university-seminar/final/2.png"><br><img src="/../img/post/university-seminar/final/3.png"><br><img src="/../img/post/university-seminar/final/4.png"><br><img src="/../img/post/university-seminar/final/5.png"><br><img src="/../img/post/university-seminar/final/6.png"><br><img src="/../img/post/university-seminar/final/7.png"><br><img src="/../img/post/university-seminar/final/8.png"></p>
+<h2 id="實驗過程與探討"><a href="#實驗過程與探討" class="headerlink" title="實驗過程與探討"></a>實驗過程與探討</h2><h3 id="頭重腳輕，導致翻覆"><a href="#頭重腳輕，導致翻覆" class="headerlink" title="頭重腳輕，導致翻覆"></a>頭重腳輕，導致翻覆</h3><p>執行這次的專題的時候，與指導老師討論過程中，決定了要部署多台的水盒子的想法：由於要由源頭開始到末端都需要有監測裝置，才可知道水質的變化。只有一台裝置會是不夠的。經過場勘，這一次的場域將水盒子放置在大排的中央，所以必須要有浮力架支撐水盒子，不讓水盒子泡在水內。<br><img src="/../img/post/university-seminar/8.jpg"></p>
+<p>與成員討論時，實際製作過一個模板，並且經過實測，發現到吃水的情況嚴重，有可能會讓水盒子泡到水。之後把原本的大水管改成保麗龍，才解決這一個問題。同時在製作過程中，也想到成本的問題，團隊內有人建議可以直接用保麗龍板製作，不需要再使用水管。且純保麗龍組成的浮力架的重量，相比水管會減少許多。<br><img src="/../img/post/university-seminar/9.jpg"></p>
+<p>於10月26號安裝時，剛好感受到當地的大風，在安裝時也發現到團隊設計的浮力架會有因大風及兩邊不平衡會導致翻覆的問題，但由於當初製作時並未讓水盒子達到平衡，於隔天收到了當地養殖戶通知水盒子翻覆的訊息，經過團隊緊急討論，或許有可能因為兩邊不平衡的關係，導致一邊保麗龍板上會有積水的現象。以及浮力架是在左右用繩子固定，再加上大風的侵擾，讓水盒子在隔天觀察時發現翻覆的現象。<br><img src="/../img/post/university-seminar/10.jpg"><br><img src="/../img/post/university-seminar/11.jpg"></p>
+<p>隔天討論為甚麼會翻覆的時候，發現到「頭重腳輕」的問題，也討論出幾種作法：包括把水管的架子放到底下，增加重量。又或者是綁上重物，改變繩子固定的位置…等。同時也發現到水盒子的防水措施因考慮不周全，防水措施做得不夠，導致PCB滲水嚴重。<br><img src="/../img/post/university-seminar/12.jpg"></p>
+<p>後續針對這些問題，重新設計一個新的浮力架，我們參考當地養殖戶放在魚塭的膠筏，做了一個給水盒子乘載的「膠筏」：使用PVC水管製作，並在上方使用角鋼與填縫劑固定。製作好後於組長家附近小排水溝進行測試，確認沒有水跑進膠筏內。在做好膠筏之後，重新安裝至彰化漢寶當地進行量測，截至報告完成為止沒有發生翻覆的情況。<br><img src="/../img/post/university-seminar/13.jpg"></p>
+<h3 id="監測數據出錯"><a href="#監測數據出錯" class="headerlink" title="監測數據出錯"></a>監測數據出錯</h3><p>於水盒子連同第二版浮力架安裝完成的時候，於隔天發現到感測器出現數值異常，甚至無法接收數據。經過討論，可能的原因為當地大排水中的生物附著於感測器外的濾網，亦或者是感測器損壞，導致無法正常讀取數值。相關的問題可能要等到回收之後才能確切知道原因。<br><img src="/../img/post/university-seminar/14.png"></p>
+<h3 id="資料傳輸"><a href="#資料傳輸" class="headerlink" title="資料傳輸"></a>資料傳輸</h3><p>由於前端的水盒子採用NBIoT低功耗廣域網路技術，相較於前一代可以不使用中繼裝置即可傳輸資料，但是在傳輸上因為協定的關係，有時資料會無法正常回傳，需要很久的時間之後才可將資料回傳，同時發現NBIoT模組與基地台通訊時的CSQ（訊號強度）過於低下，不是很正常的傳輸。<br><img src="/../img/post/university-seminar/15.png"></p>
+<p>經過實驗，發現伺服器端與水盒子的傳輸上出了問題：在伺服器的等待時間設置過久會造成資料無法即時傳回，讓水盒子斷線。經過調整，雖可暫時解決這個問題，但是還會有資料無法回傳的問題，還不是最有效的方法。</p>
+<h3 id="其他神奇的功能"><a href="#其他神奇的功能" class="headerlink" title="其他神奇的功能"></a>其他神奇的功能</h3><p>另外，在開發預警系統的時候，指導老師提出了意見：除了預警之外，可以加入更多的功能，比如要不要在一段時間內只發送幾則預警通知，避免嚴重打擾作息？又或者考慮到養殖戶的年齡，需要再加入語音播報的功能，讓養殖戶能更方便知道養殖池&#x2F;大排內的狀況？</p>
+<p>這些想法有些已經完成，但有些還在試驗當中，尤其是語音播報：目前聊天軟體提供的API並未有這項功能，如果使用手機內系統轉語音的功能，那會讓整支手機的所有訊息都會用語音的方式播報，如何解決這個問題，是本團隊需要挑戰的一個目標。</p>
+<h2 id="結論"><a href="#結論" class="headerlink" title="結論"></a>結論</h2><p>到目前我們的系統已經大致上成型，包括位於前端的水盒子與後端的接收與預警伺服器系統。但實際安裝後，確認到有些許問題上需要修復：包含前端的裝置有存在一部分的缺失：包括在傳輸數據時，會出現丟包的情況，無法傳輸一段時間內完整封包；以及在感測器上面沒有做好保護，導致後期量測數值完全錯誤；於後端的LINE預警程式有完成初步架構，但測試時有發現到訊息無法發送完整，還需加強並修改些許邏輯才可上線運作。</p>
+<h2 id="未來展望"><a href="#未來展望" class="headerlink" title="未來展望"></a>未來展望</h2><p>上述的問題有些已經解決，但有些尚須要等水盒子回收之後才可知悉，本次專題我們從中吸取到很多技術及寶貴的經驗，包含當地的養殖戶跟我們分享的養殖經驗和師長在我們製作時補充的事項，往後我們會將這些經驗帶到未來的職場上運用，透過這次的經驗，期許未來的自己能夠更加精進。</p>
+<h2 id="特別致謝"><a href="#特別致謝" class="headerlink" title="特別致謝"></a>特別致謝</h2><ul>
+<li>弘光科技大學<ul>
+<li>張簡琳玲 教授</li>
+<li>童建樺 教授</li>
+<li>魏榮君 教授</li>
+<li>環安系 俞廷軒&amp;施佩珊 同學</li>
+</ul>
+</li>
+<li>彰化養殖協會 許永坤 副總幹事</li>
+</ul>
+<h2 id="參考資料"><a href="#參考資料" class="headerlink" title="參考資料"></a>參考資料</h2><ul>
+<li><a target="_blank" rel="noopener" href="https://www.newsmarket.com.tw/blog/96621/">蔡佳珊. (2007). 文蛤危機！氣候異常，底土污染，雲林文蛤死亡率四成，台南也成災. 上下游 News&amp;Market.</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.coa.gov.tw/ws.php?id=4005">劉富光&amp;何雲達&amp;郭仁杰&amp;廖一久. (2001). 優質文蛤的養殖技術. 行政院農業委員會.</a></li>
+<li><a target="_blank" rel="noopener" href="https://udn.com/news/story/7325/5672538">林宛諭. (2021).風機漏油芳苑魚塭遭殃漁民氣炸，環保局開罰了. UDN聯合新聞網.</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.chinatimes.com/realtimenews/20221020003030-260405?chdtv">吳建輝. (2022).彰化芳苑發電風機漏油，周邊文蛤、蝦污染暴斃.中國時報.</a></li>
+<li><a target="_blank" rel="noopener" href="https://ndltd.ncl.edu.tw/cgi-bin/gs32/gsweb.cgi/ccd=9jTsIy/record?r1=1&h1=0">許紋華. (2002).食物與環境因子對文蛤攝食的影響.臺灣博碩士論文知識加值系統.</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.tfrin.gov.tw/News_Content.aspx?n=310&s=34717">行政院水試所.(2011).請問文蛤養殖的最適生存條件，氨氮、溶氧、pH值是否對養殖有相關性？若有其相關性為何？.行政院水試所. </a></li>
+<li><a target="_blank" rel="noopener" href="https://www.icshop.com.tw/product-page.php?26350">劉紹淵.(年份未知). LASS水盒子. ICShop</a></li>
+<li><a target="_blank" rel="noopener" href="https://fer.ntou.edu.tw/ezfiles/36/1036/img/554/007.pdf">王以仁.(年份未知). 漁業、水污然與環境保護. 高雄市漁業管理處</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.fa.gov.tw/list.php?theme=FS_AR&subtheme=">行政院農業委員會漁業署. (2020). 民國110年漁業統計年報. 行政院農業委員會漁業署.</a></li>
+<li>蔡欣祐, 游傑宇, 張友瀚, 傅智城, 趙才萱, 柯景承, 俞廷軒&amp;施佩珊. (2022). 基於物聯網之水質監測與預警系統 多元專題計畫 期中報告. 弘光科技大學.</li>
+<li>Derk, B. C., David, H., Leslie , S. N., &amp; Shirley, B. M. (2008). Continuous Water Quality Monitoring for the Hard Clam Industry in Florida, USA. Environ Monit Assess, 148(1–4), 409–19. </li>
+<li>Chen, K., Chou, Y.- han, Angelo huang, Y., &amp; Huang, D. (2020). Effects of Different Shading Rates on the Growth and Water Quality of Hard Clam (Meretrix Lusoria) Aquaculture. Environ Monit Assess, 47(2), 87–94.</li>
+</ul>
+
+    </div>
+     
+    <div class="post-footer__meta"><p>updated at 2023-01-19</p></div> 
+    <div class="post-entry__tags"><a href="/tags/NB-IoT/" class="post-tags__link button"># NB IoT</a><a href="/tags/Labview/" class="post-tags__link button"># Labview</a></div> 
+</article>
+
+
+    <div class="nav">
+        <div class="nav__prev">
+            
+        </div>
+        <div class="nav__next">
+            
+                <a href="/2022/12/31/2023newyear/" class="nav__link">
+                    <div>
+                        <div class="nav__label">
+                            Next Post
+                        </div>
+                        <div class="nav__title">
+                            2023 新年快樂
+                        </div>
+                    </div>
+                    <div>
+                        <svg viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" width="24" height="24"><path d="M434.944 790.624l-45.248-45.248L623.04 512l-233.376-233.376 45.248-45.248L713.568 512z" fill="#808080"></path></svg>
+                    </div>
+                </a>
+            
+        </div>
+    </div>
+
+
+
+    <div class="post__comments post__with-toc content-card" id="comment">
+        
+    <h4>Comments</h4>
+    
+    <div id="disqus_thread">Unable to load Disqus, please make sure your network can access.</div>
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+
+
+    </div>
+
+
+
+</main>
+
+            <footer class="footer">
+     
+    <a href="#" class="button" id="b2t" aria-label="Back to Top" title="Back to Top">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="32" height="32">
+            <path d="M233.376 722.752L278.624 768 512 534.624 745.376 768l45.248-45.248L512 444.128zM192 352h640V288H192z" fill="currentColor"></path>
+        </svg>
+    </a>
+
+    
+
+
+    
+     
+ 
+
+ 
+    
+        
+        <p class="footer-copyright">
+            Copyright © 2023 <a href="/">黑貓的邪惡企業</a>
+        </p>
+    
+    
+    <p>Powered by <a href="https://hexo.io" target="_blank">Hexo</a> | Theme - <a href="https://github.com/ChrAlpha/hexo-theme-cards" target="_blank">Cards</a></p>
+</footer>
+
+        </div>
+         
+
+ 
+
+ 
+
+ 
+
+ 
+
+
+
+ 
+
+
+
+ 
+
+
+    
+ 
+
+
+    
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.4.1/dist/jquery.min.js"></script>
+
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.4.1/dist/jquery.fancybox.min.css">
+
+    
+<script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.4.1/dist/jquery.fancybox.min.js"></script>
+
+    <script>
+        let lazyloadT = Boolean('false'),
+            auto_fancybox = Boolean('true')
+        if (auto_fancybox) {
+            $(".post__content").find('img').each(function () {
+                var element = document.createElement("a");
+                $(element).attr("data-fancybox", "gallery");
+                $(element).attr("href", $(this).attr("src"));
+                if (lazyloadT) {
+                    $(element).attr("href", $(this).attr("data-srcset"));
+                }
+                $(this).wrap(element);
+            });
+        } else {
+            $(".post__content").find("fancybox").find('img').each(function () {
+                var element = document.createElement("a");
+                $(element).attr("data-fancybox", "gallery");
+                $(element).attr("href", $(this).attr("src"));
+                if (lazyloadT) {
+                    $(element).attr("href", $(this).attr("data-srcset"));
+                }
+                $(this).wrap(element);
+            });
+        }
+    </script>
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+
+    
+    <script>
+        function loadComment() {
+            window.disqus_config = function () {
+                this.page.url = 'https://blog.minexo79.club/2023/01/19/university-seminar/';
+                this.page.identifier = '2023/01/19/university-seminar/';
+            };
+            (function(){
+                var dsq = document.createElement('script');
+                dsq.type = 'text/javascript';
+                dsq.async = true;
+                dsq.src = '//' + 'minexo79' + '.disqus.com/embed.js';
+                (document.head || document.body).appendChild(dsq);
+            })();
+        }
+    
+        var runningOnBrowser = typeof window !== "undefined";
+        var isBot = runningOnBrowser && !("onscroll" in window) || typeof navigator !== "undefined" && /(gle|ing|ro|msn)bot|crawl|spider|yand|duckgo/i.test(navigator.userAgent);
+        var supportsIntersectionObserver = runningOnBrowser && "IntersectionObserver" in window;
+    
+        setTimeout(function () {
+            if (!isBot && supportsIntersectionObserver) {
+                var comment_observer = new IntersectionObserver(function(entries) {
+                    if (entries[0].isIntersecting) {
+                        loadComment();
+                        comment_observer.disconnect();
+                    }
+                }, { threshold: [0] });
+                comment_observer.observe(document.getElementById('comment'));
+            } else {
+                loadComment();
+            }
+        }, 1);
+    </script>
+
+
+    
+    
+    
+
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+
+    
+    
+    
+
+
+
+    </body>
+</html>
