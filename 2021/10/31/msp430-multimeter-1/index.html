@@ -1,28 +1,49 @@
-
-
 <!DOCTYPE html>
-<html lang="zh-TW" data-default-color-scheme=auto>
+<html lang="en">
+    <head>
+    <meta charset="utf-8">
+
+    
+
+    <!-- 渲染优化 -->
+    <meta name="renderer" content="webkit">
+    <meta name="force-rendering" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+    <meta name="HandheldFriendly" content="True" >
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+    <!--icon-->
+
+    
+    
+        <link rel="icon" type="image/png" sizes="16x16" href="/source%5Cimg%5Cfavicon.png">
+    
+    
+    
+    
+
+
+    <!-- meta -->
+
+
+<title>MSP430 之 無線三用電表 開發筆記1 | 黑貓的邪惡企業</title>
+
+
+    <meta name="keywords" content="msp430">
 
 
 
-<head>
-  <meta charset="UTF-8">
-  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
-  <link rel="icon" href="/img/favicon.png">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
-  <meta http-equiv="x-ua-compatible" content="ie=edge">
-  
-  <meta name="theme-color" content="#7b0b0b">
-  <meta name="author" content="Tsai XO">
-  <meta name="keywords" content="">
-  
+
+    <!-- OpenGraph -->
+ 
     <meta name="description" content="MSP430 之 無線三用電表 開發筆記1">
 <meta property="og:type" content="article">
 <meta property="og:title" content="MSP430 之 無線三用電表 開發筆記1">
 <meta property="og:url" content="https://blog.minexo79.club/2021/10/31/msp430-multimeter-1/index.html">
 <meta property="og:site_name" content="黑貓的邪惡企業">
 <meta property="og:description" content="MSP430 之 無線三用電表 開發筆記1">
-<meta property="og:locale" content="zh_TW">
+<meta property="og:locale" content="en_US">
 <meta property="og:image" content="https://blog.minexo79.club/img/post/1101031_1937_d.png">
 <meta property="og:image" content="https://blog.minexo79.club/img/post/1101031_1937_c.png">
 <meta property="og:image" content="https://blog.minexo79.club/img/post/1101031_1937_b.jpg">
@@ -32,60 +53,36 @@
 <meta property="article:tag" content="msp430">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="https://blog.minexo79.club/img/post/1101031_1937_d.png">
-  
-  
-  
-  <title>MSP430 之 無線三用電表 開發筆記1 - 黑貓的邪惡企業</title>
-
-  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
 
 
+    
+<link rel="stylesheet" href="/css/style/main.css">
+ 
 
-  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4/github-markdown.min.css" />
+    
+    
+        <link rel="stylesheet" id="hl-default-theme" href="/css/highlight/default.css" media="none" >
+        
+            <link rel="stylesheet" id="hl-dark-theme" href="/css/highlight/dark.css" media="none">
+        
+    
 
-  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+    
+    
 
-  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.css" />
+    
+    
+<link rel="stylesheet" href="/css/style/dark.css">
 
-
-
-<!-- 主题依赖的图标库，不要自行修改 -->
-<!-- Do not modify the link that theme dependent icons -->
-
-<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
-
-
-
-<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
-
-
-<link  rel="stylesheet" href="/css/main.css" />
-
-
-  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
-  
-    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
-  
+    
+<script src="/js/darkmode.js"></script>
 
 
 
+     
 
-  <script id="fluid-configs">
-    var Fluid = window.Fluid || {};
-    Fluid.ctx = Object.assign({}, Fluid.ctx)
-    var CONFIG = {"hostname":"blog.minexo79.club","root":"/","version":"1.9.2","typing":{"enable":true,"typeSpeed":50,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+    <!-- custom head -->
 
-    if (CONFIG.web_analytics.follow_dnt) {
-      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
-      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
-    }
-  </script>
-  <script  src="/js/utils.js" ></script>
-  <script  src="/js/color-schema.js" ></script>
-  
-
-
-  
 <style type="text/css">
 .spoiler {
   display: inline-flex;
@@ -116,224 +113,111 @@ p.spoiler {
   color: black;
   background-color: black;
   text-shadow: none;
-}</style><meta name="generator" content="Hexo 6.2.0"></head>
+}</style><meta name="generator" content="Hexo 6.3.0"></head>
 
-
-<body>
-  
-
-  <header>
-    
-
-<div class="header-inner" style="height: 70vh;">
-  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
-  <div class="container">
-    <a class="navbar-brand" href="/">
-      <strong>黑貓的邪惡企業</strong>
+    <body>
+        <div id="app" tabindex="-1">
+            <header class="header">
+    <div class="header__left">
+        <a href="/" class="button">
+            <span class="logo__text">黑貓的邪惡企業</span>
+        </a>
+    </div>
+    <div class="header__right">
+        
+            <div class="navbar__menus">
+                
+                    <a href="/" class="navbar-menu button">首頁</a>
+                
+                    <a href="/archives/" class="navbar-menu button">文章</a>
+                
+                    <a href="/categories/" class="navbar-menu button">類別</a>
+                
+                    <a href="/tags/" class="navbar-menu button">標籤</a>
+                
+                    <a href="/links/" class="navbar-menu button">其他站點</a>
+                
+            </div>
+        
+        
+        
+    <a href="/search/" id="btn-search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="24" height="24" fill="currentColor" stroke="currentColor" stroke-width="32"><path d="M192 448c0-141.152 114.848-256 256-256s256 114.848 256 256-114.848 256-256 256-256-114.848-256-256z m710.624 409.376l-206.88-206.88A318.784 318.784 0 0 0 768 448c0-176.736-143.264-320-320-320S128 271.264 128 448s143.264 320 320 320a318.784 318.784 0 0 0 202.496-72.256l206.88 206.88 45.248-45.248z"></path></svg>
     </a>
 
-    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
-            data-target="#navbarSupportedContent"
-            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-      <div class="animated-icon"><span></span><span></span><span></span></div>
-    </button>
-
-    <!-- Collapsible content -->
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <ul class="navbar-nav ml-auto text-center">
-        
-          
-          
-          
-          
-            <li class="nav-item">
-              <a class="nav-link" href="/">
-                <i class="iconfont icon-home-fill"></i>
-                首頁
-              </a>
-            </li>
-          
-        
-          
-          
-          
-          
-            <li class="nav-item">
-              <a class="nav-link" href="/archives/">
-                <i class="iconfont icon-archive-fill"></i>
-                歸檔
-              </a>
-            </li>
-          
-        
-          
-          
-          
-          
-            <li class="nav-item">
-              <a class="nav-link" href="/categories/">
-                <i class="iconfont icon-category-fill"></i>
-                分類
-              </a>
-            </li>
-          
-        
-          
-          
-          
-          
-            <li class="nav-item">
-              <a class="nav-link" href="/tags/">
-                <i class="iconfont icon-tags-fill"></i>
-                標籤
-              </a>
-            </li>
-          
-        
-          
-          
-          
-          
-            <li class="nav-item">
-              <a class="nav-link" href="/about/">
-                <i class="iconfont icon-user-fill"></i>
-                關於
-              </a>
-            </li>
-          
-        
-          
-          
-          
-          
-            <li class="nav-item">
-              <a class="nav-link" target="_blank" rel="noopener" href="https://hackmd.io/@PQ-vvZNjSByJgYWq22pEBQ">
-                <i class="iconfont icon-note"></i>
-                HackMD
-              </a>
-            </li>
-          
-        
-          
-          
-          
-          
-            <li class="nav-item">
-              <a class="nav-link" target="_blank" rel="noopener" href="https://github.com/minexo79">
-                <i class="iconfont icon-github-fill"></i>
-                Github
-              </a>
-            </li>
-          
-        
-        
-          <li class="nav-item" id="search-btn">
-            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
-              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
-            </a>
-          </li>
-          
-        
-        
-          <li class="nav-item" id="color-toggle-btn">
-            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
-                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
-          </li>
-        
-      </ul>
-    </div>
-  </div>
-</nav>
-
-  
-
-<div id="banner" class="banner" parallax=true
-     style="background: url('/img/default.jpg') no-repeat center center; background-size: cover;">
-  <div class="full-bg-img">
-    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
-      <div class="banner-text text-center fade-in-up">
-        <div class="h2">
-          
-            <span id="subtitle" data-typed-text="MSP430 之 無線三用電表 開發筆記1"></span>
-          
-        </div>
 
         
-          
-  <div class="mt-3">
-    
-    
-      <span class="post-meta">
-        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2021-10-31 18:49" pubdate>
-          2021年10月31日 晚上
-        </time>
-      </span>
-    
-  </div>
-
-  <div class="mt-1">
-    
-      <span class="post-meta mr-2">
-        <i class="iconfont icon-chart"></i>
         
-          <!-- compatible with older versions-->
-          737 字
-        
-      </span>
-    
-
-    
-      <span class="post-meta mr-2">
-        <i class="iconfont icon-clock-fill"></i>
-        
-        
-        
-          <!-- compatible with older versions-->
-          3 分鐘
-        
-      </span>
-    
-
-    
-    
-  </div>
+    <a href="javaScript:void(0);" id="btn-toggle-dark">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+    </a>
 
 
         
-      </div>
-
-      
-    </div>
-  </div>
-</div>
-
-</div>
-
-  </header>
-
-  <main>
-    
-      
-
-<div class="container-fluid nopadding-x">
-  <div class="row nomargin-x">
-    <div class="side-col d-none d-lg-block col-lg-2">
-      
-
-    </div>
-
-    <div class="col-lg-8 nopadding-x-md">
-      <div class="container nopadding-x-md" id="board-ctn">
-        <div id="board">
-          <article class="post-content mx-auto">
-            <!-- SEO header -->
-            <h1 style="display: none">MSP430 之 無線三用電表 開發筆記1</h1>
-            
-            
-              <div class="markdown-body">
+            <a class="dropdown-icon button" id="btn-dropdown" tabindex="0"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" width='24' height='24' fill="none" stroke="currentColor" stroke-width="0.7" stroke-linecap="round" stroke-linejoin="round"><path fill="currentColor" d="M3.314,4.8h13.372c0.41,0,0.743-0.333,0.743-0.743c0-0.41-0.333-0.743-0.743-0.743H3.314c-0.41,0-0.743,0.333-0.743,0.743C2.571,4.467,2.904,4.8,3.314,4.8z M16.686,15.2H3.314c-0.41,0-0.743,0.333-0.743,0.743s0.333,0.743,0.743,0.743h13.372c0.41,0,0.743-0.333,0.743-0.743S17.096,15.2,16.686,15.2z M16.686,9.257H3.314c-0.41,0-0.743,0.333-0.743,0.743s0.333,0.743,0.743,0.743h13.372c0.41,0,0.743-0.333,0.743-0.743S17.096,9.257,16.686,9.257z"></path></svg></a>
+            <div class="dropdown-menus" id="dropdown-menus">
                 
-                <h2 id="使用元件"><a href="#使用元件" class="headerlink" title="使用元件"></a>使用元件</h2><ul>
+                    <a href="/" class="dropdown-menu button">首頁</a>
+                
+                    <a href="/archives/" class="dropdown-menu button">文章</a>
+                
+                    <a href="/categories/" class="dropdown-menu button">類別</a>
+                
+                    <a href="/tags/" class="dropdown-menu button">標籤</a>
+                
+                    <a href="/links/" class="dropdown-menu button">其他站點</a>
+                
+            </div>
+        
+    </div>
+</header>
+
+
+            <main class="main">
+    
+
+<div class="post-title">
+    <h1 class="post-title__text">
+        MSP430 之 無線三用電表 開發筆記1
+    </h1>
+    <div class="post-title__meta">
+        <a href="/archives/2021/10/" class="post-meta__date button">2021-10-31</a>
+        
+    <span class="separate-dot"></span><a href="/categories/DIY/" class="button">DIY</a>
+
+ 
+        
+    
+    
+
+
+ 
+
+ 
+    </div>
+</div>
+
+
+    <aside class="post-side">
+        <div class="post-side__toc">
+            <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8%E5%85%83%E4%BB%B6"><span class="toc-number">1.</span> <span class="toc-text">使用元件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B7%B2%E5%AE%8C%E6%88%90%E7%9B%AE%E6%A8%99"><span class="toc-number">2.</span> <span class="toc-text">已完成目標</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%87%8F%E6%B8%AC%E9%9B%BB%E5%A3%93"><span class="toc-number">2.1.</span> <span class="toc-text">量測電壓</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%89%8D%E7%AB%AF%E9%A1%AF%E7%A4%BA"><span class="toc-number">2.2.</span> <span class="toc-text">前端顯示</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%96%8B%E7%99%BC%E7%85%A7%E7%89%87"><span class="toc-number">3.</span> <span class="toc-text">開發照片</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%83%E8%80%83%E8%B3%87%E6%96%99"><span class="toc-number">4.</span> <span class="toc-text">參考資料</span></a></li></ol>
+        </div>
+    </aside>
+    <a class="btn-toc button" id="btn-toc" tabindex="0">
+        <svg viewBox="0 0 1024 1024" width="32" height="32" xmlns="http://www.w3.org/2000/svg">
+            <path d="M128 256h64V192H128zM320 256h576V192H320zM128 544h64v-64H128zM320 544h576v-64H320zM128 832h64v-64H128zM320 832h576v-64H320z" fill="currentColor"></path>
+        </svg>
+    </a>
+    <div class="toc-menus" id="toc-menus">
+        <div class="toc-title">Article Directory</div>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8%E5%85%83%E4%BB%B6"><span class="toc-number">1.</span> <span class="toc-text">使用元件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B7%B2%E5%AE%8C%E6%88%90%E7%9B%AE%E6%A8%99"><span class="toc-number">2.</span> <span class="toc-text">已完成目標</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%87%8F%E6%B8%AC%E9%9B%BB%E5%A3%93"><span class="toc-number">2.1.</span> <span class="toc-text">量測電壓</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%89%8D%E7%AB%AF%E9%A1%AF%E7%A4%BA"><span class="toc-number">2.2.</span> <span class="toc-text">前端顯示</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%96%8B%E7%99%BC%E7%85%A7%E7%89%87"><span class="toc-number">3.</span> <span class="toc-text">開發照片</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%83%E8%80%83%E8%B3%87%E6%96%99"><span class="toc-number">4.</span> <span class="toc-text">參考資料</span></a></li></ol>
+    </div>
+
+
+<article class="post post__with-toc content-card">
+    <div class="post__header"></div>
+    <div class="post__content">
+        <h2 id="使用元件"><a href="#使用元件" class="headerlink" title="使用元件"></a>使用元件</h2><ul>
 <li>MSP430G2ET Launchpad</li>
 <li>HC12 433MHz 無線模組</li>
 </ul>
@@ -341,346 +225,226 @@ p.spoiler {
 <li>使用MSP430的ADC10單元，並開啟Repeat Signal Channel Mode（多次量取單通道模式）量測，減少CPU的負擔。</li>
 <li>目前量程為0~16.5V，單位可精準到mV等級，誤差嘛…不用說了。</li>
 </ul>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-comment">// ADC Unit Initialize</span><br>ADC10CTL0 = ADC10SHT_3 | MSC | ADC10ON;     <span class="hljs-comment">// Sample And Hold Time = 64 x ADC10CLKs</span><br>                                            <span class="hljs-comment">// Multi Sampling and Conversion</span><br>ADC10CTL1 = CONSEQ_2;                       <span class="hljs-comment">// Repeat Single Channel</span><br>ADC10DTC1 = ADC_SAMPLE_TIMES;               <span class="hljs-comment">// ADC Sample Time</span><br><br>ADC10SA = &amp;ADC_Value[<span class="hljs-number">0</span>];                    <span class="hljs-comment">// Start Address = ADC_Value[0]</span><br><br><span class="hljs-comment">// Convert Analog To Digital</span><br>ADC10CTL0 |= ENC | ADC10SC;             <span class="hljs-comment">// Sampling and Conversion Start</span><br><span class="hljs-keyword">while</span>(!(ADC10CTL0 &amp; ADC10IFG));<br>ADC10CTL0 &amp;= ~(ENC | ADC10SC);          <span class="hljs-comment">// Sampling and Conversion Stop</span><br></code></pre></td></tr></table></figure>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// ADC Unit Initialize</span></span><br><span class="line">ADC10CTL0 = ADC10SHT_3 | MSC | ADC10ON;     <span class="comment">// Sample And Hold Time = 64 x ADC10CLKs</span></span><br><span class="line">                                            <span class="comment">// Multi Sampling and Conversion</span></span><br><span class="line">ADC10CTL1 = CONSEQ_2;                       <span class="comment">// Repeat Single Channel</span></span><br><span class="line">ADC10DTC1 = ADC_SAMPLE_TIMES;               <span class="comment">// ADC Sample Time</span></span><br><span class="line"></span><br><span class="line">ADC10SA = &amp;ADC_Value[<span class="number">0</span>];                    <span class="comment">// Start Address = ADC_Value[0]</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// Convert Analog To Digital</span></span><br><span class="line">ADC10CTL0 |= ENC | ADC10SC;             <span class="comment">// Sampling and Conversion Start</span></span><br><span class="line"><span class="keyword">while</span>(!(ADC10CTL0 &amp; ADC10IFG));</span><br><span class="line">ADC10CTL0 &amp;= ~(ENC | ADC10SC);          <span class="comment">// Sampling and Conversion Stop</span></span><br></pre></td></tr></table></figure>
 
 <h3 id="前端顯示"><a href="#前端顯示" class="headerlink" title="前端顯示"></a>前端顯示</h3><ul>
-<li>使用NodeRED解碼，並顯示數值。<br><img src="/img/post/1101031_1937_d.png" srcset="/img/loading.gif" lazyload alt="1101031_1937_d"></li>
-<li>雖然背後顯示的Node都拉得差不多了。但目前只有電壓，及電壓的歷史紀錄有作用而已，<del>剩下的都是狗屎</del>。<br><img src="/img/post/1101031_1937_c.png" srcset="/img/loading.gif" lazyload alt="1101031_1937_c"></li>
+<li>使用NodeRED解碼，並顯示數值。<br><img src="/img/post/1101031_1937_d.png" alt="1101031_1937_d"></li>
+<li>雖然背後顯示的Node都拉得差不多了。但目前只有電壓，及電壓的歷史紀錄有作用而已，<del>剩下的都是狗屎</del>。<br><img src="/img/post/1101031_1937_c.png" alt="1101031_1937_c"></li>
 </ul>
-<h2 id="開發照片"><a href="#開發照片" class="headerlink" title="開發照片"></a>開發照片</h2><p><img src="/img/post/1101031_1937_b.jpg" srcset="/img/loading.gif" lazyload alt="1101031_1937_b"></p>
+<h2 id="開發照片"><a href="#開發照片" class="headerlink" title="開發照片"></a>開發照片</h2><p><img src="/img/post/1101031_1937_b.jpg" alt="1101031_1937_b"></p>
 <h2 id="參考資料"><a href="#參考資料" class="headerlink" title="參考資料"></a>參考資料</h2><ul>
 <li><a target="_blank" rel="noopener" href="https://www.ti.com/lit/ds/symlink/msp430g2553.pdf">MSP430G2x53, MSP430G2x13 Mixed Signal Microcontroller datasheet</a>]</li>
 <li><a target="_blank" rel="noopener" href="https://www.ti.com/lit/ug/slau144j/slau144j.pdf">MSP430x2xx Family User’s Guide</a></li>
 </ul>
 
-                
-              </div>
-            
-            <hr/>
-            <div>
-              <div class="post-metas my-3">
-  
-    <div class="post-meta mr-3 d-flex align-items-center">
-      <i class="iconfont icon-category"></i>
-      
+    </div>
+     
+    <div class="post-footer__meta"><p>updated at 2022-09-04</p></div> 
+    <div class="post-entry__tags"><a href="/tags/msp430/" class="post-tags__link button"># msp430</a></div> 
+</article>
 
-<span class="category-chains">
-  
-  
-    
-      <span class="category-chain">
+
+    <div class="nav">
+        <div class="nav__prev">
+            
+                <a href="/2021/11/07/labview-midterm/" class="nav__link">
+                    <div>
+                        <svg viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" width="24" height="24"><path d="M589.088 790.624L310.464 512l278.624-278.624 45.248 45.248L400.96 512l233.376 233.376z" fill="#808080"></path></svg>
+                    </div>
+                    <div>
+                        <div class="nav__label">
+                            Previous Post
+                        </div>
+                        <div class="nav__title">
+                            LabView植物大戰殭屍 開發紀錄
+                        </div>
+                    </div>
+                </a>
+            
+        </div>
+        <div class="nav__next">
+            
+        </div>
+    </div>
+
+
+
+    <div class="post__comments post__with-toc content-card" id="comment">
         
-  <a href="/categories/DIY/" class="category-chain-item">DIY</a>
-  
-  
-
-      </span>
+    <h4>Comments</h4>
     
-  
-</span>
+    <div id="disqus_thread">Unable to load Disqus, please make sure your network can access.</div>
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+
 
     </div>
-  
-  
-    <div class="post-meta">
-      <i class="iconfont icon-tags"></i>
-      
-        <a href="/tags/msp430/">#msp430</a>
-      
-    </div>
-  
-</div>
 
 
-              
-  
 
-  <div class="license-box my-3">
-    <div class="license-title">
-      <div>MSP430 之 無線三用電表 開發筆記1</div>
-      <div>https://blog.minexo79.club/2021/10/31/msp430-multimeter-1/</div>
-    </div>
-    <div class="license-meta">
-      
-        <div class="license-meta-item">
-          <div>作者</div>
-          <div>Tsai XO</div>
+</main>
+
+            <footer class="footer">
+     
+    <a href="#" class="button" id="b2t" aria-label="Back to Top" title="Back to Top">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="32" height="32">
+            <path d="M233.376 722.752L278.624 768 512 534.624 745.376 768l45.248-45.248L512 444.128zM192 352h640V288H192z" fill="currentColor"></path>
+        </svg>
+    </a>
+
+    
+
+
+    
+     
+ 
+
+ 
+    
+        
+        <p class="footer-copyright">
+            Copyright © 2023 <a href="/">黑貓的邪惡企業</a>
+        </p>
+    
+    
+    <p>Powered by <a href="https://hexo.io" target="_blank">Hexo</a> | Theme - <a href="https://github.com/ChrAlpha/hexo-theme-cards" target="_blank">Cards</a></p>
+</footer>
+
         </div>
-      
-      
-        <div class="license-meta-item license-meta-date">
-          <div>發布於</div>
-          <div>2021年10月31日</div>
-        </div>
-      
-      
-      <div class="license-meta-item">
-        <div>許可協議</div>
-        <div>
-          
-            
-            
-              <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
-              <span class="hint--top hint--rounded" aria-label="BY - 署名">
-                <i class="iconfont icon-by"></i>
-              </span>
-              </a>
-            
-          
-        </div>
-      </div>
-    </div>
-    <div class="license-icon iconfont"></div>
-  </div>
+         
+
+ 
+
+ 
+
+ 
+
+ 
 
 
 
-              
-                <div class="post-prevnext my-3">
-                  <article class="post-prev col-6">
-                    
-                    
-                      <a href="/2021/11/07/labview-midterm/" title="LabView植物大戰殭屍 開發紀錄">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">LabView植物大戰殭屍 開發紀錄</span>
-                        <span class="visible-mobile">上一篇</span>
-                      </a>
-                    
-                  </article>
-                  <article class="post-next col-6">
-                    
-                    
-                  </article>
-                </div>
-              
-            </div>
-
-            
-          </article>
-        </div>
-      </div>
-    </div>
-
-    <div class="side-col d-none d-lg-block col-lg-2">
-      
-  <aside class="sidebar" style="margin-left: -1rem">
-    <div id="toc">
-  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目錄</p>
-  <div class="toc-body" id="toc-body"></div>
-</div>
+ 
 
 
 
-  </aside>
-
-
-    </div>
-  </div>
-</div>
-
-
-
-
-
-  
-
-
-
-  
-
-
-
-  
-
-
-
-  
-
-
-
-  
-
-
-
-
-
+ 
 
 
     
+ 
+
 
     
-      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
-        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
-      </a>
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.4.1/dist/jquery.min.js"></script>
+
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.4.1/dist/jquery.fancybox.min.css">
+
+    
+<script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.4.1/dist/jquery.fancybox.min.js"></script>
+
+    <script>
+        let lazyloadT = Boolean('false'),
+            auto_fancybox = Boolean('true')
+        if (auto_fancybox) {
+            $(".post__content").find('img').each(function () {
+                var element = document.createElement("a");
+                $(element).attr("data-fancybox", "gallery");
+                $(element).attr("href", $(this).attr("src"));
+                if (lazyloadT) {
+                    $(element).attr("href", $(this).attr("data-srcset"));
+                }
+                $(this).wrap(element);
+            });
+        } else {
+            $(".post__content").find("fancybox").find('img').each(function () {
+                var element = document.createElement("a");
+                $(element).attr("data-fancybox", "gallery");
+                $(element).attr("href", $(this).attr("src"));
+                if (lazyloadT) {
+                    $(element).attr("href", $(this).attr("data-srcset"));
+                }
+                $(this).wrap(element);
+            });
+        }
+    </script>
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+
+    
+    <script>
+        function loadComment() {
+            window.disqus_config = function () {
+                this.page.url = 'https://blog.minexo79.club/2021/10/31/msp430-multimeter-1/';
+                this.page.identifier = '2021/10/31/msp430-multimeter-1/';
+            };
+            (function(){
+                var dsq = document.createElement('script');
+                dsq.type = 'text/javascript';
+                dsq.async = true;
+                dsq.src = '//' + 'minexo79' + '.disqus.com/embed.js';
+                (document.head || document.body).appendChild(dsq);
+            })();
+        }
+    
+        var runningOnBrowser = typeof window !== "undefined";
+        var isBot = runningOnBrowser && !("onscroll" in window) || typeof navigator !== "undefined" && /(gle|ing|ro|msn)bot|crawl|spider|yand|duckgo/i.test(navigator.userAgent);
+        var supportsIntersectionObserver = runningOnBrowser && "IntersectionObserver" in window;
+    
+        setTimeout(function () {
+            if (!isBot && supportsIntersectionObserver) {
+                var comment_observer = new IntersectionObserver(function(entries) {
+                    if (entries[0].isIntersecting) {
+                        loadComment();
+                        comment_observer.disconnect();
+                    }
+                }, { threshold: [0] });
+                comment_observer.observe(document.getElementById('comment'));
+            } else {
+                loadComment();
+            }
+        }, 1);
+    </script>
+
+
+    
+    
     
 
     
-      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
-     aria-hidden="true">
-  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
-    <div class="modal-content">
-      <div class="modal-header text-center">
-        <h4 class="modal-title w-100 font-weight-bold">搜尋</h4>
-        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body mx-3">
-        <div class="md-form mb-5">
-          <input type="text" id="local-search-input" class="form-control validate">
-          <label data-error="x" data-success="v" for="local-search-input">關鍵字</label>
-        </div>
-        <div class="list-group" id="local-search-result"></div>
-      </div>
-    </div>
-  </div>
-</div>
-
+    
+    
+    
     
 
     
-  </main>
+    
+    
+    
+    
 
-  <footer>
-    <div class="footer-inner">
-  
-    <div class="footer-content">
-       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
-    </div>
-  
-  
-  
-  
-</div>
-
-  </footer>
-
-  <!-- Scripts -->
-  
-  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.js" ></script>
-  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.css" />
-
-  <script>
-    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
-    NProgress.start()
-    window.addEventListener('load', function() {
-      NProgress.done();
-    })
-  </script>
-
-
-<script  src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js" ></script>
-<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/js/bootstrap.min.js" ></script>
-<script  src="/js/events.js" ></script>
-<script  src="/js/plugins.js" ></script>
-
-
-  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2/lib/typed.min.js" ></script>
-  <script>
-    (function (window, document) {
-      var typing = Fluid.plugins.typing;
-      var subtitle = document.getElementById('subtitle');
-      if (!subtitle || !typing) {
-        return;
-      }
-      var text = subtitle.getAttribute('data-typed-text');
-      
-        typing(text);
-      
-    })(window, document);
-  </script>
+    
+    
+    
 
 
 
-
-  
-    <script  src="/js/img-lazyload.js" ></script>
-  
-
-
-
-
-  
-<script>
-  Fluid.utils.createScript('https://cdn.jsdelivr.net/npm/tocbot@4/dist/tocbot.min.js', function() {
-    var toc = jQuery('#toc');
-    if (toc.length === 0 || !window.tocbot) { return; }
-    var boardCtn = jQuery('#board-ctn');
-    var boardTop = boardCtn.offset().top;
-
-    window.tocbot.init({
-      tocSelector     : '#toc-body',
-      contentSelector : '.markdown-body',
-      headingSelector : CONFIG.toc.headingSelector || 'h1,h2,h3,h4,h5,h6',
-      linkClass       : 'tocbot-link',
-      activeLinkClass : 'tocbot-active-link',
-      listClass       : 'tocbot-list',
-      isCollapsedClass: 'tocbot-is-collapsed',
-      collapsibleClass: 'tocbot-is-collapsible',
-      collapseDepth   : CONFIG.toc.collapseDepth || 0,
-      scrollSmooth    : true,
-      headingsOffset  : -boardTop
-    });
-    if (toc.find('.toc-list-item').length > 0) {
-      toc.css('visibility', 'visible');
-    }
-  });
-</script>
-
-
-  <script src=https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js></script>
-
-  <script>Fluid.plugins.codeWidget();</script>
-
-
-  
-<script>
-  Fluid.utils.createScript('https://cdn.jsdelivr.net/npm/anchor-js@4/anchor.min.js', function() {
-    window.anchors.options = {
-      placement: CONFIG.anchorjs.placement,
-      visible  : CONFIG.anchorjs.visible
-    };
-    if (CONFIG.anchorjs.icon) {
-      window.anchors.options.icon = CONFIG.anchorjs.icon;
-    }
-    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
-    var res = [];
-    for (var item of el) {
-      res.push('.markdown-body > ' + item.trim());
-    }
-    if (CONFIG.anchorjs.placement === 'left') {
-      window.anchors.options.class = 'anchorjs-link-left';
-    }
-    window.anchors.add(res.join(', '));
-  });
-</script>
-
-
-  
-<script>
-  Fluid.utils.createScript('https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.js', function() {
-    Fluid.plugins.fancyBox();
-  });
-</script>
-
-
-  <script>Fluid.plugins.imageCaption();</script>
-
-  <script  src="/js/local-search.js" ></script>
-
-
-
-
-
-<!-- 主题的启动项，将它保持在最底部 -->
-<!-- the boot of the theme, keep it at the bottom -->
-<script  src="/js/boot.js" ></script>
-
-
-  
-
-  <noscript>
-    <div class="noscript-warning">博客在允許 JavaScript 運行的環境下瀏覽效果更佳</div>
-  </noscript>
-</body>
+    </body>
 </html>

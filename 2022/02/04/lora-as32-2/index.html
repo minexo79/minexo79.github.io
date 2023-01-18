@@ -1,89 +1,86 @@
-
-
 <!DOCTYPE html>
-<html lang="zh-TW" data-default-color-scheme=auto>
+<html lang="en">
+    <head>
+    <meta charset="utf-8">
+
+    
+
+    <!-- 渲染优化 -->
+    <meta name="renderer" content="webkit">
+    <meta name="force-rendering" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+    <meta name="HandheldFriendly" content="True" >
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+    <!--icon-->
+
+    
+    
+        <link rel="icon" type="image/png" sizes="16x16" href="/source%5Cimg%5Cfavicon.png">
+    
+    
+    
+    
+
+
+    <!-- meta -->
+
+
+<title>奇奇怪怪的無線說話之術：對岸的LoRa傳輸模組(二) | 黑貓的邪惡企業</title>
+
+
+    <meta name="keywords" content="LoRa">
 
 
 
-<head>
-  <meta charset="UTF-8">
-  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
-  <link rel="icon" href="/img/favicon.png">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
-  <meta http-equiv="x-ua-compatible" content="ie=edge">
-  
-  <meta name="theme-color" content="#7b0b0b">
-  <meta name="author" content="Tsai XO">
-  <meta name="keywords" content="">
-  
+
+    <!-- OpenGraph -->
+ 
     <meta name="description" content="對岸的LoRa傳輸模組 - AS32 915 Module">
 <meta property="og:type" content="article">
 <meta property="og:title" content="奇奇怪怪的無線說話之術：對岸的LoRa傳輸模組(二)">
 <meta property="og:url" content="https://blog.minexo79.club/2022/02/04/lora-as32-2/index.html">
 <meta property="og:site_name" content="黑貓的邪惡企業">
 <meta property="og:description" content="對岸的LoRa傳輸模組 - AS32 915 Module">
-<meta property="og:locale" content="zh_TW">
+<meta property="og:locale" content="en_US">
 <meta property="og:image" content="https://blog.minexo79.club/img/post/1110204_1433_f.png">
 <meta property="article:published_time" content="2022-02-04T06:33:45.000Z">
-<meta property="article:modified_time" content="2022-09-03T12:33:52.995Z">
+<meta property="article:modified_time" content="2023-01-18T15:56:07.356Z">
 <meta property="article:author" content="Tsai XO">
 <meta property="article:tag" content="LoRa">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="https://blog.minexo79.club/img/post/1110204_1433_f.png">
-  
-  
-  
-  <title>奇奇怪怪的無線說話之術：對岸的LoRa傳輸模組(二) - 黑貓的邪惡企業</title>
-
-  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
 
 
+    
+<link rel="stylesheet" href="/css/style/main.css">
+ 
 
-  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4/github-markdown.min.css" />
+    
+    
+        <link rel="stylesheet" id="hl-default-theme" href="/css/highlight/default.css" media="none" >
+        
+            <link rel="stylesheet" id="hl-dark-theme" href="/css/highlight/dark.css" media="none">
+        
+    
 
-  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+    
+    
 
-  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.css" />
+    
+    
+<link rel="stylesheet" href="/css/style/dark.css">
 
-
-
-<!-- 主题依赖的图标库，不要自行修改 -->
-<!-- Do not modify the link that theme dependent icons -->
-
-<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
-
-
-
-<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
-
-
-<link  rel="stylesheet" href="/css/main.css" />
-
-
-  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
-  
-    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
-  
+    
+<script src="/js/darkmode.js"></script>
 
 
 
+     
 
-  <script id="fluid-configs">
-    var Fluid = window.Fluid || {};
-    Fluid.ctx = Object.assign({}, Fluid.ctx)
-    var CONFIG = {"hostname":"blog.minexo79.club","root":"/","version":"1.9.2","typing":{"enable":true,"typeSpeed":50,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+    <!-- custom head -->
 
-    if (CONFIG.web_analytics.follow_dnt) {
-      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
-      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
-    }
-  </script>
-  <script  src="/js/utils.js" ></script>
-  <script  src="/js/color-schema.js" ></script>
-  
-
-
-  
 <style type="text/css">
 .spoiler {
   display: inline-flex;
@@ -114,228 +111,121 @@ p.spoiler {
   color: black;
   background-color: black;
   text-shadow: none;
-}</style><meta name="generator" content="Hexo 6.2.0"></head>
+}</style><meta name="generator" content="Hexo 6.3.0"></head>
 
-
-<body>
-  
-
-  <header>
-    
-
-<div class="header-inner" style="height: 70vh;">
-  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
-  <div class="container">
-    <a class="navbar-brand" href="/">
-      <strong>黑貓的邪惡企業</strong>
+    <body>
+        <div id="app" tabindex="-1">
+            <header class="header">
+    <div class="header__left">
+        <a href="/" class="button">
+            <span class="logo__text">黑貓的邪惡企業</span>
+        </a>
+    </div>
+    <div class="header__right">
+        
+            <div class="navbar__menus">
+                
+                    <a href="/" class="navbar-menu button">首頁</a>
+                
+                    <a href="/archives/" class="navbar-menu button">文章</a>
+                
+                    <a href="/categories/" class="navbar-menu button">類別</a>
+                
+                    <a href="/tags/" class="navbar-menu button">標籤</a>
+                
+                    <a href="/links/" class="navbar-menu button">其他站點</a>
+                
+            </div>
+        
+        
+        
+    <a href="/search/" id="btn-search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="24" height="24" fill="currentColor" stroke="currentColor" stroke-width="32"><path d="M192 448c0-141.152 114.848-256 256-256s256 114.848 256 256-114.848 256-256 256-256-114.848-256-256z m710.624 409.376l-206.88-206.88A318.784 318.784 0 0 0 768 448c0-176.736-143.264-320-320-320S128 271.264 128 448s143.264 320 320 320a318.784 318.784 0 0 0 202.496-72.256l206.88 206.88 45.248-45.248z"></path></svg>
     </a>
 
-    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
-            data-target="#navbarSupportedContent"
-            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-      <div class="animated-icon"><span></span><span></span><span></span></div>
-    </button>
-
-    <!-- Collapsible content -->
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <ul class="navbar-nav ml-auto text-center">
-        
-          
-          
-          
-          
-            <li class="nav-item">
-              <a class="nav-link" href="/">
-                <i class="iconfont icon-home-fill"></i>
-                首頁
-              </a>
-            </li>
-          
-        
-          
-          
-          
-          
-            <li class="nav-item">
-              <a class="nav-link" href="/archives/">
-                <i class="iconfont icon-archive-fill"></i>
-                歸檔
-              </a>
-            </li>
-          
-        
-          
-          
-          
-          
-            <li class="nav-item">
-              <a class="nav-link" href="/categories/">
-                <i class="iconfont icon-category-fill"></i>
-                分類
-              </a>
-            </li>
-          
-        
-          
-          
-          
-          
-            <li class="nav-item">
-              <a class="nav-link" href="/tags/">
-                <i class="iconfont icon-tags-fill"></i>
-                標籤
-              </a>
-            </li>
-          
-        
-          
-          
-          
-          
-            <li class="nav-item">
-              <a class="nav-link" href="/about/">
-                <i class="iconfont icon-user-fill"></i>
-                關於
-              </a>
-            </li>
-          
-        
-          
-          
-          
-          
-            <li class="nav-item">
-              <a class="nav-link" target="_blank" rel="noopener" href="https://hackmd.io/@PQ-vvZNjSByJgYWq22pEBQ">
-                <i class="iconfont icon-note"></i>
-                HackMD
-              </a>
-            </li>
-          
-        
-          
-          
-          
-          
-            <li class="nav-item">
-              <a class="nav-link" target="_blank" rel="noopener" href="https://github.com/minexo79">
-                <i class="iconfont icon-github-fill"></i>
-                Github
-              </a>
-            </li>
-          
-        
-        
-          <li class="nav-item" id="search-btn">
-            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
-              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
-            </a>
-          </li>
-          
-        
-        
-          <li class="nav-item" id="color-toggle-btn">
-            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
-                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
-          </li>
-        
-      </ul>
-    </div>
-  </div>
-</nav>
-
-  
-
-<div id="banner" class="banner" parallax=true
-     style="background: url('/img/post/1110204_1433_f.png') no-repeat center center; background-size: cover;">
-  <div class="full-bg-img">
-    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
-      <div class="banner-text text-center fade-in-up">
-        <div class="h2">
-          
-            <span id="subtitle" data-typed-text="奇奇怪怪的無線說話之術：對岸的LoRa傳輸模組(二)"></span>
-          
-        </div>
 
         
-          
-  <div class="mt-3">
-    
-    
-      <span class="post-meta">
-        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2022-02-04 14:33" pubdate>
-          2022年2月4日 下午
-        </time>
-      </span>
-    
-  </div>
-
-  <div class="mt-1">
-    
-      <span class="post-meta mr-2">
-        <i class="iconfont icon-chart"></i>
         
-          <!-- compatible with older versions-->
-          2.7k 字
-        
-      </span>
-    
-
-    
-      <span class="post-meta mr-2">
-        <i class="iconfont icon-clock-fill"></i>
-        
-        
-        
-          <!-- compatible with older versions-->
-          9 分鐘
-        
-      </span>
-    
-
-    
-    
-  </div>
+    <a href="javaScript:void(0);" id="btn-toggle-dark">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+    </a>
 
 
         
-      </div>
-
-      
-    </div>
-  </div>
-</div>
-
-</div>
-
-  </header>
-
-  <main>
-    
-      
-
-<div class="container-fluid nopadding-x">
-  <div class="row nomargin-x">
-    <div class="side-col d-none d-lg-block col-lg-2">
-      
-
-    </div>
-
-    <div class="col-lg-8 nopadding-x-md">
-      <div class="container nopadding-x-md" id="board-ctn">
-        <div id="board">
-          <article class="post-content mx-auto">
-            <!-- SEO header -->
-            <h1 style="display: none">奇奇怪怪的無線說話之術：對岸的LoRa傳輸模組(二)</h1>
-            
-            
-              <div class="markdown-body">
+            <a class="dropdown-icon button" id="btn-dropdown" tabindex="0"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" width='24' height='24' fill="none" stroke="currentColor" stroke-width="0.7" stroke-linecap="round" stroke-linejoin="round"><path fill="currentColor" d="M3.314,4.8h13.372c0.41,0,0.743-0.333,0.743-0.743c0-0.41-0.333-0.743-0.743-0.743H3.314c-0.41,0-0.743,0.333-0.743,0.743C2.571,4.467,2.904,4.8,3.314,4.8z M16.686,15.2H3.314c-0.41,0-0.743,0.333-0.743,0.743s0.333,0.743,0.743,0.743h13.372c0.41,0,0.743-0.333,0.743-0.743S17.096,15.2,16.686,15.2z M16.686,9.257H3.314c-0.41,0-0.743,0.333-0.743,0.743s0.333,0.743,0.743,0.743h13.372c0.41,0,0.743-0.333,0.743-0.743S17.096,9.257,16.686,9.257z"></path></svg></a>
+            <div class="dropdown-menus" id="dropdown-menus">
                 
-                <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>這段時間把AS32 LoRa模組相關的資料大致上看過一遍，需要注意的地方大概如下：</p>
+                    <a href="/" class="dropdown-menu button">首頁</a>
+                
+                    <a href="/archives/" class="dropdown-menu button">文章</a>
+                
+                    <a href="/categories/" class="dropdown-menu button">類別</a>
+                
+                    <a href="/tags/" class="dropdown-menu button">標籤</a>
+                
+                    <a href="/links/" class="dropdown-menu button">其他站點</a>
+                
+            </div>
+        
+    </div>
+</header>
+
+
+            <main class="main">
+    
+
+<div class="post-title">
+    <h1 class="post-title__text">
+        奇奇怪怪的無線說話之術：對岸的LoRa傳輸模組(二)
+    </h1>
+    <div class="post-title__meta">
+        <a href="/archives/2022/02/" class="post-meta__date button">2022-02-04</a>
+        
+    <span class="separate-dot"></span><a href="/categories/%E7%A1%AC%E9%AB%94/" class="button">硬體</a>
+
+ 
+        
+    
+    
+
+
+ 
+
+ 
+    </div>
+</div>
+
+
+    <aside class="post-side">
+        <div class="post-side__toc">
+            <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%89%8D%E8%A8%80"><span class="toc-number">1.</span> <span class="toc-text">前言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%B8%AC%E8%A9%A6%E6%96%B9%E5%BC%8F"><span class="toc-number">2.</span> <span class="toc-text">測試方式</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%99%BC%E9%80%81%E7%AB%AF%E7%A8%8B%E5%BC%8F%E7%A2%BC"><span class="toc-number">2.1.</span> <span class="toc-text">發送端程式碼</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8E%A5%E6%94%B6%E7%AB%AF%E7%A8%8B%E5%BC%8F%E7%A2%BC"><span class="toc-number">2.2.</span> <span class="toc-text">接收端程式碼</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%81%8E%E7%A8%8B"><span class="toc-number">3.</span> <span class="toc-text">過程</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%96%8B%E7%99%BC%E7%85%A7%E7%89%87"><span class="toc-number">4.</span> <span class="toc-text">開發照片</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%83%E8%80%83%E8%B3%87%E6%96%99"><span class="toc-number">5.</span> <span class="toc-text">參考資料</span></a></li></ol>
+        </div>
+    </aside>
+    <a class="btn-toc button" id="btn-toc" tabindex="0">
+        <svg viewBox="0 0 1024 1024" width="32" height="32" xmlns="http://www.w3.org/2000/svg">
+            <path d="M128 256h64V192H128zM320 256h576V192H320zM128 544h64v-64H128zM320 544h576v-64H320zM128 832h64v-64H128zM320 832h576v-64H320z" fill="currentColor"></path>
+        </svg>
+    </a>
+    <div class="toc-menus" id="toc-menus">
+        <div class="toc-title">Article Directory</div>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%89%8D%E8%A8%80"><span class="toc-number">1.</span> <span class="toc-text">前言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%B8%AC%E8%A9%A6%E6%96%B9%E5%BC%8F"><span class="toc-number">2.</span> <span class="toc-text">測試方式</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%99%BC%E9%80%81%E7%AB%AF%E7%A8%8B%E5%BC%8F%E7%A2%BC"><span class="toc-number">2.1.</span> <span class="toc-text">發送端程式碼</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8E%A5%E6%94%B6%E7%AB%AF%E7%A8%8B%E5%BC%8F%E7%A2%BC"><span class="toc-number">2.2.</span> <span class="toc-text">接收端程式碼</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%81%8E%E7%A8%8B"><span class="toc-number">3.</span> <span class="toc-text">過程</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%96%8B%E7%99%BC%E7%85%A7%E7%89%87"><span class="toc-number">4.</span> <span class="toc-text">開發照片</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%83%E8%80%83%E8%B3%87%E6%96%99"><span class="toc-number">5.</span> <span class="toc-text">參考資料</span></a></li></ol>
+    </div>
+
+
+<article class="post post__with-toc content-card">
+    <div class="post__header">
+     
+     
+    
+        <div class="post-thumbnail" style="background-image: url('/img/post/1110204_1433_f.png');"></div>
+    
+</div>
+    <div class="post__content">
+        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>這段時間把AS32 LoRa模組相關的資料大致上看過一遍，需要注意的地方大概如下：</p>
 <ul>
 <li>這一顆LoRa模組在傳輸的操作上需要配合ACK腳位，特別是在「發送端的第一筆資料」和「在接收前的ACK腳位」。在程式撰寫上可以透過IO腳位的外部中斷來配合操作。</li>
 </ul>
-<p><img src="/img/post/1110204_1433_a.png" srcset="/img/loading.gif" lazyload alt="AS32 Lora Module Datasheet 節錄"></p>
+<p><img src="/img/post/1110204_1433_a.png" alt="AS32 Lora Module Datasheet 節錄"></p>
 <ul>
 <li>在模組內工作模式的切換，要透過IO的腳位設定，才可以切換該模組的工作模式。</li>
 </ul>
@@ -358,27 +248,27 @@ p.spoiler {
 <td>腳位拉高(Output)</td>
 </tr>
 </tbody></table>
-<p><img src="/img/post/1100107_0842_d.png" srcset="/img/loading.gif" lazyload alt="AS32 Lora Module Datasheet 節錄"></p>
+<p><img src="/img/post/1100107_0842_d.png" alt="AS32 Lora Module Datasheet 節錄"></p>
 <ul>
 <li>同時，之前跟幾個群組中得知無線射頻並不是隨隨便便都能用的，最好在購買及使用前先看一下當地的法規規範，以免觸法。以台灣的無線射頻法規，一般使用者可使用的是920～928 MHz這一範圍的頻段。<br>其中海上使用的頻段為926～928 MHz，而其他場域可使用920～925 MHz，要購買類似頻段的模組要注意一下當地的法規標示。</li>
 </ul>
-<p><img src="/img/post/1110204_1433_b.png" srcset="/img/loading.gif" lazyload alt="低功率射頻器材技術規範 節錄"></p>
+<p><img src="/img/post/1110204_1433_b.png" alt="低功率射頻器材技術規範 節錄"></p>
 <ul>
 <li>最後使用這顆LoRa模組需要注意一點：這顆模組並未有拿到NCC(國家通訊傳播委員會)的認證，因此在「台灣境內」僅能用於個人實驗，不可拿去實際場域運作！</li>
 </ul>
-<h2 id="測試方式"><a href="#測試方式" class="headerlink" title="測試方式"></a>測試方式</h2><p>這裡使用兩塊Mega 2560，其中一塊僅連接AS32，並且每秒廣播一筆數據，另一塊連接AS32作為接收端之外，也與PC透過USB連接，並使用Serial Monitor顯示A32收到的數據。<br><br><img src="/img/post/1110204_1433_c.png" srcset="/img/loading.gif" lazyload alt="裝置連接架構圖"></p>
-<h3 id="發送端程式碼"><a href="#發送端程式碼" class="headerlink" title="發送端程式碼"></a>發送端程式碼</h3><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;avr/io.h&gt;</span></span><br><br><span class="hljs-meta">#<span class="hljs-keyword">define</span> interval_ms  1000</span><br><span class="hljs-type">unsigned</span> <span class="hljs-type">long</span> currentMillis = <span class="hljs-number">0</span>, preMillis = <span class="hljs-number">0</span>;<br><br><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">setup</span><span class="hljs-params">()</span></span><br><span class="hljs-function"></span>&#123;<br>    <span class="hljs-comment">// put your setup code here, to run once:</span><br>    Serial1.<span class="hljs-built_in">begin</span>(<span class="hljs-number">9600</span>);<br>    DDRB |= (<span class="hljs-number">1</span> &lt;&lt; DDB5);<br>    DDRB &amp;= ~(<span class="hljs-number">1</span> &lt;&lt; DDB4);<br>    PORTB &amp;= ~(<span class="hljs-number">1</span> &lt;&lt; PB5);<br>&#125;<br><br><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">loop</span><span class="hljs-params">()</span></span><br><span class="hljs-function"></span>&#123;<br>    currentMillis = <span class="hljs-built_in">millis</span>();<br>    <br>    <span class="hljs-keyword">if</span>(currentMillis - preMillis &gt;= interval_ms)<br>    &#123;<br>        preMillis = currentMillis;<br>      <br>        Serial1.<span class="hljs-built_in">println</span>(<span class="hljs-string">&quot;123&quot;</span>);<br><br>        <span class="hljs-keyword">while</span>((PINB &amp; (<span class="hljs-number">1</span> &lt;&lt; PB4)) == <span class="hljs-number">0</span>);<br>        PORTB ^= (<span class="hljs-number">1</span> &lt;&lt; PB5);<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
-<h3 id="接收端程式碼"><a href="#接收端程式碼" class="headerlink" title="接收端程式碼"></a>接收端程式碼</h3><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;avr/io.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;util/delay.h&gt;</span></span><br><br><span class="hljs-meta">#<span class="hljs-keyword">define</span> interval_ms 6</span><br><span class="hljs-type">unsigned</span> <span class="hljs-type">long</span> currentMillis = <span class="hljs-number">0</span>, preMillis = <span class="hljs-number">0</span>;<br><span class="hljs-type">unsigned</span> readCount = <span class="hljs-number">0</span>;<br><span class="hljs-type">char</span> readBuffer[<span class="hljs-number">10</span>] = <span class="hljs-string">&quot;&quot;</span>, readIndex = <span class="hljs-number">0</span>;<br><br><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">setup</span><span class="hljs-params">()</span></span><br><span class="hljs-function"></span>&#123;<br>  <span class="hljs-comment">// put your setup code here, to run once:</span><br>    Serial1.<span class="hljs-built_in">begin</span>(<span class="hljs-number">9600</span>);<br>    Serial.<span class="hljs-built_in">begin</span>(<span class="hljs-number">9600</span>);<br>    <br>    DDRB |= (<span class="hljs-number">1</span> &lt;&lt; DDB5);<br>    DDRB &amp;= ~(<span class="hljs-number">1</span> &lt;&lt; DDB4);<br>    PORTB &amp;= ~(<span class="hljs-number">1</span> &lt;&lt; PB5);<br>&#125;<br><br><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">loop</span><span class="hljs-params">()</span></span><br><span class="hljs-function"></span>&#123;<br>    currentMillis = <span class="hljs-built_in">millis</span>();<br>    <span class="hljs-keyword">if</span>(currentMillis - preMillis &gt;= interval_ms)<br>    &#123;<br>        preMillis = currentMillis;<br><br>        <span class="hljs-keyword">if</span>((PINB &amp; (<span class="hljs-number">1</span> &lt;&lt; PB4)) == <span class="hljs-number">0</span>)<br>        &#123;<br><span class="hljs-comment">//            _delay_ms(2);</span><br>            <br>            <span class="hljs-keyword">for</span>(readIndex = <span class="hljs-number">0</span>;readIndex &lt; <span class="hljs-number">5</span>; readIndex++)<br>              readBuffer[readIndex] = Serial1.<span class="hljs-built_in">read</span>();<br>            Serial1.<span class="hljs-built_in">flush</span>();<br>    <br>            PORTB ^= (<span class="hljs-number">1</span> &lt;&lt; PB5);<br>    <br>            Serial.<span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;Received &quot;</span>);<br>            Serial.<span class="hljs-built_in">print</span>(++readCount);<br>            Serial.<span class="hljs-built_in">print</span>(<span class="hljs-string">&quot; Times. Buffer: &quot;</span>);<br>            <br>            <span class="hljs-keyword">if</span>(readBuffer[<span class="hljs-number">0</span>] == <span class="hljs-string">&#x27;1&#x27;</span> &amp;&amp; readBuffer[<span class="hljs-number">2</span>] == <span class="hljs-string">&#x27;3&#x27;</span>)<br>                Serial.<span class="hljs-built_in">print</span>(readBuffer);<br>            <span class="hljs-keyword">else</span><br>                Serial.<span class="hljs-built_in">println</span>(<span class="hljs-string">&quot;ERROR!&quot;</span>); <br>        &#125;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+<h2 id="測試方式"><a href="#測試方式" class="headerlink" title="測試方式"></a>測試方式</h2><p>這裡使用兩塊Mega 2560，其中一塊僅連接AS32，並且每秒廣播一筆數據，另一塊連接AS32作為接收端之外，也與PC透過USB連接，並使用Serial Monitor顯示A32收到的數據。<br><br><img src="/img/post/1110204_1433_c.png" alt="裝置連接架構圖"></p>
+<h3 id="發送端程式碼"><a href="#發送端程式碼" class="headerlink" title="發送端程式碼"></a>發送端程式碼</h3><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;avr/io.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> interval_ms  1000</span></span><br><span class="line"><span class="type">unsigned</span> <span class="type">long</span> currentMillis = <span class="number">0</span>, preMillis = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">setup</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="comment">// put your setup code here, to run once:</span></span><br><span class="line">    Serial1.<span class="built_in">begin</span>(<span class="number">9600</span>);</span><br><span class="line">    DDRB |= (<span class="number">1</span> &lt;&lt; DDB5);</span><br><span class="line">    DDRB &amp;= ~(<span class="number">1</span> &lt;&lt; DDB4);</span><br><span class="line">    PORTB &amp;= ~(<span class="number">1</span> &lt;&lt; PB5);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">loop</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    currentMillis = <span class="built_in">millis</span>();</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">if</span>(currentMillis - preMillis &gt;= interval_ms)</span><br><span class="line">    &#123;</span><br><span class="line">        preMillis = currentMillis;</span><br><span class="line">      </span><br><span class="line">        Serial1.<span class="built_in">println</span>(<span class="string">&quot;123&quot;</span>);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">while</span>((PINB &amp; (<span class="number">1</span> &lt;&lt; PB4)) == <span class="number">0</span>);</span><br><span class="line">        PORTB ^= (<span class="number">1</span> &lt;&lt; PB5);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="接收端程式碼"><a href="#接收端程式碼" class="headerlink" title="接收端程式碼"></a>接收端程式碼</h3><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;avr/io.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;util/delay.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> interval_ms 6</span></span><br><span class="line"><span class="type">unsigned</span> <span class="type">long</span> currentMillis = <span class="number">0</span>, preMillis = <span class="number">0</span>;</span><br><span class="line"><span class="type">unsigned</span> readCount = <span class="number">0</span>;</span><br><span class="line"><span class="type">char</span> readBuffer[<span class="number">10</span>] = <span class="string">&quot;&quot;</span>, readIndex = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">setup</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  <span class="comment">// put your setup code here, to run once:</span></span><br><span class="line">    Serial1.<span class="built_in">begin</span>(<span class="number">9600</span>);</span><br><span class="line">    Serial.<span class="built_in">begin</span>(<span class="number">9600</span>);</span><br><span class="line">    </span><br><span class="line">    DDRB |= (<span class="number">1</span> &lt;&lt; DDB5);</span><br><span class="line">    DDRB &amp;= ~(<span class="number">1</span> &lt;&lt; DDB4);</span><br><span class="line">    PORTB &amp;= ~(<span class="number">1</span> &lt;&lt; PB5);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">loop</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    currentMillis = <span class="built_in">millis</span>();</span><br><span class="line">    <span class="keyword">if</span>(currentMillis - preMillis &gt;= interval_ms)</span><br><span class="line">    &#123;</span><br><span class="line">        preMillis = currentMillis;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span>((PINB &amp; (<span class="number">1</span> &lt;&lt; PB4)) == <span class="number">0</span>)</span><br><span class="line">        &#123;</span><br><span class="line"><span class="comment">//            _delay_ms(2);</span></span><br><span class="line">            </span><br><span class="line">            <span class="keyword">for</span>(readIndex = <span class="number">0</span>;readIndex &lt; <span class="number">5</span>; readIndex++)</span><br><span class="line">              readBuffer[readIndex] = Serial1.<span class="built_in">read</span>();</span><br><span class="line">            Serial1.<span class="built_in">flush</span>();</span><br><span class="line">    </span><br><span class="line">            PORTB ^= (<span class="number">1</span> &lt;&lt; PB5);</span><br><span class="line">    </span><br><span class="line">            Serial.<span class="built_in">print</span>(<span class="string">&quot;Received &quot;</span>);</span><br><span class="line">            Serial.<span class="built_in">print</span>(++readCount);</span><br><span class="line">            Serial.<span class="built_in">print</span>(<span class="string">&quot; Times. Buffer: &quot;</span>);</span><br><span class="line">            </span><br><span class="line">            <span class="keyword">if</span>(readBuffer[<span class="number">0</span>] == <span class="string">&#x27;1&#x27;</span> &amp;&amp; readBuffer[<span class="number">2</span>] == <span class="string">&#x27;3&#x27;</span>)</span><br><span class="line">                Serial.<span class="built_in">print</span>(readBuffer);</span><br><span class="line">            <span class="keyword">else</span></span><br><span class="line">                Serial.<span class="built_in">println</span>(<span class="string">&quot;ERROR!&quot;</span>); </span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <h2 id="過程"><a href="#過程" class="headerlink" title="過程"></a>過程</h2><p>上述程式碼中，都有引入<code>millis()</code>以替代<code>delay()</code>，這麼作的方式是利用Arduino Mega 2560內的Timer 計時，可以讓發送端的發送時間更為準確，也不會讓CPU有卡住的情況，導致發送時間不一致。</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-comment">/** 利用millis取代delay **/</span><br><br><span class="hljs-meta">#<span class="hljs-keyword">define</span> interval_ms 1000                        <span class="hljs-comment">// 設定間隔時間</span></span><br><span class="hljs-type">unsigned</span> <span class="hljs-type">long</span> currentMillis = <span class="hljs-number">0</span>, preMillis = <span class="hljs-number">0</span>; <span class="hljs-comment">// 現在及前次時間</span><br><br><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">setup</span><span class="hljs-params">()</span></span><br><span class="hljs-function"></span>&#123;<br>    <span class="hljs-comment">// 你的程式碼...</span><br>&#125;<br><br><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">loop</span><span class="hljs-params">()</span></span><br><span class="hljs-function"></span>&#123;<br>    currentMillis = <span class="hljs-built_in">millis</span>();                       <span class="hljs-comment">// 獲取現在時間</span><br>    <span class="hljs-keyword">if</span>(currentMillis - preMillis &gt;= interval_ms)    <span class="hljs-comment">// 比較前次時間，需要兩者之差大於或相等設定間隔</span><br>    &#123;<br>        preMillis = currentMillis;                  <span class="hljs-comment">// 前次時間更改</span><br>        <span class="hljs-comment">// 你的程式碼...</span><br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/** 利用millis取代delay **/</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> interval_ms 1000                        <span class="comment">// 設定間隔時間</span></span></span><br><span class="line"><span class="type">unsigned</span> <span class="type">long</span> currentMillis = <span class="number">0</span>, preMillis = <span class="number">0</span>; <span class="comment">// 現在及前次時間</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">setup</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="comment">// 你的程式碼...</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">loop</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    currentMillis = <span class="built_in">millis</span>();                       <span class="comment">// 獲取現在時間</span></span><br><span class="line">    <span class="keyword">if</span>(currentMillis - preMillis &gt;= interval_ms)    <span class="comment">// 比較前次時間，需要兩者之差大於或相等設定間隔</span></span><br><span class="line">    &#123;</span><br><span class="line">        preMillis = currentMillis;                  <span class="comment">// 前次時間更改</span></span><br><span class="line">        <span class="comment">// 你的程式碼...</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p>目前的韌體已經可以正常的收發，唯有不定時會出現發送與接收不一致的異常。目前判斷可能是Arduino內的接收方式與我們認知的有些不同，未來若要開發AS32的函式庫可以朝以下兩者前進：</p>
 <ul>
 <li>更改模組廣播模式</li>
 <li>完善韌體校驗機制<br></li>
 </ul>
-<p><img src="/img/post/1110204_1433_d.png" srcset="/img/loading.gif" lazyload alt="正常收到的數據"><br><img src="/img/post/1110204_1433_e.png" srcset="/img/loading.gif" lazyload alt="收到的數據不完整，顯示ERROR"></p>
-<h2 id="開發照片"><a href="#開發照片" class="headerlink" title="開發照片"></a>開發照片</h2><p><img src="/img/post/1110204_1433_f.png" srcset="/img/loading.gif" lazyload alt="1110204_1433_f"></p>
+<p><img src="/img/post/1110204_1433_d.png" alt="正常收到的數據"><br><img src="/img/post/1110204_1433_e.png" alt="收到的數據不完整，顯示ERROR"></p>
+<h2 id="開發照片"><a href="#開發照片" class="headerlink" title="開發照片"></a>開發照片</h2><p><img src="/img/post/1110204_1433_f.png" alt="1110204_1433_f"></p>
 <h2 id="參考資料"><a href="#參考資料" class="headerlink" title="參考資料"></a>參考資料</h2><ul>
 <li><a target="_blank" rel="noopener" href="http://www.ashining.com/product_view.aspx?t=93&cid=133">澤耀科技 AS32-D20 產品介紹</a></li>
 <li><a target="_blank" rel="noopener" href="http://www.ashining.com/product_view1.aspx?t=93&cid=133#pro">澤耀科技 AS32-D20 無線透傳模組說明書</a></li>
@@ -386,340 +276,228 @@ p.spoiler {
 <li><a target="_blank" rel="noopener" href="https://www.arduino.cc/reference/en/language/functions/time/millis/">millis() - Arduino Reference</a></li>
 </ul>
 
-                
-              </div>
-            
-            <hr/>
-            <div>
-              <div class="post-metas my-3">
-  
-    <div class="post-meta mr-3 d-flex align-items-center">
-      <i class="iconfont icon-category"></i>
-      
+    </div>
+     
+    <div class="post-footer__meta"><p>updated at 2023-01-18</p></div> 
+    <div class="post-entry__tags"><a href="/tags/LoRa/" class="post-tags__link button"># LoRa</a></div> 
+</article>
 
-<span class="category-chains">
-  
-  
-    
-      <span class="category-chain">
+
+    <div class="nav">
+        <div class="nav__prev">
+            
+                <a href="/2022/03/20/lora-as32-3/" class="nav__link">
+                    <div>
+                        <svg viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" width="24" height="24"><path d="M589.088 790.624L310.464 512l278.624-278.624 45.248 45.248L400.96 512l233.376 233.376z" fill="#808080"></path></svg>
+                    </div>
+                    <div>
+                        <div class="nav__label">
+                            Previous Post
+                        </div>
+                        <div class="nav__title">
+                            奇奇怪怪的無線說話之術：對岸的LoRa傳輸模組(三)
+                        </div>
+                    </div>
+                </a>
+            
+        </div>
+        <div class="nav__next">
+            
+                <a href="/2022/01/04/lora-as32-1/" class="nav__link">
+                    <div>
+                        <div class="nav__label">
+                            Next Post
+                        </div>
+                        <div class="nav__title">
+                            奇奇怪怪的無線說話之術：對岸的LoRa傳輸模組(一)
+                        </div>
+                    </div>
+                    <div>
+                        <svg viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" width="24" height="24"><path d="M434.944 790.624l-45.248-45.248L623.04 512l-233.376-233.376 45.248-45.248L713.568 512z" fill="#808080"></path></svg>
+                    </div>
+                </a>
+            
+        </div>
+    </div>
+
+
+
+    <div class="post__comments post__with-toc content-card" id="comment">
         
-  <a href="/categories/%E7%A1%AC%E9%AB%94/" class="category-chain-item">硬體</a>
-  
-  
-
-      </span>
+    <h4>Comments</h4>
     
-  
-</span>
+    <div id="disqus_thread">Unable to load Disqus, please make sure your network can access.</div>
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+
 
     </div>
-  
-  
-    <div class="post-meta">
-      <i class="iconfont icon-tags"></i>
-      
-        <a href="/tags/LoRa/">#LoRa</a>
-      
-    </div>
-  
-</div>
 
 
-              
-  
 
-  <div class="license-box my-3">
-    <div class="license-title">
-      <div>奇奇怪怪的無線說話之術：對岸的LoRa傳輸模組(二)</div>
-      <div>https://blog.minexo79.club/2022/02/04/lora-as32-2/</div>
-    </div>
-    <div class="license-meta">
-      
-        <div class="license-meta-item">
-          <div>作者</div>
-          <div>Tsai XO</div>
+</main>
+
+            <footer class="footer">
+     
+    <a href="#" class="button" id="b2t" aria-label="Back to Top" title="Back to Top">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="32" height="32">
+            <path d="M233.376 722.752L278.624 768 512 534.624 745.376 768l45.248-45.248L512 444.128zM192 352h640V288H192z" fill="currentColor"></path>
+        </svg>
+    </a>
+
+    
+
+
+    
+     
+ 
+
+ 
+    
+        
+        <p class="footer-copyright">
+            Copyright © 2023 <a href="/">黑貓的邪惡企業</a>
+        </p>
+    
+    
+    <p>Powered by <a href="https://hexo.io" target="_blank">Hexo</a> | Theme - <a href="https://github.com/ChrAlpha/hexo-theme-cards" target="_blank">Cards</a></p>
+</footer>
+
         </div>
-      
-      
-        <div class="license-meta-item license-meta-date">
-          <div>發布於</div>
-          <div>2022年2月4日</div>
-        </div>
-      
-      
-      <div class="license-meta-item">
-        <div>許可協議</div>
-        <div>
-          
-            
-            
-              <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
-              <span class="hint--top hint--rounded" aria-label="BY - 署名">
-                <i class="iconfont icon-by"></i>
-              </span>
-              </a>
-            
-          
-        </div>
-      </div>
-    </div>
-    <div class="license-icon iconfont"></div>
-  </div>
+         
+
+ 
+
+ 
+
+ 
+
+ 
 
 
 
-              
-                <div class="post-prevnext my-3">
-                  <article class="post-prev col-6">
-                    
-                    
-                      <a href="/2022/03/20/lora-as32-3/" title="奇奇怪怪的無線說話之術：對岸的LoRa傳輸模組(三)">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">奇奇怪怪的無線說話之術：對岸的LoRa傳輸模組(三)</span>
-                        <span class="visible-mobile">上一篇</span>
-                      </a>
-                    
-                  </article>
-                  <article class="post-next col-6">
-                    
-                    
-                      <a href="/2022/01/04/lora-as32-1/" title="奇奇怪怪的無線說話之術：對岸的LoRa傳輸模組(一)">
-                        <span class="hidden-mobile">奇奇怪怪的無線說話之術：對岸的LoRa傳輸模組(一)</span>
-                        <span class="visible-mobile">下一篇</span>
-                        <i class="iconfont icon-arrowright"></i>
-                      </a>
-                    
-                  </article>
-                </div>
-              
-            </div>
-
-            
-          </article>
-        </div>
-      </div>
-    </div>
-
-    <div class="side-col d-none d-lg-block col-lg-2">
-      
-  <aside class="sidebar" style="margin-left: -1rem">
-    <div id="toc">
-  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目錄</p>
-  <div class="toc-body" id="toc-body"></div>
-</div>
+ 
 
 
 
-  </aside>
-
-
-    </div>
-  </div>
-</div>
-
-
-
-
-
-  
-
-
-
-  
-
-
-
-  
-
-
-
-  
-
-
-
-  
-
-
-
-
-
+ 
 
 
     
+ 
+
 
     
-      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
-        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
-      </a>
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.4.1/dist/jquery.min.js"></script>
+
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.4.1/dist/jquery.fancybox.min.css">
+
+    
+<script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.4.1/dist/jquery.fancybox.min.js"></script>
+
+    <script>
+        let lazyloadT = Boolean('false'),
+            auto_fancybox = Boolean('true')
+        if (auto_fancybox) {
+            $(".post__content").find('img').each(function () {
+                var element = document.createElement("a");
+                $(element).attr("data-fancybox", "gallery");
+                $(element).attr("href", $(this).attr("src"));
+                if (lazyloadT) {
+                    $(element).attr("href", $(this).attr("data-srcset"));
+                }
+                $(this).wrap(element);
+            });
+        } else {
+            $(".post__content").find("fancybox").find('img').each(function () {
+                var element = document.createElement("a");
+                $(element).attr("data-fancybox", "gallery");
+                $(element).attr("href", $(this).attr("src"));
+                if (lazyloadT) {
+                    $(element).attr("href", $(this).attr("data-srcset"));
+                }
+                $(this).wrap(element);
+            });
+        }
+    </script>
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+
+    
+    <script>
+        function loadComment() {
+            window.disqus_config = function () {
+                this.page.url = 'https://blog.minexo79.club/2022/02/04/lora-as32-2/';
+                this.page.identifier = '2022/02/04/lora-as32-2/';
+            };
+            (function(){
+                var dsq = document.createElement('script');
+                dsq.type = 'text/javascript';
+                dsq.async = true;
+                dsq.src = '//' + 'minexo79' + '.disqus.com/embed.js';
+                (document.head || document.body).appendChild(dsq);
+            })();
+        }
+    
+        var runningOnBrowser = typeof window !== "undefined";
+        var isBot = runningOnBrowser && !("onscroll" in window) || typeof navigator !== "undefined" && /(gle|ing|ro|msn)bot|crawl|spider|yand|duckgo/i.test(navigator.userAgent);
+        var supportsIntersectionObserver = runningOnBrowser && "IntersectionObserver" in window;
+    
+        setTimeout(function () {
+            if (!isBot && supportsIntersectionObserver) {
+                var comment_observer = new IntersectionObserver(function(entries) {
+                    if (entries[0].isIntersecting) {
+                        loadComment();
+                        comment_observer.disconnect();
+                    }
+                }, { threshold: [0] });
+                comment_observer.observe(document.getElementById('comment'));
+            } else {
+                loadComment();
+            }
+        }, 1);
+    </script>
+
+
+    
+    
     
 
     
-      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
-     aria-hidden="true">
-  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
-    <div class="modal-content">
-      <div class="modal-header text-center">
-        <h4 class="modal-title w-100 font-weight-bold">搜尋</h4>
-        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body mx-3">
-        <div class="md-form mb-5">
-          <input type="text" id="local-search-input" class="form-control validate">
-          <label data-error="x" data-success="v" for="local-search-input">關鍵字</label>
-        </div>
-        <div class="list-group" id="local-search-result"></div>
-      </div>
-    </div>
-  </div>
-</div>
-
+    
+    
+    
     
 
     
-  </main>
+    
+    
+    
+    
 
-  <footer>
-    <div class="footer-inner">
-  
-    <div class="footer-content">
-       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
-    </div>
-  
-  
-  
-  
-</div>
-
-  </footer>
-
-  <!-- Scripts -->
-  
-  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.js" ></script>
-  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.css" />
-
-  <script>
-    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
-    NProgress.start()
-    window.addEventListener('load', function() {
-      NProgress.done();
-    })
-  </script>
-
-
-<script  src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js" ></script>
-<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/js/bootstrap.min.js" ></script>
-<script  src="/js/events.js" ></script>
-<script  src="/js/plugins.js" ></script>
-
-
-  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2/lib/typed.min.js" ></script>
-  <script>
-    (function (window, document) {
-      var typing = Fluid.plugins.typing;
-      var subtitle = document.getElementById('subtitle');
-      if (!subtitle || !typing) {
-        return;
-      }
-      var text = subtitle.getAttribute('data-typed-text');
-      
-        typing(text);
-      
-    })(window, document);
-  </script>
+    
+    
+    
 
 
 
-
-  
-    <script  src="/js/img-lazyload.js" ></script>
-  
-
-
-
-
-  
-<script>
-  Fluid.utils.createScript('https://cdn.jsdelivr.net/npm/tocbot@4/dist/tocbot.min.js', function() {
-    var toc = jQuery('#toc');
-    if (toc.length === 0 || !window.tocbot) { return; }
-    var boardCtn = jQuery('#board-ctn');
-    var boardTop = boardCtn.offset().top;
-
-    window.tocbot.init({
-      tocSelector     : '#toc-body',
-      contentSelector : '.markdown-body',
-      headingSelector : CONFIG.toc.headingSelector || 'h1,h2,h3,h4,h5,h6',
-      linkClass       : 'tocbot-link',
-      activeLinkClass : 'tocbot-active-link',
-      listClass       : 'tocbot-list',
-      isCollapsedClass: 'tocbot-is-collapsed',
-      collapsibleClass: 'tocbot-is-collapsible',
-      collapseDepth   : CONFIG.toc.collapseDepth || 0,
-      scrollSmooth    : true,
-      headingsOffset  : -boardTop
-    });
-    if (toc.find('.toc-list-item').length > 0) {
-      toc.css('visibility', 'visible');
-    }
-  });
-</script>
-
-
-  <script src=https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js></script>
-
-  <script>Fluid.plugins.codeWidget();</script>
-
-
-  
-<script>
-  Fluid.utils.createScript('https://cdn.jsdelivr.net/npm/anchor-js@4/anchor.min.js', function() {
-    window.anchors.options = {
-      placement: CONFIG.anchorjs.placement,
-      visible  : CONFIG.anchorjs.visible
-    };
-    if (CONFIG.anchorjs.icon) {
-      window.anchors.options.icon = CONFIG.anchorjs.icon;
-    }
-    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
-    var res = [];
-    for (var item of el) {
-      res.push('.markdown-body > ' + item.trim());
-    }
-    if (CONFIG.anchorjs.placement === 'left') {
-      window.anchors.options.class = 'anchorjs-link-left';
-    }
-    window.anchors.add(res.join(', '));
-  });
-</script>
-
-
-  
-<script>
-  Fluid.utils.createScript('https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.js', function() {
-    Fluid.plugins.fancyBox();
-  });
-</script>
-
-
-  <script>Fluid.plugins.imageCaption();</script>
-
-  <script  src="/js/local-search.js" ></script>
-
-
-
-
-
-<!-- 主题的启动项，将它保持在最底部 -->
-<!-- the boot of the theme, keep it at the bottom -->
-<script  src="/js/boot.js" ></script>
-
-
-  
-
-  <noscript>
-    <div class="noscript-warning">博客在允許 JavaScript 運行的環境下瀏覽效果更佳</div>
-  </noscript>
-</body>
+    </body>
 </html>
