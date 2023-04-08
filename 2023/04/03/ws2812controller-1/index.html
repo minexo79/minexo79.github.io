@@ -1,0 +1,555 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+    <meta charset="utf-8">
+
+    
+
+    <!-- 渲染优化 -->
+    <meta name="renderer" content="webkit">
+    <meta name="force-rendering" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+    <meta name="HandheldFriendly" content="True" >
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+    <!--icon-->
+
+    
+    
+        <link rel="icon" type="image/png" sizes="16x16" href="/source%5Cimg%5Cfavicon.png">
+    
+    
+    
+    
+
+
+    <!-- meta -->
+
+
+<title>寫了一個控制WS2812與Arduino的程式（一） | 黑貓的邪惡企業</title>
+
+
+    <meta name="keywords" content="WS2812, Arduino">
+
+
+
+
+    <!-- OpenGraph -->
+ 
+    <meta name="description" content="原本要嘗試使用STM32與ChibiOS控制WS2812，沒想到...">
+<meta property="og:type" content="article">
+<meta property="og:title" content="寫了一個控制WS2812與Arduino的程式（一）">
+<meta property="og:url" content="https://blog.minexo79.club/2023/04/03/ws2812controller-1/index.html">
+<meta property="og:site_name" content="黑貓的邪惡企業">
+<meta property="og:description" content="原本要嘗試使用STM32與ChibiOS控制WS2812，沒想到...">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://blog.minexo79.club/img/post/1120403_1434_banner.png">
+<meta property="article:published_time" content="2023-04-03T06:29:56.000Z">
+<meta property="article:modified_time" content="2023-04-08T06:36:28.180Z">
+<meta property="article:author" content="Tsai XO">
+<meta property="article:tag" content="WS2812">
+<meta property="article:tag" content="Arduino">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://blog.minexo79.club/img/post/1120403_1434_banner.png">
+
+
+    
+<link rel="stylesheet" href="/css/style/main.css">
+ 
+
+    
+    
+        <link rel="stylesheet" id="hl-default-theme" href="/css/highlight/default.css" media="none" >
+        
+            <link rel="stylesheet" id="hl-dark-theme" href="/css/highlight/dark.css" media="none">
+        
+    
+
+    
+    
+
+    
+    
+<link rel="stylesheet" href="/css/style/dark.css">
+
+    
+<script src="/js/darkmode.js"></script>
+
+
+
+     
+
+    <!-- custom head -->
+
+<style type="text/css">
+.spoiler {
+  display: inline-flex;
+}
+p.spoiler {
+  display: flex;
+}
+.spoiler a {
+  pointer-events: none;
+}
+.spoiler-blur, .spoiler-blur > * {
+  transition: text-shadow .5s ease;
+}
+.spoiler .spoiler-blur, .spoiler .spoiler-blur > * {
+  color: rgba(0, 0, 0, 0);
+  background-color: rgba(0, 0, 0, 0);
+  text-shadow: 0 0 10px grey;
+  cursor: pointer;
+}
+.spoiler .spoiler-blur:hover, .spoiler .spoiler-blur:hover > * {
+  text-shadow: 0 0 5px grey;
+}
+.spoiler-box, .spoiler-box > * {
+  transition: color .5s ease,
+  background-color .5s ease;
+}
+.spoiler .spoiler-box, .spoiler .spoiler-box > * {
+  color: black;
+  background-color: black;
+  text-shadow: none;
+}</style><meta name="generator" content="Hexo 6.3.0"></head>
+
+    <body>
+        <div id="app" tabindex="-1">
+            <header class="header">
+    <div class="header__left">
+        <a href="/" class="button">
+            <span class="logo__text">黑貓的邪惡企業</span>
+        </a>
+    </div>
+    <div class="header__right">
+        
+            <div class="navbar__menus">
+                
+                    <a href="/" class="navbar-menu button">首頁</a>
+                
+                    <a href="/archives/" class="navbar-menu button">文章</a>
+                
+                    <a href="/categories/" class="navbar-menu button">類別</a>
+                
+                    <a href="/tags/" class="navbar-menu button">標籤</a>
+                
+                    <a href="/links" class="navbar-menu button">其他站點</a>
+                
+            </div>
+        
+        
+        
+    <a href="/search/" id="btn-search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="24" height="24" fill="currentColor" stroke="currentColor" stroke-width="32"><path d="M192 448c0-141.152 114.848-256 256-256s256 114.848 256 256-114.848 256-256 256-256-114.848-256-256z m710.624 409.376l-206.88-206.88A318.784 318.784 0 0 0 768 448c0-176.736-143.264-320-320-320S128 271.264 128 448s143.264 320 320 320a318.784 318.784 0 0 0 202.496-72.256l206.88 206.88 45.248-45.248z"></path></svg>
+    </a>
+
+
+        
+        
+    <a href="javaScript:void(0);" id="btn-toggle-dark">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+    </a>
+
+
+        
+            <a class="dropdown-icon button" id="btn-dropdown" tabindex="0"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" width='24' height='24' fill="none" stroke="currentColor" stroke-width="0.7" stroke-linecap="round" stroke-linejoin="round"><path fill="currentColor" d="M3.314,4.8h13.372c0.41,0,0.743-0.333,0.743-0.743c0-0.41-0.333-0.743-0.743-0.743H3.314c-0.41,0-0.743,0.333-0.743,0.743C2.571,4.467,2.904,4.8,3.314,4.8z M16.686,15.2H3.314c-0.41,0-0.743,0.333-0.743,0.743s0.333,0.743,0.743,0.743h13.372c0.41,0,0.743-0.333,0.743-0.743S17.096,15.2,16.686,15.2z M16.686,9.257H3.314c-0.41,0-0.743,0.333-0.743,0.743s0.333,0.743,0.743,0.743h13.372c0.41,0,0.743-0.333,0.743-0.743S17.096,9.257,16.686,9.257z"></path></svg></a>
+            <div class="dropdown-menus" id="dropdown-menus">
+                
+                    <a href="/" class="dropdown-menu button">首頁</a>
+                
+                    <a href="/archives/" class="dropdown-menu button">文章</a>
+                
+                    <a href="/categories/" class="dropdown-menu button">類別</a>
+                
+                    <a href="/tags/" class="dropdown-menu button">標籤</a>
+                
+                    <a href="/links" class="dropdown-menu button">其他站點</a>
+                
+            </div>
+        
+    </div>
+</header>
+
+
+            <main class="main">
+    
+
+<div class="post-title">
+    <h1 class="post-title__text">
+        寫了一個控制WS2812與Arduino的程式（一）
+    </h1>
+    <div class="post-title__meta">
+        <a href="/archives/2023/04/" class="post-meta__date button">2023-04-03</a>
+        
+    <span class="separate-dot"></span><a href="/categories/%E7%A1%AC%E9%AB%94/" class="button">硬體</a>
+
+ 
+        
+    
+    
+
+
+ 
+
+ 
+    </div>
+</div>
+
+
+    <aside class="post-side">
+        <div class="post-side__toc">
+            <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%89%8D%E8%A8%80"><span class="toc-number">1.</span> <span class="toc-text">前言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8%E5%85%83%E4%BB%B6"><span class="toc-number">2.</span> <span class="toc-text">使用元件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#WS2812%E6%8E%A7%E5%88%B6%E6%96%B9%E5%BC%8F"><span class="toc-number">3.</span> <span class="toc-text">WS2812控制方式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9E%B6%E6%A7%8B%E5%9C%96"><span class="toc-number">4.</span> <span class="toc-text">架構圖</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Arduino-%E7%A8%8B%E5%BC%8F"><span class="toc-number">5.</span> <span class="toc-text">Arduino 程式</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%9D%E5%A7%8B%E5%8C%96"><span class="toc-number">5.1.</span> <span class="toc-text">初始化</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#setup"><span class="toc-number">5.2.</span> <span class="toc-text">setup()</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#loop"><span class="toc-number">5.3.</span> <span class="toc-text">loop()</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ReadSerial"><span class="toc-number">5.4.</span> <span class="toc-text">ReadSerial()</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#SetupLED"><span class="toc-number">5.5.</span> <span class="toc-text">SetupLED()</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#GUI-%E7%A8%8B%E5%BC%8F"><span class="toc-number">6.</span> <span class="toc-text">GUI 程式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%81%8E%E7%A8%8B%E8%88%87%E5%95%8F%E9%A1%8C"><span class="toc-number">7.</span> <span class="toc-text">過程與問題</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#ChatGPT"><span class="toc-number">7.1.</span> <span class="toc-text">ChatGPT</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%93%8D%E6%8E%A7%E5%88%B0%E4%B8%80%E5%8D%8A%EF%BC%8CLED%E5%8D%A1%E4%BD%8F"><span class="toc-number">7.2.</span> <span class="toc-text">操控到一半，LED卡住</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%B5%90%E8%AB%96"><span class="toc-number">8.</span> <span class="toc-text">結論</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%83%E8%80%83%E8%B3%87%E6%96%99"><span class="toc-number">9.</span> <span class="toc-text">參考資料</span></a></li></ol>
+        </div>
+    </aside>
+    <a class="btn-toc button" id="btn-toc" tabindex="0">
+        <svg viewBox="0 0 1024 1024" width="32" height="32" xmlns="http://www.w3.org/2000/svg">
+            <path d="M128 256h64V192H128zM320 256h576V192H320zM128 544h64v-64H128zM320 544h576v-64H320zM128 832h64v-64H128zM320 832h576v-64H320z" fill="currentColor"></path>
+        </svg>
+    </a>
+    <div class="toc-menus" id="toc-menus">
+        <div class="toc-title">Article Directory</div>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%89%8D%E8%A8%80"><span class="toc-number">1.</span> <span class="toc-text">前言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8%E5%85%83%E4%BB%B6"><span class="toc-number">2.</span> <span class="toc-text">使用元件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#WS2812%E6%8E%A7%E5%88%B6%E6%96%B9%E5%BC%8F"><span class="toc-number">3.</span> <span class="toc-text">WS2812控制方式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9E%B6%E6%A7%8B%E5%9C%96"><span class="toc-number">4.</span> <span class="toc-text">架構圖</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Arduino-%E7%A8%8B%E5%BC%8F"><span class="toc-number">5.</span> <span class="toc-text">Arduino 程式</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%9D%E5%A7%8B%E5%8C%96"><span class="toc-number">5.1.</span> <span class="toc-text">初始化</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#setup"><span class="toc-number">5.2.</span> <span class="toc-text">setup()</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#loop"><span class="toc-number">5.3.</span> <span class="toc-text">loop()</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ReadSerial"><span class="toc-number">5.4.</span> <span class="toc-text">ReadSerial()</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#SetupLED"><span class="toc-number">5.5.</span> <span class="toc-text">SetupLED()</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#GUI-%E7%A8%8B%E5%BC%8F"><span class="toc-number">6.</span> <span class="toc-text">GUI 程式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%81%8E%E7%A8%8B%E8%88%87%E5%95%8F%E9%A1%8C"><span class="toc-number">7.</span> <span class="toc-text">過程與問題</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#ChatGPT"><span class="toc-number">7.1.</span> <span class="toc-text">ChatGPT</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%93%8D%E6%8E%A7%E5%88%B0%E4%B8%80%E5%8D%8A%EF%BC%8CLED%E5%8D%A1%E4%BD%8F"><span class="toc-number">7.2.</span> <span class="toc-text">操控到一半，LED卡住</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%B5%90%E8%AB%96"><span class="toc-number">8.</span> <span class="toc-text">結論</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%83%E8%80%83%E8%B3%87%E6%96%99"><span class="toc-number">9.</span> <span class="toc-text">參考資料</span></a></li></ol>
+    </div>
+
+
+<article class="post post__with-toc content-card">
+    <div class="post__header">
+     
+     
+    
+        <div class="post-thumbnail" style="background-image: url('/img/post/1120403_1434_banner.png');"></div>
+    
+</div>
+    <div class="post__content">
+        <center>
+    <img src="https://gh-card.dev/repos/minexo79/WS2812_Light_Controller.svg">
+    <br>
+    <a target="_blank" rel="noopener" href="https://github.com/minexo79/WS2812_Light_Controller">上面圖片沒轉過去可以點這裡</a>
+</center>
+
+
+<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>因為工作的關係，之後會開始學習ChibiOS進行MCU韌體的開發和Python GUI的設計，剛好手上有之前買的STM32開發版，於是就翻了之前買的小玩具來接下去玩。<br>由於我還不太了解ChibiOS的使用方法，於是我開始求助ChatGPT。嘗試用問答的方式來寫出控制WS2812的程式。<br>沒想到在產出程式的那一步，ChatGPT因為產出錯的程式碼而導致後續無法運作。在後面有邀糗ChatGPT重新產生一遍程式碼，但光靠我現在的知識量，很難讓他產生出正確的程式。</p>
+<blockquote>
+<p>而且想到要花更多時間邊Debug邊找出正確的寫法，可能這個連假就這樣子過去了…QQ</p>
+</blockquote>
+<p>後續我改變想法：先使用Arduino Core嘗試寫出可以動的Demo，先把基本的輪子(框架)造出來，後續要移植到其他的生態系（ex: ChibiOS）會方便許多。</p>
+<h2 id="使用元件"><a href="#使用元件" class="headerlink" title="使用元件"></a>使用元件</h2><ul>
+<li><p><a target="_blank" rel="noopener" href="https://www.taiwansensor.com.tw/product/arduino-uno-r3-%E7%BE%A9%E5%A4%A7%E5%88%A9%E5%8E%9F%E8%A3%9D-arduino-uno-rev33-%E9%96%8B%E7%99%BC%E6%9D%BF-made-in-italy/">Arduino Uno R3</a><br>這是義大利原廠在2018年出的版本，但其實功能上沒什麼改變，所以用藍色的那一塊也可以。<br><img src="/../img/post/1120403_1434_b.jpg" alt="Arduino Uno R3"></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://shop.mirotek.com.tw/shop/400145/">WS2812B</a><br>我買的是這種環形的LED，如果要用長條型的，一樣可以使用。<br><img src="/../img/post/1120403_1434_c.jpg" alt="WS2812B"></p>
+</li>
+</ul>
+<h2 id="WS2812控制方式"><a href="#WS2812控制方式" class="headerlink" title="WS2812控制方式"></a><a target="_blank" rel="noopener" href="https://cdn-shop.adafruit.com/datasheets/WS2812.pdf">WS2812控制方式</a></h2><p>WS2812B的控制方式是採用OneWire發送訊號的方式來控制LED內部暫存器，進而讓LED發出對應的光芒。</p>
+<p><img src="/../img/post/1120403_1434_d.png" alt="WS2812說明書 (節錄)"></p>
+<p>但因為他的波形非常的短暫，就可以想到的作法，操作方式會有很多種：</p>
+<ol>
+<li>Firmware Delay（效率會不好，建議僅<strong>用在初期開發</strong>）</li>
+<li>Timer 計時器（效率佳）</li>
+<li>Timer + DMA（沒試過，但相較於前兩個應該會好很多）</li>
+<li><em>Etc…</em></li>
+</ol>
+<p>當然，現在有很多大神&#x2F;團隊把上面複雜的操作方式包成Library (函式庫)，如果要快速成型的話，可以直接到Github &#x2F; Google搜一圈，找一個符合你的需求來使用即可。<br>我使用的是FastLED這個函式庫，在這裡感謝製作這個函式庫的大神們。</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://fastled.io/">FastLED 官網</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/FastLED/FastLED">FastLED Github</a></li>
+</ul>
+<p><img src="/../img/post/1120403_1434_f.png" alt="FastLED 官網"></p>
+<h2 id="架構圖"><a href="#架構圖" class="headerlink" title="架構圖"></a>架構圖</h2><p><img src="/../img/post/1120403_1434_e.png" alt="架構圖"></p>
+<ul>
+<li>使用者會透過GUI調整WS2812的顏色與各種燈泡的亮滅，GUI會透過UART方式傳送「指令」至Arduino Uno &#x2F; 其他MCU，再透過封裝好的Library控制WS2812。</li>
+<li>指令方面，目前先規劃為6碼（意即6個8位元的資料）來當作GUI與Uno的溝通橋樑。後續會再根據需求擴充。指令格式如下：</li>
+</ul>
+<p><img src="/../img/post/1120403_1434_g.png" alt="指令格式"></p>
+<h2 id="Arduino-程式"><a href="#Arduino-程式" class="headerlink" title="Arduino 程式"></a>Arduino 程式</h2><h3 id="初始化"><a href="#初始化" class="headerlink" title="初始化"></a>初始化</h3><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;Arduino.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;FastLED.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;string.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> SERIAL_BYTE	6</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> LED_PIN	2</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> LED_NUM	12</span></span><br><span class="line"></span><br><span class="line"><span class="type">unsigned</span> <span class="type">long</span> mill = <span class="number">0</span>;</span><br><span class="line"><span class="type">char</span> serial_bytes[SERIAL_BYTE] = &#123;&#125;;</span><br><span class="line"><span class="type">bool</span> set_led = <span class="literal">false</span>;</span><br><span class="line"></span><br><span class="line">CRGB leds[LED_NUM];</span><br></pre></td></tr></table></figure>
+<ul>
+<li>前三行會引入需要的函式庫，讓編譯器知道我們後續需要的函式。分別為：<ul>
+<li>Arduino Core函式庫<code>Arduino.h</code></li>
+<li>以及FastLED函式庫<code>FastLED.h</code></li>
+<li>標準函式庫<code>String.h</code></li>
+</ul>
+</li>
+<li>之後會透過<code>#define</code>定義三個巨集，分別是：<ul>
+<li>指令的長度<code>SERIAL_BYTE</code></li>
+<li>WS2812接的PIN腳位置<code>LED_PIN</code></li>
+<li>串接WS2812的個數<code>LED_NUM</code></li>
+</ul>
+</li>
+<li>再來會宣告四個變數，並將它們都初始化：<ul>
+<li>取代<code>delay()</code>的millis（詳細在<a href="../../../../2022/02/04/lora-as32-2/#%E9%81%8E%E7%A8%8B">這裡</a>有介紹過）</li>
+<li>指令字元陣列<code>serial_bytes</code>（後續都是HEX進行操控，用<code>char</code>即可）</li>
+<li>一個操作鎖<code>set_led</code>：作用是在控制LED的時候不會因為其他指令送進來而被干擾</li>
+<li>CRGB結構的陣列<code>leds</code>：裡面記載每顆LED的顏色配置。</li>
+</ul>
+</li>
+</ul>
+<h3 id="setup"><a href="#setup" class="headerlink" title="setup()"></a>setup()</h3><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">setup</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	FastLED.<span class="built_in">addLeds</span>&lt;WS2812, LED_PIN, GRB&gt;(leds, LED_NUM);</span><br><span class="line">	FastLED.<span class="built_in">clearData</span>();</span><br><span class="line">	FastLED.<span class="built_in">show</span>();</span><br><span class="line"></span><br><span class="line">	Serial.<span class="built_in">begin</span>(<span class="number">115200</span>);</span><br><span class="line">	Serial.<span class="built_in">setTimeout</span>(<span class="number">100</span>);							<span class="comment">// 100ms</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>首先使用<code>FastLED.addLeds()</code>增加LED配置，在泛型裡面填入LED的型號，LED的腳位與顏色定義。之後在括號裡面填入接WS2812 的腳位。<ul>
+<li>為了怕每次上電都會有前一次的記錄造成顯示不正常，在這裡我使用<code>FastLED.clearData()</code>清掉記憶體內的值，並使用<code>FastLED.show()</code>顯示新的狀態。</li>
+</ul>
+</li>
+<li>之後使用<code>Serial.begin()</code>打開UART通訊功能，括號裡面填入你想設定的鮑率。<ul>
+<li>由於會很快速的輸入指令，為了怕後續沒收到，這裡使用<code>Serial.setTimeout()</code>設定最久的讀取時間為100ms。</li>
+</ul>
+</li>
+</ul>
+<blockquote>
+<p>剛買的WS2812沒意外都會是GRB方式配置，在撰寫這部分的時候一定要去查看該LED的應用手冊&#x2F;說明書。</p>
+</blockquote>
+<h3 id="loop"><a href="#loop" class="headerlink" title="loop()"></a>loop()</h3><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">loop</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	set_led = <span class="built_in">ReadSerial</span>();</span><br><span class="line"></span><br><span class="line">	<span class="keyword">if</span>(set_led)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="built_in">SetupLED</span>();</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>這邊我使用自己事先寫好的<code>ReadSerial()</code>讀取指令，並且回傳一個布林值，代表有無收到新的指令。</li>
+<li>如果有收到指令，那會跳至<code>SetupLED()</code>進行更改LED的操作，以此循環。</li>
+</ul>
+<h3 id="ReadSerial"><a href="#ReadSerial" class="headerlink" title="ReadSerial()"></a>ReadSerial()</h3><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">bool</span> <span class="title">ReadSerial</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="type">unsigned</span> <span class="type">long</span> cmill = <span class="built_in">millis</span>();</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (cmill - mill &gt; <span class="number">10</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        mill = cmill;</span><br><span class="line">        <span class="comment">// read serial bytes</span></span><br><span class="line">        <span class="keyword">if</span> (Serial.<span class="built_in">readBytes</span>(serial_bytes, SERIAL_BYTE) == SERIAL_BYTE)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">if</span> (serial_bytes[<span class="number">5</span>] == <span class="number">0x79</span>)</span><br><span class="line">            &#123;</span><br><span class="line">                Serial.<span class="built_in">flush</span>();</span><br><span class="line"></span><br><span class="line">                <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>使用<code>Serial.readBytes()</code>讀取透過UART輸入進來的資料<ul>
+<li>如果接收到的資料長度等於事先設定的長度，且最後的校驗碼為正確，則會清除Serial裡面的Buffer，並且回傳<code>True</code>，反之回傳<code>False</code></li>
+</ul>
+</li>
+<li>在這裡用到之前使用Timer計時來取代Delay的技巧，讓執行更有效率（詳細在<a href="../../../../2022/02/04/lora-as32-2/#%E9%81%8E%E7%A8%8B">這裡</a>有介紹過）</li>
+</ul>
+<h3 id="SetupLED"><a href="#SetupLED" class="headerlink" title="SetupLED()"></a>SetupLED()</h3><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">SetupLED</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line"><span class="keyword">if</span>(serial_bytes[<span class="number">0</span>] == <span class="number">0x01</span> &amp;&amp; serial_bytes[<span class="number">5</span>] == <span class="number">0x79</span>)			<span class="comment">// Turn On</span></span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">if</span> (serial_bytes[<span class="number">1</span>] == <span class="number">0x00</span>)			<span class="comment">// R</span></span><br><span class="line">		&#123;</span><br><span class="line">			<span class="keyword">for</span>(<span class="type">int</span> i = <span class="number">0</span>; i &lt; LED_NUM; i++)</span><br><span class="line">				leds[i] = <span class="built_in">CRGB</span>(<span class="number">255</span>, <span class="number">0</span>, <span class="number">0</span>);</span><br><span class="line">			FastLED.<span class="built_in">show</span>();</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">else</span> <span class="keyword">if</span> (serial_bytes[<span class="number">1</span>] == <span class="number">0x01</span>)		<span class="comment">// G</span></span><br><span class="line">		&#123;</span><br><span class="line">			<span class="keyword">for</span>(<span class="type">int</span> i = <span class="number">0</span>; i &lt; LED_NUM; i++)</span><br><span class="line">				leds[i] = <span class="built_in">CRGB</span>(<span class="number">0</span>, <span class="number">255</span>, <span class="number">0</span>);</span><br><span class="line">			FastLED.<span class="built_in">show</span>();</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">else</span> <span class="keyword">if</span> (serial_bytes[<span class="number">1</span>] == <span class="number">0x02</span>)		<span class="comment">// B</span></span><br><span class="line">		&#123;</span><br><span class="line">			<span class="keyword">for</span>(<span class="type">int</span> i = <span class="number">0</span>; i &lt; LED_NUM; i++)</span><br><span class="line">				leds[i] = <span class="built_in">CRGB</span>(<span class="number">0</span>, <span class="number">0</span>, <span class="number">255</span>);</span><br><span class="line">			FastLED.<span class="built_in">show</span>();</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">else</span> <span class="keyword">if</span> (serial_bytes[<span class="number">1</span>] == <span class="number">0x03</span>)		<span class="comment">// Custom</span></span><br><span class="line">		&#123;</span><br><span class="line">			<span class="keyword">for</span>(<span class="type">int</span> i = <span class="number">0</span>; i &lt; LED_NUM; i++)</span><br><span class="line">				leds[i] = <span class="built_in">CRGB</span>(serial_bytes[<span class="number">2</span>], serial_bytes[<span class="number">3</span>], serial_bytes[<span class="number">4</span>]);</span><br><span class="line">			FastLED.<span class="built_in">show</span>();			</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">else</span> <span class="keyword">if</span> (serial_bytes[<span class="number">0</span>] == <span class="number">0x00</span> &amp;&amp; serial_bytes[<span class="number">5</span>] == <span class="number">0x79</span>)	<span class="comment">// Turn Off</span></span><br><span class="line">	&#123;</span><br><span class="line">		FastLED.<span class="built_in">clearData</span>();</span><br><span class="line">		FastLED.<span class="built_in">show</span>();</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>這裡判斷接收進來的資料欄位，透過<code>CRGB()</code>去設定每個LED的顏色，之後使用<code>FastLED.show()</code>顯示出對應的顏色。</li>
+</ul>
+<h2 id="GUI-程式"><a href="#GUI-程式" class="headerlink" title="GUI 程式"></a>GUI 程式</h2><p>GUI我使用Python與Flet框架來撰寫，目前的功能還算簡單，畢竟還僅僅是驗證這些功能可不可行。<br><img src="/../img/post/1120403_1434_h.png" alt="GUI"></p>
+<p>其中讀取設定檔的程式碼如下：</p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">start = time.time()</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> li <span class="keyword">in</span> parseData:</span><br><span class="line">    <span class="keyword">while</span> <span class="literal">True</span> <span class="keyword">and</span> li[<span class="string">&quot;time&quot;</span>] &gt; <span class="number">0</span>:</span><br><span class="line">        end = time.time()</span><br><span class="line">        <span class="keyword">if</span> <span class="built_in">round</span>(end - start, <span class="number">3</span>) &gt;= <span class="built_in">float</span>(li[<span class="string">&quot;time&quot;</span>]):</span><br><span class="line">            <span class="keyword">break</span></span><br><span class="line">    </span><br><span class="line">    barray = <span class="built_in">bytearray</span>(li[<span class="string">&quot;light&quot;</span>])</span><br><span class="line">    self.ser.write(barray)</span><br><span class="line"></span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;&gt; Run Command: &#123;&#125;s\t&#123;&#125;&quot;</span>.<span class="built_in">format</span>(li[<span class="string">&quot;time&quot;</span>], li[<span class="string">&quot;light&quot;</span>]))</span><br><span class="line"></span><br><span class="line">    <span class="keyword">while</span> (self.ser.writable() == <span class="literal">False</span>): </span><br><span class="line">        <span class="keyword">pass</span></span><br></pre></td></tr></table></figure>
+<p>在這裡也同樣用到上面的講過的技巧，利用Timer來去讀取秒數並做對比，之後再去讀取設定檔的指令並送給控制器作LED的輸出。<br>設定檔格式如下：</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">[</span></span><br><span class="line">    <span class="punctuation">&#123;</span></span><br><span class="line">        <span class="attr">&quot;time&quot;</span><span class="punctuation">:</span> <span class="number">0</span><span class="punctuation">,</span></span><br><span class="line">        <span class="attr">&quot;light&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span><span class="string">&quot;0x01&quot;</span><span class="punctuation">,</span> <span class="string">&quot;0x00&quot;</span><span class="punctuation">,</span> <span class="string">&quot;0x00&quot;</span><span class="punctuation">,</span> <span class="string">&quot;0x00&quot;</span><span class="punctuation">,</span> <span class="string">&quot;0x00&quot;</span><span class="punctuation">,</span> <span class="string">&quot;0x79&quot;</span><span class="punctuation">]</span></span><br><span class="line">    <span class="punctuation">&#125;</span></span><br><span class="line"><span class="punctuation">]</span></span><br></pre></td></tr></table></figure>
+<p>之後也會嘗試實現編輯器的功能：若有表演的需求，可以對准MP3的時間點，在相對應的時間來變化LED的顏色與亮度。</p>
+<h2 id="過程與問題"><a href="#過程與問題" class="headerlink" title="過程與問題"></a>過程與問題</h2><h3 id="ChatGPT"><a href="#ChatGPT" class="headerlink" title="ChatGPT"></a>ChatGPT</h3><p>在一開始嘗試使用ChibiOS的時候，發現到ChatGPT產生出來的DMA程式段其實無法正常使用。由於產生出來的程式貌似有些老舊，需要經過一定的調整，將列舉的變數調整成目前ChibiOS版本定義的才可讓編譯器成功編譯。<br><img src="/../img/post/1120403_1434_a.png" alt="ChatGPT產出來的程式碼"></p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">void</span> <span class="title function_">ws2812Start</span><span class="params">(WS2812Driver *ws2812p, <span class="type">const</span> WS2812Config *config)</span> &#123;</span><br><span class="line">    <span class="type">uint16_t</span> dma_channel = <span class="number">0</span>;</span><br><span class="line">    dma_channel = dmaStreamAllocate(config-&gt;dma, config-&gt;dma_stream, <span class="literal">NULL</span>, <span class="literal">NULL</span>);</span><br><span class="line">    dmaStreamSetPeripheral(dma_channel, &amp;config-&gt;tim-&gt;CCR[config-&gt;channel]);</span><br><span class="line">    dmaStreamSetMemory0(dma_channel, ws2812p-&gt;dma_buffer);</span><br><span class="line">    dmaStreamSetTransactionSize(dma_channel, config-&gt;num_leds * <span class="number">24</span>);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 這段出來的程式碼沒辦法被編譯器編譯</span></span><br><span class="line">    dmaStreamSetMode(dma_channel, DMA_PRIORITY_HIGH | DMA_MEMORY_TO_PERIPHERAL |</span><br><span class="line">                    DMA_PERIPHERAL_DATA_SIZE_BYTE | DMA_MEMORY_DATA_SIZE_BYTE |</span><br><span class="line">                    DMA_CIRCULAR | DMA_SxCR_MINC);</span><br><span class="line"></span><br><span class="line">    timDisableChannel(config-&gt;tim, config-&gt;channel);</span><br><span class="line">    timSetPeriod(config-&gt;tim, config-&gt;tim_period);</span><br><span class="line">    timSetPrescaler(config-&gt;tim, config-&gt;tim_prescaler);</span><br><span class="line">    timEnableChannel(config-&gt;tim, config-&gt;channel);</span><br><span class="line"></span><br><span class="line">    dmaStreamEnable(dma_channel);</span><br><span class="line"></span><br><span class="line">    ws2812p-&gt;config = config;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>但不是說ChatGPT就是垃圾，ChatGPT倒是幫忙我在了解並學期其他領域的時候有一定的貢獻。雖然找出來的東西有些還是有點問題，但只要Google一下，基本上都可以找出正確或者可以使用的解答。<br>後續我先放棄ChibiOS的方法，先嘗試使用Arduino Uno + FastLED的方案，讓LED亮起來再說。</p>
+<h3 id="操控到一半，LED卡住"><a href="#操控到一半，LED卡住" class="headerlink" title="操控到一半，LED卡住"></a>操控到一半，LED卡住</h3><p>目前GUI的指令傳送部分沒有做優化，只是單純的指令傳輸，但GUI使用多執行緒方式實現。若動作一快，很容易讓指令傳送單元卡住。<br>後續我在傳送單元內部多寫了一個變數<code>self._isoperate = False</code>當作目前有在傳送指令的一道鎖。</p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">sendSerial</span>(<span class="params">self,</span></span><br><span class="line"><span class="params">                mode: <span class="built_in">str</span>,</span></span><br><span class="line"><span class="params">                wsval: <span class="built_in">list</span> = [<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>]</span>):</span><br><span class="line">    </span><br><span class="line">    <span class="comment"># 檢查有無連線至Arduino，以及目前指令有無在傳送。</span></span><br><span class="line">    <span class="keyword">if</span> (self.ser <span class="keyword">is</span> <span class="keyword">not</span> <span class="literal">None</span>) <span class="keyword">and</span> (self.ser.is_open == <span class="literal">True</span>) <span class="keyword">and</span> (self._isoperate == <span class="literal">False</span>):</span><br><span class="line">        <span class="comment"># 將 _isoperate 設置為 True，代表正在傳送</span></span><br><span class="line">        self._isoperate = <span class="literal">True</span></span><br><span class="line">        </span><br><span class="line">        <span class="comment"># /// 傳送段部分 ///</span></span><br><span class="line"></span><br><span class="line">        <span class="comment"># 將 _isoperate 設置為 False，代表傳送完畢</span></span><br><span class="line">        self._isoperate = <span class="literal">False</span></span><br></pre></td></tr></table></figure>
+<p>當前端調整拉桿時，若後端的指令還在傳送，則不會做傳送的動作，等到上一道指令都傳送完畢，才會進行下一次指令的傳送。<br><strong>但</strong>，這不會是最好的方法，因為可能傳送的會是一連串讓LED漸變顏色的指令，若發送的動作一快，很容易因為指令還沒傳送完畢，而讓LED變化的不是很順暢。還有很多優化的空間。</p>
+<h2 id="結論"><a href="#結論" class="headerlink" title="結論"></a>結論</h2><p>當初這個專案只是某天突然想利用ChibiOS來操控看看WS2812，雖然過程中因為ChatGPT正常發揮，以及我對ChibiOS還不是這麼了解，後續改用Arduino Core來實現。但目前已經可以正常的可以根據我想要的模式來讓WS2812呈現對應的亮度。</p>
+<center>
+    <img src="https://mavlink.io/assets/site/logo_mavlink_small.png" />
+</center>
+後續會先將軟體控制端完善，之後會嘗試更改指令部分，可能會參考大部分無人機通用的傳輸協議MavLink來實現。由於MavLink有兩個ID區塊，分別是`SysID`與`CompID`，若未來有要走控制多個LED控制器，使用MavLink反而會省下很多力氣。
+
+<p><img src="https://ardupilot.org/dev/_images/mavlink-frame.png" alt="MavLink V1 格式"></p>
+<h2 id="參考資料"><a href="#參考資料" class="headerlink" title="參考資料"></a>參考資料</h2><ul>
+<li><a target="_blank" rel="noopener" href="https://openai.com/blog/chatgpt">ChatGPT</a></li>
+<li><a target="_blank" rel="noopener" href="https://cdn-shop.adafruit.com/datasheets/WS2812.pdf">WS2812 LED Datasheet</a></li>
+<li><a target="_blank" rel="noopener" href="https://fastled.io/">FastLED Official Website</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/FastLED/FastLED">FastLED Github Repo Site</a></li>
+<li><a target="_blank" rel="noopener" href="https://flet.dev/">Flet Python GUI Official Website</a></li>
+<li><a target="_blank" rel="noopener" href="https://ardupilot.org/dev/docs/mavlink-basics.html">Ardupilot MavLink Basics</a></li>
+</ul>
+
+    </div>
+     
+    <div class="post-footer__meta"><p>updated at 2023-04-08</p></div> 
+    <div class="post-entry__tags"><a href="/tags/WS2812/" class="post-tags__link button"># WS2812</a><a href="/tags/Arduino/" class="post-tags__link button"># Arduino</a></div> 
+</article>
+
+
+    <div class="nav">
+        <div class="nav__prev">
+            
+        </div>
+        <div class="nav__next">
+            
+                <a href="/2023/01/27/20230127/" class="nav__link">
+                    <div>
+                        <div class="nav__label">
+                            Next Post
+                        </div>
+                        <div class="nav__title">
+                            寫了一個可以管理開關機的小工具（一）
+                        </div>
+                    </div>
+                    <div>
+                        <svg viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" width="24" height="24"><path d="M434.944 790.624l-45.248-45.248L623.04 512l-233.376-233.376 45.248-45.248L713.568 512z" fill="#808080"></path></svg>
+                    </div>
+                </a>
+            
+        </div>
+    </div>
+
+
+
+    <div class="post__comments post__with-toc content-card" id="comment">
+        
+    <h4>Comments</h4>
+    
+    <div id="disqus_thread">Unable to load Disqus, please make sure your network can access.</div>
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+
+
+    </div>
+
+
+
+</main>
+
+            <footer class="footer">
+     
+    <a href="#" class="button" id="b2t" aria-label="Back to Top" title="Back to Top">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="32" height="32">
+            <path d="M233.376 722.752L278.624 768 512 534.624 745.376 768l45.248-45.248L512 444.128zM192 352h640V288H192z" fill="currentColor"></path>
+        </svg>
+    </a>
+
+    
+
+
+    
+     
+ 
+
+ 
+    
+        
+        <p class="footer-copyright">
+            Copyright © 2023 <a href="/">黑貓的邪惡企業</a>
+        </p>
+    
+    
+    <p>Powered by <a href="https://hexo.io" target="_blank">Hexo</a> | Theme - <a href="https://github.com/ChrAlpha/hexo-theme-cards" target="_blank">Cards</a></p>
+</footer>
+
+        </div>
+         
+
+ 
+
+ 
+
+ 
+
+ 
+
+
+
+ 
+
+
+
+ 
+
+
+    
+ 
+
+
+    
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.4.1/dist/jquery.min.js"></script>
+
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.4.1/dist/jquery.fancybox.min.css">
+
+    
+<script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.4.1/dist/jquery.fancybox.min.js"></script>
+
+    <script>
+        let lazyloadT = Boolean('false'),
+            auto_fancybox = Boolean('true')
+        if (auto_fancybox) {
+            $(".post__content").find('img').each(function () {
+                var element = document.createElement("a");
+                $(element).attr("data-fancybox", "gallery");
+                $(element).attr("href", $(this).attr("src"));
+                if (lazyloadT) {
+                    $(element).attr("href", $(this).attr("data-srcset"));
+                }
+                $(this).wrap(element);
+            });
+        } else {
+            $(".post__content").find("fancybox").find('img').each(function () {
+                var element = document.createElement("a");
+                $(element).attr("data-fancybox", "gallery");
+                $(element).attr("href", $(this).attr("src"));
+                if (lazyloadT) {
+                    $(element).attr("href", $(this).attr("data-srcset"));
+                }
+                $(this).wrap(element);
+            });
+        }
+    </script>
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+
+    
+    <script>
+        function loadComment() {
+            window.disqus_config = function () {
+                this.page.url = 'https://blog.minexo79.club/2023/04/03/ws2812controller-1/';
+                this.page.identifier = '2023/04/03/ws2812controller-1/';
+            };
+            (function(){
+                var dsq = document.createElement('script');
+                dsq.type = 'text/javascript';
+                dsq.async = true;
+                dsq.src = '//' + 'minexo79' + '.disqus.com/embed.js';
+                (document.head || document.body).appendChild(dsq);
+            })();
+        }
+    
+        var runningOnBrowser = typeof window !== "undefined";
+        var isBot = runningOnBrowser && !("onscroll" in window) || typeof navigator !== "undefined" && /(gle|ing|ro|msn)bot|crawl|spider|yand|duckgo/i.test(navigator.userAgent);
+        var supportsIntersectionObserver = runningOnBrowser && "IntersectionObserver" in window;
+    
+        setTimeout(function () {
+            if (!isBot && supportsIntersectionObserver) {
+                var comment_observer = new IntersectionObserver(function(entries) {
+                    if (entries[0].isIntersecting) {
+                        loadComment();
+                        comment_observer.disconnect();
+                    }
+                }, { threshold: [0] });
+                comment_observer.observe(document.getElementById('comment'));
+            } else {
+                loadComment();
+            }
+        }, 1);
+    </script>
+
+
+    
+    
+    
+
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+
+    
+    
+    
+
+
+
+    </body>
+</html>
