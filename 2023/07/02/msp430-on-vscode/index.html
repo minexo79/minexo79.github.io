@@ -46,7 +46,7 @@
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="https://blog.minexo79.club/img/post/1120702_0945_a.png">
 <meta property="article:published_time" content="2023-07-02T13:42:26.000Z">
-<meta property="article:modified_time" content="2023-07-02T15:01:04.733Z">
+<meta property="article:modified_time" content="2023-07-14T17:12:12.577Z">
 <meta property="article:author" content="Tsai XO">
 <meta property="article:tag" content="msp430">
 <meta name="twitter:card" content="summary_large_image">
@@ -221,7 +221,10 @@ p.spoiler {
     
 </div>
     <div class="post__content">
-        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>在撰寫一款單晶片韌體，單晶片廠家通常都會附贈配套開發工具（如：IDE，SDK…等），其中IDE（Integrated development environment，整合式開發環境）的出現會讓新手或者韌體工程師可以省下環境建置的麻煩，更能夠快速地開發一個Project。<br>通常單晶片所配套的IDE很多種，但大部分常見的會是Arm的<a target="_blank" rel="noopener" href="https://www.keil.com/">Keil MDK</a>（最近官方好像在推廣使用VS Code核心的Keil MDK 6）、IAR的<a target="_blank" rel="noopener" href="https://www.iar.com/products/architectures/arm/iar-embedded-workbench-for-arm/">Embedded Workbench</a>、以及Eclipse基金會的<a target="_blank" rel="noopener" href="https://www.eclipse.org/ide/">Eclipse IDE</a>。<br><img src="https://www.keil.com/product/images/product_2019.png" alt="Arm Keil MDK"><br><img src="https://www.iar.com/contentassets/2c529cae835f485c8924e52f565ba411/9.30.1.png" alt="IAR Embedded Workbench"><br><img src="https://www.st.com/content/dam/st-crew/developer-zone/cube-ide/stm32cubeide-debug%201%403x.png" alt="STM32CubeIDE"><br>其中，由於Eclipse的開放原始碼特性，許多廠商會基於Eclipse IDE，往上疊加自身的功能，改成可以撰寫與偵錯自家單晶片的IDE工具。本文下面所介紹的CCS（Code Composer Studio）也是基於Eclipse IDE 修改而來。<br>但是，有使用過Eclipse IDE的工程師或者使用者，不難免都會遇到一種情況：如果在C&#x2F;C++的環境下，不會像其他的IDE（如：IDE，SDK…等）沒有「很完全的」代碼提示的功能。僅僅是在撰寫Structure與Class這兩個資料型態時才會出現。<br><img src="/../img/post/1120702_0945_b.png"><br>如果需要更完全的代碼提示功能，兩種方式都可以：</p>
+        <blockquote>
+<p>2023.7.15：在步驟加入重新打開VSCode的提示（感謝學弟提醒）。</p>
+</blockquote>
+<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>在撰寫一款單晶片韌體，單晶片廠家通常都會附贈配套開發工具（如：IDE，SDK…等），其中IDE（Integrated development environment，整合式開發環境）的出現會讓新手或者韌體工程師可以省下環境建置的麻煩，更能夠快速地開發一個Project。<br>通常單晶片所配套的IDE很多種，但大部分常見的會是Arm的<a target="_blank" rel="noopener" href="https://www.keil.com/">Keil MDK</a>（最近官方好像在推廣使用VS Code核心的Keil MDK 6）、IAR的<a target="_blank" rel="noopener" href="https://www.iar.com/products/architectures/arm/iar-embedded-workbench-for-arm/">Embedded Workbench</a>、以及Eclipse基金會的<a target="_blank" rel="noopener" href="https://www.eclipse.org/ide/">Eclipse IDE</a>。<br><img src="https://www.keil.com/product/images/product_2019.png" alt="Arm Keil MDK"><br><img src="https://www.iar.com/contentassets/2c529cae835f485c8924e52f565ba411/9.30.1.png" alt="IAR Embedded Workbench"><br><img src="https://www.st.com/content/dam/st-crew/developer-zone/cube-ide/stm32cubeide-debug%201%403x.png" alt="STM32CubeIDE"><br>其中，由於Eclipse的開放原始碼特性，許多廠商會基於Eclipse IDE，往上疊加自身的功能，改成可以撰寫與偵錯自家單晶片的IDE工具。本文下面所介紹的CCS（Code Composer Studio）也是基於Eclipse IDE 修改而來。<br>但是，有使用過Eclipse IDE的工程師或者使用者，不難免都會遇到一種情況：如果在C&#x2F;C++的環境下，不會像其他的IDE（如：IDE，SDK…等）沒有「很完全的」代碼提示的功能。僅僅是在撰寫Structure與Class這兩個資料型態時才會出現。<br><img src="/../img/post/1120702_0945_b.png"><br>如果需要更完全的代碼提示功能，兩種方式都可以：</p>
 <ul>
 <li>一是：修改Eclipse CDT的原始碼，並重新編譯。</li>
 <li>另一種方式：就是使用其他款帶有代碼提示功能的編輯器做程式碼的撰寫，下面的介紹會使用這種方法。</li>
@@ -247,7 +250,7 @@ p.spoiler {
 <li>將設定介面的Include path額外新增兩行剛才的Include目錄，並在目錄後加入<code>/**</code>讓VS Code可以讀到子目錄的<code>.h</code>與<code>.c</code>檔案。<br><img src="/../img/post/1120702_0945_m.png"></li>
 <li>將設定介面的Defines新增一行預編譯指令。<br>由於筆者使用的MSP430晶片型號為MSP430FR5994，則須在這裡輸入<code>__MSP430FR5994__</code>。<br>如果使用不同晶片，則輸入的預編譯指令也會不同，但基本上只要修改型號為你的晶片即可。<br><img src="/../img/post/1120702_0945_n.png"></li>
 <li>上述操作完成之後，按下<code>Ctrl + S</code>保存設定，之後可以在左邊的檔案瀏覽中找到<code>.vscode</code>資料夾，<br>資料夾內有一個C&#x2F;C++插件的設定檔案，可以將其打開，並跟我下方提供的設定檔對照看看：<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;configurations&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span></span><br><span class="line">        <span class="punctuation">&#123;</span></span><br><span class="line">            <span class="attr">&quot;name&quot;</span><span class="punctuation">:</span> <span class="string">&quot;Win32&quot;</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">&quot;includePath&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span></span><br><span class="line">                <span class="string">&quot;$&#123;workspaceFolder&#125;/**&quot;</span><span class="punctuation">,</span></span><br><span class="line">                <span class="string">&quot;C:/ti/ccs1230/ccs/tools/compiler/ti-cgt-msp430_21.6.1.LTS/include/**&quot;</span><span class="punctuation">,</span></span><br><span class="line">                <span class="string">&quot;C:/ti/ccs1230/ccs/ccs_base/msp430/include/**&quot;</span></span><br><span class="line">            <span class="punctuation">]</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">&quot;defines&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span></span><br><span class="line">                <span class="string">&quot;_DEBUG&quot;</span><span class="punctuation">,</span></span><br><span class="line">                <span class="string">&quot;UNICODE&quot;</span><span class="punctuation">,</span></span><br><span class="line">                <span class="string">&quot;_UNICODE&quot;</span><span class="punctuation">,</span></span><br><span class="line">                <span class="string">&quot;__MSP430FR5969__&quot;</span></span><br><span class="line">            <span class="punctuation">]</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">&quot;compilerPath&quot;</span><span class="punctuation">:</span> <span class="string">&quot;C:\\ti\\ccs1230\\ccs\\tools\\compiler\\ti-cgt-msp430_21.6.1.LTS\\bin\\cl430.exe&quot;</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">&quot;cStandard&quot;</span><span class="punctuation">:</span> <span class="string">&quot;c17&quot;</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">&quot;cppStandard&quot;</span><span class="punctuation">:</span> <span class="string">&quot;gnu++17&quot;</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">&quot;intelliSenseMode&quot;</span><span class="punctuation">:</span> <span class="string">&quot;gcc-x64&quot;</span></span><br><span class="line">        <span class="punctuation">&#125;</span></span><br><span class="line">    <span class="punctuation">]</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;version&quot;</span><span class="punctuation">:</span> <span class="number">4</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure></li>
-<li>若操作都正常，打開原先在CCS編輯的程式碼，之後就可以愉快的編輯程式了～<br><img src="/../img/post/1120702_0945_a.png"></li>
+<li>若操作都正常，請記得 <strong>「重新打開VScode載入設定檔」</strong>，之後開啟原先在CCS編輯的程式碼，之後就可以愉快的編輯程式了～<br><img src="/../img/post/1120702_0945_a.png"></li>
 </ol>
 <h2 id="注意事項"><a href="#注意事項" class="headerlink" title="注意事項"></a>注意事項</h2><ol>
 <li>如果沒有在設定介面的Defines輸入晶片型號，則後續在VS Code編輯程式碼的時候，會因為沒有定義晶片型號，而無法讓代碼提示的功能生效。</li>
@@ -263,13 +266,27 @@ p.spoiler {
 
     </div>
      
-    <div class="post-footer__meta"><p>updated at 2023-07-02</p></div> 
+    <div class="post-footer__meta"><p>updated at 2023-07-15</p></div> 
     <div class="post-entry__tags"><a href="/tags/msp430/" class="post-tags__link button"># msp430</a></div> 
 </article>
 
 
     <div class="nav">
         <div class="nav__prev">
+            
+                <a href="/2023/07/15/qt-install/" class="nav__link">
+                    <div>
+                        <svg viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" width="24" height="24"><path d="M589.088 790.624L310.464 512l278.624-278.624 45.248 45.248L400.96 512l233.376 233.376z" fill="#808080"></path></svg>
+                    </div>
+                    <div>
+                        <div class="nav__label">
+                            Previous Post
+                        </div>
+                        <div class="nav__title">
+                            使用第三方安裝器aqt安裝Qt環境
+                        </div>
+                    </div>
+                </a>
             
         </div>
         <div class="nav__next">
