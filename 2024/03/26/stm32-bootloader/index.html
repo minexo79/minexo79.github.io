@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+    <meta charset="utf-8">
+
+    
+
+    <!-- 渲染优化 -->
+    <meta name="renderer" content="webkit">
+    <meta name="force-rendering" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+    <meta name="HandheldFriendly" content="True" >
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+    <!--icon-->
+
+    
+    
+        <link rel="icon" type="image/png" sizes="16x16" href="/source%5Cimg%5Cfavicon.png">
+    
+    
+    
+    
+
+
+    <!-- meta -->
+
+
+<title>自己寫一個STM32 Bootloader | 黑貓的邪惡企業</title>
+
+
+    <meta name="keywords" content="stm32, C">
+
+
+
+
+    <!-- OpenGraph -->
+ 
+    <meta name="description" content="擺脫STLink，透過UART Dongle就可以更新韌體了">
+<meta property="og:type" content="article">
+<meta property="og:title" content="自己寫一個STM32 Bootloader">
+<meta property="og:url" content="https://blog.minexo79.xyz/2024/03/26/stm32-bootloader/index.html">
+<meta property="og:site_name" content="黑貓的邪惡企業">
+<meta property="og:description" content="擺脫STLink，透過UART Dongle就可以更新韌體了">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://blog.minexo79.xyz/img/post/1130326_2100_a.png">
+<meta property="article:published_time" content="2024-03-26T13:00:00.000Z">
+<meta property="article:modified_time" content="2024-03-26T15:23:19.469Z">
+<meta property="article:author" content="Tsai XO">
+<meta property="article:tag" content="stm32">
+<meta property="article:tag" content="C">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://blog.minexo79.xyz/img/post/1130326_2100_a.png">
+
+
+    
+<link rel="stylesheet" href="/css/style/main.css">
+ 
+
+    
+    
+        <link rel="stylesheet" id="hl-default-theme" href="/css/highlight/default.css" media="none" >
+        
+            <link rel="stylesheet" id="hl-dark-theme" href="/css/highlight/dark.css" media="none">
+        
+    
+
+    
+    
+
+    
+    
+<link rel="stylesheet" href="/css/style/dark.css">
+
+    
+<script src="/js/darkmode.js"></script>
+
+
+
+     
+
+    <!-- custom head -->
+
+<style type="text/css">
+.spoiler {
+  display: inline-flex;
+}
+p.spoiler {
+  display: flex;
+}
+.spoiler a {
+  pointer-events: none;
+}
+.spoiler-blur, .spoiler-blur > * {
+  transition: text-shadow .5s ease;
+}
+.spoiler .spoiler-blur, .spoiler .spoiler-blur > * {
+  color: rgba(0, 0, 0, 0);
+  background-color: rgba(0, 0, 0, 0);
+  text-shadow: 0 0 10px grey;
+  cursor: pointer;
+}
+.spoiler .spoiler-blur:hover, .spoiler .spoiler-blur:hover > * {
+  text-shadow: 0 0 5px grey;
+}
+.spoiler-box, .spoiler-box > * {
+  transition: color .5s ease,
+  background-color .5s ease;
+}
+.spoiler .spoiler-box, .spoiler .spoiler-box > * {
+  color: black;
+  background-color: black;
+  text-shadow: none;
+}</style><meta name="generator" content="Hexo 6.3.0"></head>
+
+    <body>
+        <div id="app" tabindex="-1">
+            <header class="header">
+    <div class="header__left">
+        <a href="/" class="button">
+            <span class="logo__text">黑貓的邪惡企業</span>
+        </a>
+    </div>
+    <div class="header__right">
+        
+            <div class="navbar__menus">
+                
+                    <a href="/" class="navbar-menu button">首頁</a>
+                
+                    <a href="/archives/" class="navbar-menu button">文章</a>
+                
+                    <a href="/categories/" class="navbar-menu button">類別</a>
+                
+                    <a href="/tags/" class="navbar-menu button">標籤</a>
+                
+                    <a href="/links" class="navbar-menu button">其他站點</a>
+                
+            </div>
+        
+        
+        
+    <a href="/search/" id="btn-search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="24" height="24" fill="currentColor" stroke="currentColor" stroke-width="32"><path d="M192 448c0-141.152 114.848-256 256-256s256 114.848 256 256-114.848 256-256 256-256-114.848-256-256z m710.624 409.376l-206.88-206.88A318.784 318.784 0 0 0 768 448c0-176.736-143.264-320-320-320S128 271.264 128 448s143.264 320 320 320a318.784 318.784 0 0 0 202.496-72.256l206.88 206.88 45.248-45.248z"></path></svg>
+    </a>
+
+
+        
+        
+    <a href="javaScript:void(0);" id="btn-toggle-dark">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+    </a>
+
+
+        
+            <a class="dropdown-icon button" id="btn-dropdown" tabindex="0"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" width='24' height='24' fill="none" stroke="currentColor" stroke-width="0.7" stroke-linecap="round" stroke-linejoin="round"><path fill="currentColor" d="M3.314,4.8h13.372c0.41,0,0.743-0.333,0.743-0.743c0-0.41-0.333-0.743-0.743-0.743H3.314c-0.41,0-0.743,0.333-0.743,0.743C2.571,4.467,2.904,4.8,3.314,4.8z M16.686,15.2H3.314c-0.41,0-0.743,0.333-0.743,0.743s0.333,0.743,0.743,0.743h13.372c0.41,0,0.743-0.333,0.743-0.743S17.096,15.2,16.686,15.2z M16.686,9.257H3.314c-0.41,0-0.743,0.333-0.743,0.743s0.333,0.743,0.743,0.743h13.372c0.41,0,0.743-0.333,0.743-0.743S17.096,9.257,16.686,9.257z"></path></svg></a>
+            <div class="dropdown-menus" id="dropdown-menus">
+                
+                    <a href="/" class="dropdown-menu button">首頁</a>
+                
+                    <a href="/archives/" class="dropdown-menu button">文章</a>
+                
+                    <a href="/categories/" class="dropdown-menu button">類別</a>
+                
+                    <a href="/tags/" class="dropdown-menu button">標籤</a>
+                
+                    <a href="/links" class="dropdown-menu button">其他站點</a>
+                
+            </div>
+        
+    </div>
+</header>
+
+
+            <main class="main">
+    
+
+<div class="post-title">
+    <h1 class="post-title__text">
+        自己寫一個STM32 Bootloader
+    </h1>
+    <div class="post-title__meta">
+        <a href="/archives/2024/03/" class="post-meta__date button">2024-03-26</a>
+        
+    <span class="separate-dot"></span><a href="/categories/%E5%80%8B%E4%BA%BA/" class="button">個人</a>
+
+ 
+        
+    
+    
+
+
+ 
+
+ 
+    </div>
+</div>
+
+
+    <aside class="post-side">
+        <div class="post-side__toc">
+            <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%89%8D%E8%A8%80"><span class="toc-number">1.</span> <span class="toc-text">前言</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%A4%96%E9%9D%A2%E7%9A%8432%E6%98%AF%E5%A6%82%E4%BD%95%E5%9F%B7%E8%A1%8C%E7%A8%8B%E5%BC%8F"><span class="toc-number">1.1.</span> <span class="toc-text">外面的32是如何執行程式?</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9F%B7%E8%A1%8C%E6%B5%81%E7%A8%8B"><span class="toc-number">1.2.</span> <span class="toc-text">執行流程</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%96%8B%E7%99%BC%E9%81%8E%E7%A8%8B"><span class="toc-number">2.</span> <span class="toc-text">開發過程</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Bootloader-%E5%89%8D%E7%BD%AE%E4%BD%9C%E6%A5%AD"><span class="toc-number">2.1.</span> <span class="toc-text">Bootloader - 前置作業</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%B7%B3%E5%85%A5%E5%8F%A6%E4%B8%80%E6%AE%B5%E7%A8%8B%E5%BC%8F"><span class="toc-number">2.2.</span> <span class="toc-text">跳入另一段程式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%87%92%E9%8C%84%E7%A8%8B%E5%BC%8F"><span class="toc-number">2.3.</span> <span class="toc-text">燒錄程式</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%80%B2%E5%85%A5%E7%87%92%E9%8C%84%E6%A8%A1%E5%BC%8F"><span class="toc-number">2.3.1.</span> <span class="toc-text">進入燒錄模式</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%82%B3%E5%85%A5%E6%96%B0%E7%9A%84%E7%A8%8B%E5%BC%8F%E5%A4%A7%E5%B0%8F"><span class="toc-number">2.3.2.</span> <span class="toc-text">傳入新的程式大小</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%B8%85%E9%99%A4%E8%A8%98%E6%86%B6%E9%AB%94"><span class="toc-number">2.3.3.</span> <span class="toc-text">清除記憶體</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%87%92%E9%8C%84%E6%96%B0%E7%A8%8B%E5%BC%8F"><span class="toc-number">2.3.4.</span> <span class="toc-text">燒錄新程式</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%87%8D%E6%96%B0%E9%96%8B%E6%A9%9F"><span class="toc-number">2.3.5.</span> <span class="toc-text">重新開機</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#App-%E5%89%8D%E7%BD%AE%E4%BD%9C%E6%A5%AD"><span class="toc-number">2.4.</span> <span class="toc-text">App - 前置作業</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%A8%AD%E5%AE%9A%E5%81%8F%E7%A7%BB%E4%BD%8D%E7%BD%AE"><span class="toc-number">2.4.1.</span> <span class="toc-text">設定偏移位置</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%B7%A8%E8%AD%AFbin%E6%AA%94%E6%A1%88"><span class="toc-number">2.4.2.</span> <span class="toc-text">編譯bin檔案</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%87%92%E9%8C%84%E7%A8%8B%E5%BC%8F-1"><span class="toc-number">2.5.</span> <span class="toc-text">燒錄程式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%88%90%E6%9E%9C"><span class="toc-number">2.6.</span> <span class="toc-text">成果</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%83%E8%80%83%E8%B3%87%E6%96%99"><span class="toc-number">3.</span> <span class="toc-text">參考資料</span></a></li></ol>
+        </div>
+    </aside>
+    <a class="btn-toc button" id="btn-toc" tabindex="0">
+        <svg viewBox="0 0 1024 1024" width="32" height="32" xmlns="http://www.w3.org/2000/svg">
+            <path d="M128 256h64V192H128zM320 256h576V192H320zM128 544h64v-64H128zM320 544h576v-64H320zM128 832h64v-64H128zM320 832h576v-64H320z" fill="currentColor"></path>
+        </svg>
+    </a>
+    <div class="toc-menus" id="toc-menus">
+        <div class="toc-title">Article Directory</div>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%89%8D%E8%A8%80"><span class="toc-number">1.</span> <span class="toc-text">前言</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%A4%96%E9%9D%A2%E7%9A%8432%E6%98%AF%E5%A6%82%E4%BD%95%E5%9F%B7%E8%A1%8C%E7%A8%8B%E5%BC%8F"><span class="toc-number">1.1.</span> <span class="toc-text">外面的32是如何執行程式?</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9F%B7%E8%A1%8C%E6%B5%81%E7%A8%8B"><span class="toc-number">1.2.</span> <span class="toc-text">執行流程</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%96%8B%E7%99%BC%E9%81%8E%E7%A8%8B"><span class="toc-number">2.</span> <span class="toc-text">開發過程</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Bootloader-%E5%89%8D%E7%BD%AE%E4%BD%9C%E6%A5%AD"><span class="toc-number">2.1.</span> <span class="toc-text">Bootloader - 前置作業</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%B7%B3%E5%85%A5%E5%8F%A6%E4%B8%80%E6%AE%B5%E7%A8%8B%E5%BC%8F"><span class="toc-number">2.2.</span> <span class="toc-text">跳入另一段程式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%87%92%E9%8C%84%E7%A8%8B%E5%BC%8F"><span class="toc-number">2.3.</span> <span class="toc-text">燒錄程式</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%80%B2%E5%85%A5%E7%87%92%E9%8C%84%E6%A8%A1%E5%BC%8F"><span class="toc-number">2.3.1.</span> <span class="toc-text">進入燒錄模式</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%82%B3%E5%85%A5%E6%96%B0%E7%9A%84%E7%A8%8B%E5%BC%8F%E5%A4%A7%E5%B0%8F"><span class="toc-number">2.3.2.</span> <span class="toc-text">傳入新的程式大小</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%B8%85%E9%99%A4%E8%A8%98%E6%86%B6%E9%AB%94"><span class="toc-number">2.3.3.</span> <span class="toc-text">清除記憶體</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%87%92%E9%8C%84%E6%96%B0%E7%A8%8B%E5%BC%8F"><span class="toc-number">2.3.4.</span> <span class="toc-text">燒錄新程式</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%87%8D%E6%96%B0%E9%96%8B%E6%A9%9F"><span class="toc-number">2.3.5.</span> <span class="toc-text">重新開機</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#App-%E5%89%8D%E7%BD%AE%E4%BD%9C%E6%A5%AD"><span class="toc-number">2.4.</span> <span class="toc-text">App - 前置作業</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%A8%AD%E5%AE%9A%E5%81%8F%E7%A7%BB%E4%BD%8D%E7%BD%AE"><span class="toc-number">2.4.1.</span> <span class="toc-text">設定偏移位置</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%B7%A8%E8%AD%AFbin%E6%AA%94%E6%A1%88"><span class="toc-number">2.4.2.</span> <span class="toc-text">編譯bin檔案</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%87%92%E9%8C%84%E7%A8%8B%E5%BC%8F-1"><span class="toc-number">2.5.</span> <span class="toc-text">燒錄程式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%88%90%E6%9E%9C"><span class="toc-number">2.6.</span> <span class="toc-text">成果</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%83%E8%80%83%E8%B3%87%E6%96%99"><span class="toc-number">3.</span> <span class="toc-text">參考資料</span></a></li></ol>
+    </div>
+
+
+<article class="post post__with-toc content-card">
+    <div class="post__header">
+     
+     
+    
+        <div class="post-thumbnail" style="background-image: url('/img/post/1130326_2100_a.png');"></div>
+    
+</div>
+    <div class="post__content">
+        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>自從開始工作之後，由於工作的關係，平常寫的程式從韌體慢慢轉變成了軟體，也因此都沒什麼碰MCU，在之前也把手上所有的Ti開發板全都送了出去。<br>但也因為在職場見到STM32在這產業的大量應用，因此於近期開始學習STM32的開發。也開始規劃一些Side project，藉此提升自己在韌體的開發能力。</p>
+<h3 id="外面的32是如何執行程式"><a href="#外面的32是如何執行程式" class="headerlink" title="外面的32是如何執行程式?"></a>外面的32是如何執行程式?</h3><p>在開發MCU韌體的時候，如果是自己畫的電路板，都會掛著一個很像「尿袋」的燒錄器&#x2F;偵錯器。如STLink &#x2F; JLink…等。<br><img src="https://mcuoneclipse.files.wordpress.com/2015/08/connected-j-link-with-nucleo-board.png"><br>此時工程師可以在支援的IDE上，直接透過燒錄器&#x2F;偵錯器，燒錄剛寫好的韌體到電路板上MCU。也可以透過特定的幾根線直接跟MCU溝通，在偵錯模式下執行Code。<br><br>但若交到客戶手上，大部分都是可以透過一根USB線，或者是一個UART Dongle（如：CH340 &#x2F; CP2102…等）燒錄新的韌體。<br><img src="https://how2electronics.com/wp-content/uploads/2019/02/STM32-and-usb-to-ttl-connection.jpg"><br>這種燒錄方式稱為：In Application Programming（簡稱IAP），可以透過一段預先寫好的程式（意即Bootloader），將新的binary code燒錄至MCU。</p>
+<h3 id="執行流程"><a href="#執行流程" class="headerlink" title="執行流程"></a>執行流程</h3><blockquote>
+<p>如果有在玩Arduino，應該知道Arduino板子內都有個Bootloader。</p>
+</blockquote>
+<p>Bootloader像是電腦中的BIOS。在STM32，最基本的Bootloader與App Program在FLASH內的占比如下：<br><img src="/../img/post/1130326_2100_b.png"><br>在STM32開機的時候，若有事先燒錄Bootloader，則一般Bootloader的執行流程如下：</p>
+<ul>
+<li>印出基本的裝置訊息</li>
+<li>偵測與與進入新的程式燒錄模式</li>
+<li>到另一個記憶體段執行應用程式</li>
+</ul>
+<p><img src="/../img/post/1130326_2100_c.png"></p>
+<h2 id="開發過程"><a href="#開發過程" class="headerlink" title="開發過程"></a>開發過程</h2><p>由於不想一個Side Project配合獨立一個程式，於是配合之前定好的的通訊協議，開始著手撰寫自己的Bootloader。</p>
+<h3 id="Bootloader-前置作業"><a href="#Bootloader-前置作業" class="headerlink" title="Bootloader - 前置作業"></a>Bootloader - 前置作業</h3><p>首先設定燒錄程式的大小，我這裡使用STM32F407ZG這塊ROM有1MB的MCU，所以我規劃64KB當作Bootloader。</p>
+<center>
+    <img src="https://hackmd.io/_uploads/B1R1D9_RT.png" />
+</center>
+
+<h3 id="跳入另一段程式"><a href="#跳入另一段程式" class="headerlink" title="跳入另一段程式"></a>跳入另一段程式</h3><p>要讓STM32進入另一個程式執行，首先：</p>
+<ol>
+<li>檢查該位置是否有寫入正確的Stack Address。（通常都會當作是檢查是否有程式的一個條件）</li>
+<li>找到該位置的Reset Handler Address。（大部分會在Stack Address+4位）</li>
+<li>Deinit所有用到的外部IO，否則進入另一個區塊執行程式會出現不明的錯誤。</li>
+<li>透過函數指標跳至另一個Address，開始執行另一段程式。<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">define</span> USER_APP_BASE_ADDRESS			0x08010000U	<span class="comment">// Bootloader: 64KB</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> USER_APP_RESET_HANDLER_ADDRESS 	(USER_APP_BASE_ADDRESS + 4)</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// just a function pointer to hold the address of the reset handler of the user app</span></span><br><span class="line"><span class="keyword">typedef</span> <span class="title function_">void</span> <span class="params">(*pFunction)</span><span class="params">(<span class="type">void</span>)</span>;</span><br><span class="line"></span><br><span class="line"><span class="type">void</span> <span class="title function_">iap_jump_to_app</span><span class="params">(<span class="type">void</span>)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="type">uint32_t</span> jump_address = USER_APP_RESET_HANDLER_ADDRESS;</span><br><span class="line">    pFunction jmp;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/* 0. Check if vaild stack address (RAM Address). */</span></span><br><span class="line">    <span class="keyword">if</span> (((*(__IO <span class="type">uint32_t</span> *)USER_APP_BASE_ADDRESS) &amp; <span class="number">0x2FFE0000</span>) == <span class="number">0x20000000</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="comment">/* 1. configure the app_address by reading the value from base address. */</span></span><br><span class="line">        jump_address = *(__IO <span class="type">uint32_t</span> *)jump_address;</span><br><span class="line">        <span class="comment">/* 2. Fetch The reset handler address (jump_address) of the user app. */</span></span><br><span class="line">        jmp = (pFunction)jump_address;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 3. Deinit Any Perphrial</span></span><br><span class="line">        HAL_GPIO_DeInit(User_LED_GPIO_Port, User_LED_Pin);</span><br><span class="line">        HAL_UART_MspDeInit(&amp;huart1);</span><br><span class="line">        HAL_RCC_DeInit();</span><br><span class="line">        HAL_DeInit();</span><br><span class="line"></span><br><span class="line">        <span class="comment">/* 4. Jump to the reset handler of the user app. */</span></span><br><span class="line">        __set_MSP(jump_address); <span class="comment">// This Function comes from CMSIS.</span></span><br><span class="line">        jmp();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+</ol>
+<h3 id="燒錄程式"><a href="#燒錄程式" class="headerlink" title="燒錄程式"></a>燒錄程式</h3><p>相比跳入另一段程式執行，燒錄程式的動作就複雜許多：</p>
+<center>
+    <img src="../../../../img/post/1130326_2100_d.png" />
+</center>
+
+<h4 id="進入燒錄模式"><a href="#進入燒錄模式" class="headerlink" title="進入燒錄模式"></a>進入燒錄模式</h4><p>首先要先讓STM32知道是否進入燒錄模式。<br><br>這裡做法通常有很多種，可以用按鍵的方式，也可以透過UART &#x2F; CAN傳一個指令給STM32。</p>
+<h4 id="傳入新的程式大小"><a href="#傳入新的程式大小" class="headerlink" title="傳入新的程式大小"></a>傳入新的程式大小</h4><p>再來將新的程式長度傳至STM32，讓32知道等等要燒錄多大的程式。（這裡長度用bytes表示）</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">void</span> <span class="title function_">iap_set_new_firmware_length</span><span class="params">(<span class="type">uint32_t</span> length)</span></span><br><span class="line">&#123;</span><br><span class="line">    new_firmware_length = length;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="清除記憶體"><a href="#清除記憶體" class="headerlink" title="清除記憶體"></a>清除記憶體</h4><blockquote>
+<p>在此感謝同事提點我這步驟的重要性。</p>
+</blockquote>
+<p>在燒錄程式之前，需要將原本儲存程式的記憶體區塊抹除前一份資料，否則燒錄過程中若出現問題，在執行的時候就會發生不可預期的錯誤。</p>
+<ul>
+<li>清除記憶體前需要解鎖Flash，清除完畢後需要重新將Flash上鎖。</li>
+<li>STM32官方的HAL Library內提供的方式，僅有全部清除、與清除特定的記憶體區塊兩種。這裡我選擇清除特定的記憶體區塊。透過其他的方式實現全部清除。</li>
+<li>我手上的STM32F407ZG、供電的電壓為3.3V，在VoltageRange選擇RANGE_3 (2.7V ~ 3.6V)即可。</li>
+</ul>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">void</span> <span class="title function_">iap_erase_flash_sector</span><span class="params">(<span class="type">uint32_t</span> sector)</span></span><br><span class="line">&#123;</span><br><span class="line">    FLASH_EraseInitTypeDef erase;</span><br><span class="line">    <span class="type">erasing_or_complete_t</span> erase_info;</span><br><span class="line">    <span class="type">uint32_t</span> sectorError = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Configure Erase</span></span><br><span class="line">    erase.TypeErase     = FLASH_TYPEERASE_SECTORS;</span><br><span class="line">    erase.VoltageRange  = FLASH_VOLTAGE_RANGE_3;</span><br><span class="line">    erase.Sector        = sector;</span><br><span class="line">    erase.NbSectors     = <span class="number">1</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Unlock The Flash</span></span><br><span class="line">    HAL_FLASH_Unlock();</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Erase The Flash</span></span><br><span class="line">    <span class="keyword">if</span> (HAL_FLASHEx_Erase(&amp;erase, &amp;sectorError) != HAL_OK)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="comment">// Error Erase</span></span><br><span class="line">        Error_Handler();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Lock The Flash</span></span><br><span class="line">    HAL_FLASH_Lock();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="燒錄新程式"><a href="#燒錄新程式" class="headerlink" title="燒錄新程式"></a>燒錄新程式</h4><p>到此為止就可以燒錄新的程式碼，我這裡配合之前寫好的協議，每次會傳入16個為新的程式Bytes。</p>
+<ul>
+<li>燒錄前與清除完畢後，如同清除記憶體方式。</li>
+<li>STM32官方的HAL Library內提供的方式，在每次僅能燒錄4個bytes的資料，燒錄完畢後需往後4個記憶體位置。</li>
+<li>為了避免燒過頭，我在燒錄完畢後加入長度偵測，避免觸碰到其他記憶體位置。</li>
+</ul>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">void</span> <span class="title function_">iap_write_flash</span><span class="params">(<span class="type">uint32_t</span> * data)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="type">int</span> i = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Unlock The Flash</span></span><br><span class="line">    HAL_GPIO_WritePin(User_LED_GPIO_Port, User_LED_Pin, GPIO_PIN_RESET);</span><br><span class="line">    HAL_FLASH_Unlock();</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Fill 4 Bytes Data To Flash</span></span><br><span class="line">    <span class="keyword">for</span> (i = <span class="number">0</span>; i &lt; <span class="number">4</span>; i++)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="comment">// Fill New Bytes</span></span><br><span class="line">        <span class="keyword">if</span> (HAL_FLASH_Program(FLASH_TYPEPROGRAM_WORD, user_app_flash_address, data[i]) != HAL_OK)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="comment">// Error Fill</span></span><br><span class="line">            Error_Handler();</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        user_app_flash_address += <span class="number">4</span>;	<span class="comment">// To Next Address</span></span><br><span class="line"></span><br><span class="line">        <span class="comment">// If The Length Is Over, Then Break The Loop.</span></span><br><span class="line">        <span class="keyword">if</span> (user_app_flash_address &gt;= USER_APP_BASE_ADDRESS + new_firmware_length)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">	</span><br><span class="line">    <span class="comment">// Lock The Flash</span></span><br><span class="line">    HAL_GPIO_WritePin(User_LED_GPIO_Port, User_LED_Pin, GPIO_PIN_SET);</span><br><span class="line">    HAL_FLASH_Lock();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="重新開機"><a href="#重新開機" class="headerlink" title="重新開機"></a>重新開機</h4><p>燒錄完畢將STM32重新開機，我這裡使用Internal WatchDog (IWDG)進行重新開機的動作。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">void</span> <span class="title function_">iap_reboot</span><span class="params">(<span class="type">void</span>)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="comment">// Init &amp; Start The IWDG</span></span><br><span class="line">    MX_IWDG_Init();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="App-前置作業"><a href="#App-前置作業" class="headerlink" title="App - 前置作業"></a>App - 前置作業</h3><p>相比Bootloader，App的記憶體位置需要比Bootloader還要後面，同時修改的地方也多。</p>
+<ul>
+<li>ROM開始位置為<code>0x0801_0000</code>、長度為<code>0xF0000</code>。(對應64KB的Bootloader，App的大小為960KB)&#96;。</li>
+<li>燒錄範圍與ROM開始位置的設定相同。</li>
+</ul>
+<h4 id="設定偏移位置"><a href="#設定偏移位置" class="headerlink" title="設定偏移位置"></a>設定偏移位置</h4><p>在<code>system_stm32xxx.c</code>定義<code>USER_VECT_TAB_ADDRESS</code>，且在下方的VECT_TAB_OFFSET設定APP程式的於記憶體中偏移的位置。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">define</span> USER_VECT_TAB_ADDRESS</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">if</span> defined(USER_VECT_TAB_ADDRESS)</span></span><br><span class="line"><span class="comment">/*!&lt; Uncomment the following line if you need to relocate your vector Table</span></span><br><span class="line"><span class="comment">     in Sram else user remap will be done in Flash. */</span></span><br><span class="line"><span class="comment">/* #define VECT_TAB_SRAM */</span></span><br><span class="line"><span class="meta">#<span class="keyword">if</span> defined(VECT_TAB_SRAM)</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> VECT_TAB_BASE_ADDRESS   SRAM_BASE       <span class="comment">/*!&lt; Vector Table base address field.</span></span></span><br><span class="line"><span class="comment"><span class="meta">                                                     This value must be a multiple of 0x200. */</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> VECT_TAB_OFFSET         0x00000000U     <span class="comment">/*!&lt; Vector Table base offset field.</span></span></span><br><span class="line"><span class="comment"><span class="meta">                                                     This value must be a multiple of 0x200. */</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">else</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> VECT_TAB_BASE_ADDRESS   FLASH_BASE      <span class="comment">/*!&lt; Vector Table base address field.</span></span></span><br><span class="line"><span class="comment"><span class="meta">                                                     This value must be a multiple of 0x200. */</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> VECT_TAB_OFFSET         0x00010000U     <span class="comment">/*!&lt; Vector Table base offset field.</span></span></span><br><span class="line"><span class="comment"><span class="meta">                                                     This value must be a multiple of 0x200. */</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">endif</span> <span class="comment">/* VECT_TAB_SRAM */</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">endif</span> <span class="comment">/* USER_VECT_TAB_ADDRESS */</span></span></span><br></pre></td></tr></table></figure>
+<h4 id="編譯bin檔案"><a href="#編譯bin檔案" class="headerlink" title="編譯bin檔案"></a>編譯bin檔案</h4><p>通常給使用者的程式有兩種：Hex與Bin，我這裡選擇使用產生Bin檔案的方式。<br>某些IDE在編譯的時候會產生Bin檔案，但部分IDE。如Keil，需要Configure內手動輸入以下指令額外編譯。</p>
+<ul>
+<li>Configure位置：魔術棒按鈕 &gt; User &gt; After Build&#x2F;Rebuild</li>
+</ul>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">fromelf <span class="literal">--bin</span> <span class="string">&quot;.\@L\@L.axf&quot;</span> <span class="literal">--output</span> <span class="string">&quot;.\obj_bin\@L.bin&quot;</span></span><br></pre></td></tr></table></figure>
+<center>
+    <img src="https://hackmd.io/_uploads/BkmQfu40p.png" />
+</center>
+
+<h3 id="燒錄程式-1"><a href="#燒錄程式-1" class="headerlink" title="燒錄程式"></a>燒錄程式</h3><p>由於這次我使用的的是自己的協議撰寫Bootloader，為了驗證可行性，我額外用C#寫了套在電腦的燒錄程式。程式只有幾樣功能：</p>
+<ol>
+<li>獲取32的基本資訊</li>
+<li>重新開機</li>
+<li>進入燒錄模式，傳送新的程式給STM32</li>
+</ol>
+<p><img src="/img/post/1130326_2100_a.png"></p>
+<h3 id="成果"><a href="#成果" class="headerlink" title="成果"></a>成果</h3><p><img src="https://hackmd.io/_uploads/r1D1C9uCT.png"></p>
+<h2 id="參考資料"><a href="#參考資料" class="headerlink" title="參考資料"></a>參考資料</h2><ul>
+<li><a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=S0s69xNE1dE">STM32 Tutorial - Bootloader That Can Update And Jump To Multiple Applications - Viktor Vano</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/ommoore/STM32CustomBootloader">ommoore&#x2F;STM32CustomBootloader - Github</a></li>
+<li><a target="_blank" rel="noopener" href="http://news.eeworld.com.cn/mcu/ic459067.html">Keil使用 fromelf 生成bin文件 - eeworld.com.cn</a></li>
+</ul>
+
+    </div>
+     
+    <div class="post-footer__meta"><p>updated at 2024-03-26</p></div> 
+    <div class="post-entry__tags"><a href="/tags/stm32/" class="post-tags__link button"># stm32</a><a href="/tags/C/" class="post-tags__link button"># C</a></div> 
+</article>
+
+
+    <div class="nav">
+        <div class="nav__prev">
+            
+        </div>
+        <div class="nav__next">
+            
+                <a href="/2023/07/15/qt-install/" class="nav__link">
+                    <div>
+                        <div class="nav__label">
+                            Next Post
+                        </div>
+                        <div class="nav__title">
+                            使用第三方安裝器aqt安裝Qt環境
+                        </div>
+                    </div>
+                    <div>
+                        <svg viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" width="24" height="24"><path d="M434.944 790.624l-45.248-45.248L623.04 512l-233.376-233.376 45.248-45.248L713.568 512z" fill="#808080"></path></svg>
+                    </div>
+                </a>
+            
+        </div>
+    </div>
+
+
+
+    <div class="post__comments post__with-toc content-card" id="comment">
+        
+    <h4>Comments</h4>
+    
+    <div id="disqus_thread">Unable to load Disqus, please make sure your network can access.</div>
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+
+
+    </div>
+
+
+
+</main>
+
+            <footer class="footer">
+     
+    <a href="#" class="button" id="b2t" aria-label="Back to Top" title="Back to Top">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="32" height="32">
+            <path d="M233.376 722.752L278.624 768 512 534.624 745.376 768l45.248-45.248L512 444.128zM192 352h640V288H192z" fill="currentColor"></path>
+        </svg>
+    </a>
+
+    
+
+
+    
+     
+ 
+
+ 
+    
+        
+        <p class="footer-copyright">
+            Copyright © 2024 <a href="/">黑貓的邪惡企業</a>
+        </p>
+    
+    
+    <p>Powered by <a href="https://hexo.io" target="_blank">Hexo</a> | Theme - <a href="https://github.com/ChrAlpha/hexo-theme-cards" target="_blank">Cards</a></p>
+</footer>
+
+        </div>
+         
+
+ 
+
+ 
+
+ 
+
+ 
+
+
+
+ 
+
+
+
+ 
+
+
+    
+ 
+
+
+    
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.4.1/dist/jquery.min.js"></script>
+
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.4.1/dist/jquery.fancybox.min.css">
+
+    
+<script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.4.1/dist/jquery.fancybox.min.js"></script>
+
+    <script>
+        let lazyloadT = Boolean('false'),
+            auto_fancybox = Boolean('true')
+        if (auto_fancybox) {
+            $(".post__content").find('img').each(function () {
+                var element = document.createElement("a");
+                $(element).attr("data-fancybox", "gallery");
+                $(element).attr("href", $(this).attr("src"));
+                if (lazyloadT) {
+                    $(element).attr("href", $(this).attr("data-srcset"));
+                }
+                $(this).wrap(element);
+            });
+        } else {
+            $(".post__content").find("fancybox").find('img').each(function () {
+                var element = document.createElement("a");
+                $(element).attr("data-fancybox", "gallery");
+                $(element).attr("href", $(this).attr("src"));
+                if (lazyloadT) {
+                    $(element).attr("href", $(this).attr("data-srcset"));
+                }
+                $(this).wrap(element);
+            });
+        }
+    </script>
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+
+    
+    <script>
+        function loadComment() {
+            window.disqus_config = function () {
+                this.page.url = 'https://blog.minexo79.xyz/2024/03/26/stm32-bootloader/';
+                this.page.identifier = '2024/03/26/stm32-bootloader/';
+            };
+            (function(){
+                var dsq = document.createElement('script');
+                dsq.type = 'text/javascript';
+                dsq.async = true;
+                dsq.src = '//' + 'minexo79' + '.disqus.com/embed.js';
+                (document.head || document.body).appendChild(dsq);
+            })();
+        }
+    
+        var runningOnBrowser = typeof window !== "undefined";
+        var isBot = runningOnBrowser && !("onscroll" in window) || typeof navigator !== "undefined" && /(gle|ing|ro|msn)bot|crawl|spider|yand|duckgo/i.test(navigator.userAgent);
+        var supportsIntersectionObserver = runningOnBrowser && "IntersectionObserver" in window;
+    
+        setTimeout(function () {
+            if (!isBot && supportsIntersectionObserver) {
+                var comment_observer = new IntersectionObserver(function(entries) {
+                    if (entries[0].isIntersecting) {
+                        loadComment();
+                        comment_observer.disconnect();
+                    }
+                }, { threshold: [0] });
+                comment_observer.observe(document.getElementById('comment'));
+            } else {
+                loadComment();
+            }
+        }, 1);
+    </script>
+
+
+    
+    
+    
+
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+
+    
+    
+    
+
+
+
+    </body>
+</html>

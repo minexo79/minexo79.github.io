@@ -40,18 +40,18 @@
     <meta name="description" content="為甚麼Qt官方的安裝速度可以這麼慢...">
 <meta property="og:type" content="article">
 <meta property="og:title" content="使用第三方安裝器aqt安裝Qt環境">
-<meta property="og:url" content="https://blog.minexo79.club/2023/07/15/qt-install/index.html">
+<meta property="og:url" content="https://blog.minexo79.xyz/2023/07/15/qt-install/index.html">
 <meta property="og:site_name" content="黑貓的邪惡企業">
 <meta property="og:description" content="為甚麼Qt官方的安裝速度可以這麼慢...">
 <meta property="og:locale" content="en_US">
-<meta property="og:image" content="https://blog.minexo79.club/img/post/1120715_0026_a.png">
+<meta property="og:image" content="https://blog.minexo79.xyz/img/post/1120715_0026_a.png">
 <meta property="article:published_time" content="2023-07-14T16:26:14.000Z">
-<meta property="article:modified_time" content="2023-07-14T17:11:54.423Z">
+<meta property="article:modified_time" content="2024-03-26T13:48:51.192Z">
 <meta property="article:author" content="Tsai XO">
 <meta property="article:tag" content="Qt">
 <meta property="article:tag" content="C++">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="https://blog.minexo79.club/img/post/1120715_0026_a.png">
+<meta name="twitter:image" content="https://blog.minexo79.xyz/img/post/1120715_0026_a.png">
 
 
     
@@ -199,7 +199,7 @@ p.spoiler {
 
     <aside class="post-side">
         <div class="post-side__toc">
-            <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%89%8D%E8%A8%80"><span class="toc-number">1.</span> <span class="toc-text">前言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%89%E8%A3%9D%E6%AD%A5%E9%A9%9F"><span class="toc-number">2.</span> <span class="toc-text">安裝步驟</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%B7%A8%E8%AD%AF%E6%B8%AC%E8%A9%A6"><span class="toc-number">3.</span> <span class="toc-text">編譯測試</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%A3%9C%E5%85%85"><span class="toc-number">4.</span> <span class="toc-text">補充</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9F%A5%E8%A9%A2-Qt-%E7%89%88%E6%9C%AC%E8%88%87%E5%8F%AF%E7%94%A8%E5%85%83%E4%BB%B6"><span class="toc-number">4.1.</span> <span class="toc-text">查詢 Qt 版本與可用元件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%87%E6%8F%9BMirror%E8%BC%89%E9%BB%9E"><span class="toc-number">4.2.</span> <span class="toc-text">切換Mirror載點</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%87%BA%E7%8F%BEclazy-standalone-exe%E7%9A%84%E9%8C%AF%E8%AA%A4%E6%8F%90%E7%A4%BA"><span class="toc-number">4.3.</span> <span class="toc-text">出現clazy-standalone.exe的錯誤提示</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%83%E8%80%83%E8%B3%87%E6%96%99"><span class="toc-number">5.</span> <span class="toc-text">參考資料</span></a></li></ol>
+            <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%89%8D%E8%A8%80"><span class="toc-number">1.</span> <span class="toc-text">前言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%96%B9%E5%BC%8F1%EF%BC%9A%E5%88%87%E6%8F%9B%E5%AE%89%E8%A3%9D%E5%99%A8%E7%9A%84%E9%8F%A1%E5%83%8F%E6%BA%90"><span class="toc-number">2.</span> <span class="toc-text">方式1：切換安裝器的鏡像源</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%96%B9%E5%BC%8F2%EF%BC%9A%E4%BD%BF%E7%94%A8aqt"><span class="toc-number">3.</span> <span class="toc-text">方式2：使用aqt</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%89%E8%A3%9D%E6%AD%A5%E9%A9%9F"><span class="toc-number">3.1.</span> <span class="toc-text">安裝步驟</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%B7%A8%E8%AD%AF%E6%B8%AC%E8%A9%A6"><span class="toc-number">4.</span> <span class="toc-text">編譯測試</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%A3%9C%E5%85%85"><span class="toc-number">5.</span> <span class="toc-text">補充</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9F%A5%E8%A9%A2-Qt-%E7%89%88%E6%9C%AC%E8%88%87%E5%8F%AF%E7%94%A8%E5%85%83%E4%BB%B6"><span class="toc-number">5.1.</span> <span class="toc-text">查詢 Qt 版本與可用元件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%87%E6%8F%9BMirror%E8%BC%89%E9%BB%9E"><span class="toc-number">5.2.</span> <span class="toc-text">切換Mirror載點</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%87%BA%E7%8F%BEclazy-standalone-exe%E7%9A%84%E9%8C%AF%E8%AA%A4%E6%8F%90%E7%A4%BA"><span class="toc-number">5.3.</span> <span class="toc-text">出現clazy-standalone.exe的錯誤提示</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%83%E8%80%83%E8%B3%87%E6%96%99"><span class="toc-number">6.</span> <span class="toc-text">參考資料</span></a></li></ol>
         </div>
     </aside>
     <a class="btn-toc button" id="btn-toc" tabindex="0">
@@ -209,7 +209,7 @@ p.spoiler {
     </a>
     <div class="toc-menus" id="toc-menus">
         <div class="toc-title">Article Directory</div>
-        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%89%8D%E8%A8%80"><span class="toc-number">1.</span> <span class="toc-text">前言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%89%E8%A3%9D%E6%AD%A5%E9%A9%9F"><span class="toc-number">2.</span> <span class="toc-text">安裝步驟</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%B7%A8%E8%AD%AF%E6%B8%AC%E8%A9%A6"><span class="toc-number">3.</span> <span class="toc-text">編譯測試</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%A3%9C%E5%85%85"><span class="toc-number">4.</span> <span class="toc-text">補充</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9F%A5%E8%A9%A2-Qt-%E7%89%88%E6%9C%AC%E8%88%87%E5%8F%AF%E7%94%A8%E5%85%83%E4%BB%B6"><span class="toc-number">4.1.</span> <span class="toc-text">查詢 Qt 版本與可用元件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%87%E6%8F%9BMirror%E8%BC%89%E9%BB%9E"><span class="toc-number">4.2.</span> <span class="toc-text">切換Mirror載點</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%87%BA%E7%8F%BEclazy-standalone-exe%E7%9A%84%E9%8C%AF%E8%AA%A4%E6%8F%90%E7%A4%BA"><span class="toc-number">4.3.</span> <span class="toc-text">出現clazy-standalone.exe的錯誤提示</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%83%E8%80%83%E8%B3%87%E6%96%99"><span class="toc-number">5.</span> <span class="toc-text">參考資料</span></a></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%89%8D%E8%A8%80"><span class="toc-number">1.</span> <span class="toc-text">前言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%96%B9%E5%BC%8F1%EF%BC%9A%E5%88%87%E6%8F%9B%E5%AE%89%E8%A3%9D%E5%99%A8%E7%9A%84%E9%8F%A1%E5%83%8F%E6%BA%90"><span class="toc-number">2.</span> <span class="toc-text">方式1：切換安裝器的鏡像源</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%96%B9%E5%BC%8F2%EF%BC%9A%E4%BD%BF%E7%94%A8aqt"><span class="toc-number">3.</span> <span class="toc-text">方式2：使用aqt</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%89%E8%A3%9D%E6%AD%A5%E9%A9%9F"><span class="toc-number">3.1.</span> <span class="toc-text">安裝步驟</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%B7%A8%E8%AD%AF%E6%B8%AC%E8%A9%A6"><span class="toc-number">4.</span> <span class="toc-text">編譯測試</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%A3%9C%E5%85%85"><span class="toc-number">5.</span> <span class="toc-text">補充</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9F%A5%E8%A9%A2-Qt-%E7%89%88%E6%9C%AC%E8%88%87%E5%8F%AF%E7%94%A8%E5%85%83%E4%BB%B6"><span class="toc-number">5.1.</span> <span class="toc-text">查詢 Qt 版本與可用元件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%87%E6%8F%9BMirror%E8%BC%89%E9%BB%9E"><span class="toc-number">5.2.</span> <span class="toc-text">切換Mirror載點</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%87%BA%E7%8F%BEclazy-standalone-exe%E7%9A%84%E9%8C%AF%E8%AA%A4%E6%8F%90%E7%A4%BA"><span class="toc-number">5.3.</span> <span class="toc-text">出現clazy-standalone.exe的錯誤提示</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%83%E8%80%83%E8%B3%87%E6%96%99"><span class="toc-number">6.</span> <span class="toc-text">參考資料</span></a></li></ol>
     </div>
 
 
@@ -222,12 +222,19 @@ p.spoiler {
     
 </div>
     <div class="post__content">
-        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>由於公司未來規劃，之後會需要學期Qt的應用開發。<br>但Qt官方提供的安裝器，在下載Qt的環境時速度太慢了…<del>（慢的跟牛一樣。）</del><br>並且官方於5.15版開始就不再提供開源開發者「離線安裝包」，需要離線安裝包的使用者必須付費購買授權。</p>
+        <blockquote>
+<p>2024.3.26 更新: 於原版安裝器加入mirror方式，加快下載速度。</p>
+</blockquote>
+<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>由於公司未來規劃，之後會需要學期Qt的應用開發。<br>但Qt官方提供的安裝器，在下載Qt的環境時速度太慢了…<del>（慢的跟牛一樣。）</del><br>並且官方於5.15版開始就不再提供開源開發者「離線安裝包」，需要離線安裝包的使用者必須付費購買授權。</p>
 <blockquote>
 <p>但Qt的授權金超貴，我根本不敢付。</p>
 </blockquote>
-<p>在這樣的原因下，我改用第三方安裝工具 - aqtinstall 來安裝Qt。<br>我這裡示範安裝的版本為5.15.2，編譯器為MinGW-w64 8.1.0，並且會一同安裝CMake、Ninja與QtCreater。</p>
-<h2 id="安裝步驟"><a href="#安裝步驟" class="headerlink" title="安裝步驟"></a>安裝步驟</h2><blockquote>
+<p>在這樣的原因下，我找尋了一些方式，藉此可以快速的下載qt的環境。<br>我這裡示範安裝的版本為5.15.2，編譯器為MinGW-w64 8.1.0，並且會一同安裝CMake、Ninja與QtCreater。</p>
+<h2 id="方式1：切換安裝器的鏡像源"><a href="#方式1：切換安裝器的鏡像源" class="headerlink" title="方式1：切換安裝器的鏡像源"></a>方式1：切換安裝器的鏡像源</h2><p>切換的方式也很簡單，只需在command line執行qtintaller的後面加入這一行:</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$</span> .\qt<span class="literal">-unified-windows-x64-x</span>.x.x<span class="literal">-online</span>.exe <span class="literal">--mirror</span> https://ftp.jaist.ac.jp/pub/qtproject</span><br></pre></td></tr></table></figure>
+<p>之後照常登入帳號，選擇欲安裝qt的環境、依賴包、其他工具…等等。<br>到了下載那一步，因為有切換鏡像源、因此下載速度會是比平常快很多。<del>（從牛車變成火箭）</del></p>
+<h2 id="方式2：使用aqt"><a href="#方式2：使用aqt" class="headerlink" title="方式2：使用aqt"></a>方式2：使用aqt</h2><p>另外一種方式，是改用第三方安裝工具 - aqtinstall 來安裝Qt。</p>
+<h3 id="安裝步驟"><a href="#安裝步驟" class="headerlink" title="安裝步驟"></a>安裝步驟</h3><blockquote>
 <p>提示：由於我不知道這樣的做法有無違反Qt的使用協議，想要照我這個做法下載的可能要先留意一下是否會違法。</p>
 </blockquote>
 <ol>
@@ -265,13 +272,27 @@ p.spoiler {
 
     </div>
      
-    <div class="post-footer__meta"><p>updated at 2023-07-15</p></div> 
+    <div class="post-footer__meta"><p>updated at 2024-03-26</p></div> 
     <div class="post-entry__tags"><a href="/tags/Qt/" class="post-tags__link button"># Qt</a><a href="/tags/C/" class="post-tags__link button"># C++</a></div> 
 </article>
 
 
     <div class="nav">
         <div class="nav__prev">
+            
+                <a href="/2024/03/26/stm32-bootloader/" class="nav__link">
+                    <div>
+                        <svg viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" width="24" height="24"><path d="M589.088 790.624L310.464 512l278.624-278.624 45.248 45.248L400.96 512l233.376 233.376z" fill="#808080"></path></svg>
+                    </div>
+                    <div>
+                        <div class="nav__label">
+                            Previous Post
+                        </div>
+                        <div class="nav__title">
+                            自己寫一個STM32 Bootloader
+                        </div>
+                    </div>
+                </a>
             
         </div>
         <div class="nav__next">
@@ -338,7 +359,7 @@ p.spoiler {
     
         
         <p class="footer-copyright">
-            Copyright © 2023 <a href="/">黑貓的邪惡企業</a>
+            Copyright © 2024 <a href="/">黑貓的邪惡企業</a>
         </p>
     
     
@@ -418,7 +439,7 @@ p.spoiler {
     <script>
         function loadComment() {
             window.disqus_config = function () {
-                this.page.url = 'https://blog.minexo79.club/2023/07/15/qt-install/';
+                this.page.url = 'https://blog.minexo79.xyz/2023/07/15/qt-install/';
                 this.page.identifier = '2023/07/15/qt-install/';
             };
             (function(){
